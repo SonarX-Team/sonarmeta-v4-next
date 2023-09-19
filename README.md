@@ -1,34 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+这是“声呐探索（杭州）科技有限公司”产品声呐元的官方网站工程，由Next.js框架实现。
 
-## Getting Started
-
-First, run the development server:
+## 如何调试
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+$ yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 如何打包
+```bash
+$ yarn build
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 如何运行
+```bash
+$ yarn start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+在本地打开浏览器中访问网址： [http://localhost:3000](http://localhost:3000) 即可看到结果。
 
-## Learn More
+## 技术栈
 
-To learn more about Next.js, take a look at the following resources:
+- 继承自Next.js的SSR前端技术
+- 继承自Next.js的Server Action后端技术
+- 使用Ali OSS的对象存储，深圳节点
+- 使用MongoDB和Mongoose的DBMS
+- 部署在腾讯云轻量应用型服务器上海节点上
+- IP地址：[101.43.33.37](http://101.43.33.37)
+- 域名：sonarmeta.com
+- 网站地址：[https://www.sonarmeta.com](https://www.sonarmeta.com)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Next.js官方文档
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

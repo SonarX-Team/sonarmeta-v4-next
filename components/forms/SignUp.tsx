@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,15 +13,14 @@ import { createUser } from "@/actions/user.action";
 export default function SignUp() {
   const router = useRouter();
 
+  const { pending } = useFormStatus();
+
   const [phoneErr, setPhoneErr] = useState<string>("");
   const [passwordErr, setPasswordErr] = useState<string>("");
   const [passwordAgainErr, setPasswordAgainErr] = useState<string>("");
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [pending, setPending] = useState<boolean>(false);
 
   async function signUpAction(formData: FormData) {
-    setPending(true);
-
     setPhoneErr("");
     setPasswordErr("");
     setPasswordAgainErr("");
@@ -32,17 +32,13 @@ export default function SignUp() {
       if (res.ValidationErrors.phone) setPhoneErr(res.ValidationErrors.phone._errors[0]);
       if (res.ValidationErrors.password) setPasswordErr(res.ValidationErrors.password._errors[0]);
       if (res.ValidationErrors.passwordAgain) setPasswordAgainErr(res.ValidationErrors.passwordAgain._errors[0]);
-
-      setPending(false);
       return;
     }
     if (res.errName === "phone") {
-      setPending(false);
       setPhoneErr(res.errMsg);
       return;
     }
     if (res.errName === "passwordAgain") {
-      setPending(false);
       setPasswordAgainErr(res.errMsg);
       return;
     }
@@ -50,7 +46,6 @@ export default function SignUp() {
     // 注册成功后
     if (res.status !== 201 || res.message !== "Created") return;
 
-    setPending(false);
     router.push("/");
   }
 

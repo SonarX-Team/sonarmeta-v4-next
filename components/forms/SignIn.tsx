@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,14 +13,13 @@ import { signInUser } from "@/actions/user.action";
 export default function SignIn() {
   const router = useRouter();
 
+  const { pending } = useFormStatus();
+
   const [phoneErr, setPhoneErr] = useState<string>("");
   const [passwordErr, setPasswordErr] = useState<string>("");
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [pending, setPending] = useState<boolean>(false);
 
   async function signInAction(formData: FormData) {
-    setPending(true);
-
     setPhoneErr("");
     setPasswordErr("");
 
@@ -29,17 +29,13 @@ export default function SignIn() {
     if (res.ValidationErrors) {
       if (res.ValidationErrors.phone) setPhoneErr(res.ValidationErrors.phone._errors[0]);
       if (res.ValidationErrors.password) setPasswordErr(res.ValidationErrors.password._errors[0]);
-
-      setPending(false);
       return;
     }
     if (res.errName === "phone") {
-      setPending(false);
       setPhoneErr(res.errMsg);
       return;
     }
     if (res.errName === "password") {
-      setPending(false);
       setPasswordErr(res.errMsg);
       return;
     }
@@ -47,7 +43,6 @@ export default function SignIn() {
     // 登录成功后
     if (res.status !== 200 || res.message !== "Authenticated") return;
 
-    setPending(false);
     router.push("/onboarding");
   }
 

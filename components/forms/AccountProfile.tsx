@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
@@ -24,14 +25,13 @@ export default function AccountProfile({ id, username, email, bio, avatar }: Pro
   const router = useRouter();
   const pathname = usePathname();
 
+  const { pending } = useFormStatus();
+
   const [usernameErr, setUsernameErr] = useState<string>("");
   const [emailErr, setEmailErr] = useState<string>("");
   const [bioErr, setBioErr] = useState<string>("");
-  const [pending, setPending] = useState<boolean>(false);
 
   async function updateUserAction(formData: FormData) {
-    setPending(true);
-
     setUsernameErr("");
     setEmailErr("");
     setBioErr("");
@@ -51,15 +51,12 @@ export default function AccountProfile({ id, username, email, bio, avatar }: Pro
       if (res.ValidationErrors.username) setUsernameErr(res.ValidationErrors.username._errors[0]);
       if (res.ValidationErrors.email) setEmailErr(res.ValidationErrors.email._errors[0]);
       if (res.ValidationErrors.bio) setBioErr(res.ValidationErrors.bio._errors[0]);
-
-      setPending(false);
       return;
     }
 
     // 更新成功后
     if (res.status !== 200 || res.message !== "Updated") return;
 
-    setPending(false);
     if (pathname === "/profile/edit") router.back();
     else router.push("/");
   }
