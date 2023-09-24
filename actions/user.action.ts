@@ -96,6 +96,12 @@ export async function signInUser(formData: FormData) {
   }
 }
 
+// 登出用户
+export async function signOutUser() {
+  cookies().delete(COOKIE_NAME);
+  return { message: "Signed out" }
+}
+
 // 注册新用户 - POST
 export async function createUser(formData: FormData) {
   const phone = String(formData.get("phone"));

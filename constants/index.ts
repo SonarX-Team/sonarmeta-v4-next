@@ -1,11 +1,4 @@
-import {
-  faHome,
-  faMagnifyingGlass,
-  faFlag,
-  faPlus,
-  faStar,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faMagnifyingGlass, faPlus, faStar, faUser, faHandshakeAngle } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = [
@@ -20,9 +13,9 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
     label: "搜索",
   },
   {
-    icon: faFlag,
-    route: "/activity",
-    label: "活动",
+    icon: faHandshakeAngle,
+    route: "/ip-union",
+    label: "IP工会",
   },
   {
     icon: faPlus,
@@ -42,7 +35,7 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
 ];
 
 export const EXPIRE_AGE = 60 * 60 * 24 * 30; // JWT失效时间30天
-export const COOKIE_NAME = "jsonWebTokenValue"
+export const COOKIE_NAME = "jsonWebTokenValue";
 
 export const profileTabs = [
   { value: "threads", label: "Threads", icon: "/assets/reply.svg" },

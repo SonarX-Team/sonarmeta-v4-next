@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,8 +11,6 @@ import { createUser } from "@/actions/user.action";
 
 export default function SignUp() {
   const router = useRouter();
-
-  const { pending } = useFormStatus();
 
   const [phoneErr, setPhoneErr] = useState<string>("");
   const [passwordErr, setPasswordErr] = useState<string>("");
@@ -84,7 +81,7 @@ export default function SignUp() {
       </div>
 
       <div className="h-[50px]">
-        <AppButton text={pending ? "注册中..." : "注 册"} type="submit" disabled={!isChecked} pending={pending} />
+        <AppButton text="注 册" pendingText="注册中..." type="submit" disabled={!isChecked} />
       </div>
     </form>
   );

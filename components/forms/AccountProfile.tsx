@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
@@ -24,8 +23,6 @@ type Props = {
 export default function AccountProfile({ id, username, email, bio, avatar }: Props) {
   const router = useRouter();
   const pathname = usePathname();
-
-  const { pending } = useFormStatus();
 
   const [usernameErr, setUsernameErr] = useState<string>("");
   const [emailErr, setEmailErr] = useState<string>("");
@@ -92,7 +89,7 @@ export default function AccountProfile({ id, username, email, bio, avatar }: Pro
       />
 
       <div className="h-[50px]">
-        <AppButton text={pending ? "提交中..." : "提 交"} type="submit" pending={pending} />
+        <AppButton text="提 交" pendingText="提交中..." type="submit" />
       </div>
     </form>
   );

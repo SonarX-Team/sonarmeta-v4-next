@@ -17,7 +17,7 @@ export default function Bottombar() {
 
           return (
             <Link href={link.route} key={link.label} className={`bottombar_link ${isActive && "bg-primary-500"}`}>
-              <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2" icon={link.icon} />
+              <FontAwesomeIcon className="w-[20px] h-[20px] text-light-2" icon={link.icon} />
               <p className="text-subtle-medium text-light-1 max-sm:hidden">{link.label}</p>
             </Link>
           );
