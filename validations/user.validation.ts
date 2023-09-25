@@ -43,9 +43,9 @@ export const SignUpValidation = (user: { phone: string; password: string; passwo
 };
 
 // 更新用户的校验
-export const UpdateValidation = (user: { username: string; email: string; bio: string }) => {
+export const UpdateUserValidation = (user: { username: string; email: string; bio: string }) => {
   const schema = z.object({
-    username: z.string().max(30, { message: "用户名太长了" }).nonempty({ message: "不能为空" }),
+    username: z.string().nonempty({ message: "不能为空" }).max(30, { message: "用户名太长了" }),
     email: z.string().email({ message: "无效的邮箱格式" }).or(z.literal("")),
     bio: z.string().max(1000, { message: "个性签名内容太长了" }),
   });

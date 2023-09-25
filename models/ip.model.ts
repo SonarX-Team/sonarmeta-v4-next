@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
 
 const IPSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
-    unique: true,
   },
   avatar: {
     type: String,
     required: true,
   },
-  description: String,
+  description: {
+    type: String,
+    required: true,
+  },
+  officialLink: String,
   images: [String], // 这个IP的预览图片
   author: {
     type: mongoose.Schema.Types.ObjectId,

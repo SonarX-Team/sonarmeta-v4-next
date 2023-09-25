@@ -28,18 +28,11 @@ export default function SignIn() {
       if (res.ValidationErrors.password) setPasswordErr(res.ValidationErrors.password._errors[0]);
       return;
     }
-    if (res.errName === "phone") {
-      setPhoneErr(res.errMsg);
-      return;
-    }
-    if (res.errName === "password") {
-      setPasswordErr(res.errMsg);
-      return;
-    }
+    if (res.errName === "phone") return setPhoneErr(res.errMsg);
+    if (res.errName === "password") return setPasswordErr(res.errMsg);
 
     // 登录成功后
     if (res.status !== 200 || res.message !== "Authenticated") return;
-
     router.push("/onboarding");
   }
 

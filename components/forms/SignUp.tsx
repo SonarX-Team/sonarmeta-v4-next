@@ -31,19 +31,12 @@ export default function SignUp() {
       if (res.ValidationErrors.passwordAgain) setPasswordAgainErr(res.ValidationErrors.passwordAgain._errors[0]);
       return;
     }
-    if (res.errName === "phone") {
-      setPhoneErr(res.errMsg);
-      return;
-    }
-    if (res.errName === "passwordAgain") {
-      setPasswordAgainErr(res.errMsg);
-      return;
-    }
+    if (res.errName === "phone") return setPhoneErr(res.errMsg);
+    if (res.errName === "passwordAgain") return setPasswordAgainErr(res.errMsg);
 
     // 注册成功后
     if (res.status !== 201 || res.message !== "Created") return;
-
-    router.push("/");
+    router.push("/sign-in");
   }
 
   return (

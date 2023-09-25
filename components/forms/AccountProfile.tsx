@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
+import AvatarInput from "../ui/AvatarInput";
 import AppInput from "../ui/AppInput";
-import AppAvatarInput from "../ui/AppAvatarInput";
 import AppButton from "../ui/AppButton";
 import AppTextarea from "../ui/AppTextarea";
 
 import { updateUser } from "@/actions/user.action";
-import { uploadFile } from "@/lib/alioss";
+import { deleteMulti, uploadFile } from "@/lib/alioss";
 
 type Props = {
   id: string;
@@ -37,7 +37,7 @@ export default function AccountProfile({ id, username, email, bio, avatar }: Pro
     let avatarUrl = "";
     const avatarFile = formData.get("avatar") as File;
     if (avatarFile && avatarFile.size > 0) {
-      const result = await uploadFile(`users/${id}/avatar.png`, avatarFile);
+      const result = await uploadFile(`users/${id}-${String(formData.get("username"))}/avatar.png`, avatarFile);
       avatarUrl = result.url;
     }
 
@@ -48,6 +48,10 @@ export default function AccountProfile({ id, username, email, bio, avatar }: Pro
       if (res.ValidationErrors.username) setUsernameErr(res.ValidationErrors.username._errors[0]);
       if (res.ValidationErrors.email) setEmailErr(res.ValidationErrors.email._errors[0]);
       if (res.ValidationErrors.bio) setBioErr(res.ValidationErrors.bio._errors[0]);
+
+      // 删掉上传了的图片
+      await deleteMulti([avatarUrl]);
+
       return;
     }
 
@@ -60,8 +64,7 @@ export default function AccountProfile({ id, username, email, bio, avatar }: Pro
 
   return (
     <form action={updateUserAction} className="flex flex-col justify-start">
-      <AppAvatarInput name="avatar" defaultValue={avatar} />
-
+      <AvatarInput name="avatar" defaultValue={avatar} />
       <AppInput
         name="username"
         label="用户名"

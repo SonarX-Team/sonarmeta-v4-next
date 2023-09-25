@@ -8,24 +8,19 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
     label: "首页",
   },
   {
-    icon: faMagnifyingGlass,
-    route: "/search",
-    label: "搜索",
-  },
-  {
     icon: faHandshakeAngle,
     route: "/ip-union",
     label: "IP工会",
   },
   {
+    icon: faMagnifyingGlass,
+    route: "/match",
+    label: "匹配工友",
+  },
+  {
     icon: faPlus,
     route: "/create-ip",
     label: "创建IP",
-  },
-  {
-    icon: faStar,
-    route: "/ip-dao",
-    label: "IP DAO",
   },
   {
     icon: faUser,
@@ -36,6 +31,8 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
 
 export const EXPIRE_AGE = 60 * 60 * 24 * 30; // JWT失效时间30天
 export const COOKIE_NAME = "jsonWebTokenValue";
+
+export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
 export const profileTabs = [
   { value: "threads", label: "Threads", icon: "/assets/reply.svg" },

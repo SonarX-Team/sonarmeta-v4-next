@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const unionSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
-    unique: true,
     required: true,
   },
   avatar: String,

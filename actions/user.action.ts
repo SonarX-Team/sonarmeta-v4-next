@@ -8,14 +8,14 @@ import _ from "lodash";
 
 import { connectToDB } from "@/lib/mongoose";
 import User from "@/models/user.model";
-import { SignInValidation, SignUpValidation, UpdateValidation } from "@/validations/user.validation";
+import { SignInValidation, SignUpValidation, UpdateUserValidation } from "@/validations/user.validation";
 import { COOKIE_NAME, EXPIRE_AGE } from "@/constants";
 
 // 获取当前登录用户信息 - GET
 export async function getCurrentUser() {
   const token = cookies().get(COOKIE_NAME);
 
-  if (!token) return { status: 401, message: "Access denied. No token provided" };
+  if (!token) return { status: 401, message: "Access denied. No token provided", user: null };
 
   try {
     const secret = process.env.JWT_SECRET || "";
@@ -99,7 +99,7 @@ export async function signInUser(formData: FormData) {
 // 登出用户
 export async function signOutUser() {
   cookies().delete(COOKIE_NAME);
-  return { message: "Signed out" }
+  return { message: "Signed out" };
 }
 
 // 注册新用户 - POST
@@ -154,7 +154,7 @@ export async function updateUser({
   const bio = String(formData.get("bio"));
 
   // 对客户端传来的数据做校验
-  const { isValid, errors } = UpdateValidation({ username, email, bio });
+  const { isValid, errors } = UpdateUserValidation({ username, email, bio });
   if (!isValid) return { ValidationErrors: errors };
 
   try {

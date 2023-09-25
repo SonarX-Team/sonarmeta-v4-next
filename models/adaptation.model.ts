@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const adaptationSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
-    unique: true,
     required: true,
   },
   description: String,
