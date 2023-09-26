@@ -33,9 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <main className="flex flex-row">
           <LeftSidebar loginStatus={user ? true : false} />
 
-          <section className="main-container">
-            <div className="w-full max-w-4xl">{children}</div>
-          </section>
+          <section className="main-container">{children}</section>
 
           <RightSidebar />
         </main>

@@ -69,11 +69,13 @@ export async function createIP({
   userId,
   formData,
   avatar,
+  cover,
   images,
 }: {
   userId: string;
   formData: FormData;
   avatar: string;
+  cover: string;
   images: string[];
 }) {
   const title = String(formData.get("title"));
@@ -92,6 +94,7 @@ export async function createIP({
       description,
       officialLink,
       avatar,
+      cover,
       images,
       author: userId,
     });

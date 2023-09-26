@@ -13,6 +13,10 @@ const IPSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  cover: {
+    type: String,
+    required: true,
+  },
   officialLink: String,
   images: [String], // 这个IP的预览图片
   author: {

@@ -11,11 +11,13 @@ import AppButton from "../ui/AppButton";
 import AppTextarea from "../ui/AppTextarea";
 import AvatarInput from "../ui/AvatarInput";
 import ImagesInput from "../ui/ImagesInput";
+import CoverInput from "../ui/coverInput";
 
 export default function PostIP({ userId }: { userId: string }) {
   const router = useRouter();
 
   const [avatarErr, setAvatarErr] = useState<string>("");
+  const [coverErr, setCoverErr] = useState<string>("");
   const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");
   const [officialLinkErr, setOfficialLinkErr] = useState<string>("");
@@ -25,6 +27,7 @@ export default function PostIP({ userId }: { userId: string }) {
 
   async function createIPAction(formData: FormData) {
     setAvatarErr("");
+    setCoverErr("");
     setTitleErr("");
     setDescriptionErr("");
     setOfficialLinkErr("");
@@ -33,12 +36,15 @@ export default function PostIP({ userId }: { userId: string }) {
     const timeStamp = Date.now();
 
     const avatarFile = formData.get("avatar") as File;
+    const coverFile = formData.get("cover") as File;
 
     // 客户端处理图片上传
     if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("IP头像不能为空");
+    if (!(coverFile && coverFile.size > 0)) return setAvatarErr("IP封面不能为空");
     if (!files.current) return setImagesErr("至少为IP图片列表加一个图片");
 
     const avatarRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
+    const coverRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/cover.png`, coverFile);
 
     const imageUrls: string[] = [];
     for (let i = 0; i < files.current.length; i++) {
@@ -49,7 +55,7 @@ export default function PostIP({ userId }: { userId: string }) {
       imageUrls.push(result.url);
     }
 
-    const res = await createIP({ userId, formData, avatar: avatarRes.url, images: imageUrls });
+    const res = await createIP({ userId, formData, avatar: avatarRes.url, cover: coverRes.url, images: imageUrls });
 
     // 处理校验信息失败
     if (res.ValidationErrors) {
@@ -59,6 +65,7 @@ export default function PostIP({ userId }: { userId: string }) {
 
       // 删掉上传了的图片
       imageUrls.push(avatarRes.url);
+      imageUrls.push(coverRes.url);
       await deleteMulti(imageUrls);
 
       return;
@@ -71,7 +78,15 @@ export default function PostIP({ userId }: { userId: string }) {
 
   return (
     <form action={createIPAction} className="flex flex-col justify-start">
-      <AvatarInput name="avatar" required={true} errMsg={avatarErr} />
+      <div className="sm:flex justify-between items-center">
+        <div className="sm:basis-1/2">
+          <AvatarInput name="avatar" required={true} errMsg={avatarErr} />
+        </div>
+        <div className="sm:basis-1/2">
+          <CoverInput name="cover" required={true} errMsg={coverErr} />
+        </div>
+      </div>
+      
       <AppInput
         name="title"
         label="IP名称"

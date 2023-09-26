@@ -16,15 +16,15 @@ export default function PostUnion({ userId }: { userId: string }) {
   const router = useRouter();
 
   const [avatarErr, setAvatarErr] = useState<string>("");
+  const [coverErr, setCoverErr] = useState<string>("");
   const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");
-  const [coverErr, setCoverErr] = useState<string>("");
 
   async function createUnionAction(formData: FormData) {
     setAvatarErr("");
+    setCoverErr("");
     setTitleErr("");
     setDescriptionErr("");
-    setCoverErr("");
 
     const timeStamp = Date.now();
 
