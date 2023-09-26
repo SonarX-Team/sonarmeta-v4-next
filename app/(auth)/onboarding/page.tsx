@@ -12,6 +12,7 @@ export default async function page() {
 
   const userData = {
     id: userInfo.id,
+    phone: userInfo.phone,
     username: userInfo.username,
     email: userInfo.email ? userInfo.email : "",
     bio: userInfo.bio ? userInfo.bio : "",

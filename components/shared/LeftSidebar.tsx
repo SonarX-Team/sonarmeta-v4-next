@@ -8,7 +8,7 @@ import { faArrowRightFromBracket, faWallet } from "@fortawesome/free-solid-svg-i
 import { sidebarLinks } from "@/constants";
 import { signOutUser } from "@/actions/user.action";
 
-export default function LeftSidebar() {
+export default function LeftSidebar({ loginStatus }: { loginStatus: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -38,10 +38,12 @@ export default function LeftSidebar() {
             <FontAwesomeIcon className="w-[20px] h-[20px] text-light-2" icon={faWallet} />
             <p className="text-light-1 max-lg:hidden">连接钱包</p>
           </div>
-          <div className="leftsidebar_link cursor-pointer" onClick={handleSignOut}>
-            <FontAwesomeIcon className="w-[20px] h-[20px] text-light-2" icon={faArrowRightFromBracket} />
-            <p className="text-light-1 max-lg:hidden">退出登录</p>
-          </div>
+          {loginStatus && (
+            <div className="leftsidebar_link cursor-pointer" onClick={handleSignOut}>
+              <FontAwesomeIcon className="w-[20px] h-[20px] text-light-2" icon={faArrowRightFromBracket} />
+              <p className="text-light-1 max-lg:hidden">退出登录</p>
+            </div>
+          )}
         </div>
       </div>
     </section>

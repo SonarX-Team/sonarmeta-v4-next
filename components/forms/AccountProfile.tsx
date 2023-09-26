@@ -14,13 +14,14 @@ import { deleteMulti, uploadFile } from "@/lib/alioss";
 
 type Props = {
   id: string;
+  phone: string;
   username: string;
   email: string;
   bio: string;
   avatar: string;
 };
 
-export default function AccountProfile({ id, username, email, bio, avatar }: Props) {
+export default function AccountProfile({ id, phone, username, email, bio, avatar }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -41,7 +42,7 @@ export default function AccountProfile({ id, username, email, bio, avatar }: Pro
       avatarUrl = result.url;
     }
 
-    const res = await updateUser({ userId: id, formData, pathname, avatar: avatarUrl });
+    const res = await updateUser({ userId: id, phone, formData, pathname, avatar: avatarUrl });
 
     // 处理校验信息失败
     if (res.ValidationErrors) {

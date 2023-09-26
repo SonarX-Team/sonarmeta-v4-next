@@ -140,11 +140,13 @@ export async function createUser(formData: FormData) {
 // 更新用户的个人信息 - PATCH
 export async function updateUser({
   userId,
+  phone,
   formData,
   pathname,
   avatar,
 }: {
   userId: string;
+  phone: string;
   formData: FormData;
   pathname: string;
   avatar: string;
@@ -166,6 +168,30 @@ export async function updateUser({
       bio,
       avatar,
       onboarded: true,
+    });
+
+    // 生成JWT
+    const secret = process.env.JWT_SECRET || "";
+    const token = sign(
+      {
+        id: userId,
+        phone,
+        username,
+        avatar,
+      },
+      secret,
+      {
+        expiresIn: EXPIRE_AGE,
+      }
+    );
+
+    // 设置Cookies
+    cookies().set(COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: EXPIRE_AGE,
+      path: "/",
     });
 
     if (pathname === "/profile/edit") revalidatePath(pathname);
