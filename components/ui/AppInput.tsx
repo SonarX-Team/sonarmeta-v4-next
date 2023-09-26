@@ -26,7 +26,7 @@ const AppInput: React.FC<Props> = ({ name, label, defaultValue, placeholder, req
         } rounded-md duration-200`}
       >
         <input
-          className="flex-1 border-none outline-none bg-transparent text-white placeholder:text-zinc-400 py-2 mx-4"
+          className="flex-1 border-none outline-none bg-transparent text-white py-2 mx-4"
           name={name}
           defaultValue={defaultValue}
           placeholder={placeholder}

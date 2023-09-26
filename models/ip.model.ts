@@ -5,11 +5,11 @@ const IPSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
+  description: {
     type: String,
     required: true,
   },
-  description: {
+  avatar: {
     type: String,
     required: true,
   },

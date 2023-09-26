@@ -5,12 +5,23 @@ const unionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: String,
-  bio: String,
+  description: {
+    type: String,
+    required: true,
+  },
+  avatar: {
+    type: String,
+    required: true,
+  },
+  cover: {
+    type: String,
+    required: true,
+  },
   // 这个工会的成立者
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   // 这个工会拥有的成员
   members: [

@@ -10,7 +10,7 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
   },
   {
     icon: faHandshakeAngle,
-    route: "/ip-union",
+    route: "/unions",
     label: "IP工会",
   },
   {

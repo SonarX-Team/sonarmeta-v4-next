@@ -15,8 +15,8 @@ import ImagesInput from "../ui/ImagesInput";
 export default function PostIP({ userId }: { userId: string }) {
   const router = useRouter();
 
-  const [titleErr, setTitleErr] = useState<string>("");
   const [avatarErr, setAvatarErr] = useState<string>("");
+  const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");
   const [officialLinkErr, setOfficialLinkErr] = useState<string>("");
   const [imagesErr, setImagesErr] = useState<string>("");
@@ -38,13 +38,9 @@ export default function PostIP({ userId }: { userId: string }) {
     if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("IP头像不能为空");
     if (!files.current) return setImagesErr("至少为IP图片列表加一个图片");
 
-    let avatarUrl = "";
-    if (avatarFile && avatarFile.size > 0) {
-      const result = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
-      avatarUrl = result.url;
-    }
+    const avatarRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
 
-    let imageUrls: string[] = [];
+    const imageUrls: string[] = [];
     for (let i = 0; i < files.current.length; i++) {
       const result = await uploadFile(
         `ips/${String(formData.get("title"))}-${timeStamp}/image-${i}.png`,
@@ -53,7 +49,7 @@ export default function PostIP({ userId }: { userId: string }) {
       imageUrls.push(result.url);
     }
 
-    const res = await createIP({ userId, formData, avatar: avatarUrl, images: imageUrls });
+    const res = await createIP({ userId, formData, avatar: avatarRes.url, images: imageUrls });
 
     // 处理校验信息失败
     if (res.ValidationErrors) {
@@ -62,7 +58,7 @@ export default function PostIP({ userId }: { userId: string }) {
       if (res.ValidationErrors.officialLink) setOfficialLinkErr(res.ValidationErrors.officialLink._errors[0]);
 
       // 删掉上传了的图片
-      imageUrls.push(avatarUrl);
+      imageUrls.push(avatarRes.url);
       await deleteMulti(imageUrls);
 
       return;
@@ -78,8 +74,8 @@ export default function PostIP({ userId }: { userId: string }) {
       <AvatarInput name="avatar" required={true} errMsg={avatarErr} />
       <AppInput
         name="title"
-        label="IP标题"
-        placeholder="请输入您的IP标题"
+        label="IP名称"
+        placeholder="请输入您的IP名称"
         required={true}
         type="text"
         errMsg={titleErr}

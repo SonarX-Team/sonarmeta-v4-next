@@ -26,7 +26,7 @@ const AppTextarea: React.FC<Props> = ({ name, label, defaultValue, placeholder, 
         } rounded-lg duration-200`}
       >
         <textarea
-          className="flex-1 border-none outline-none resize-none bg-transparent text-white placeholder:text-zinc-400 py-2 mx-4"
+          className="flex-1 border-none outline-none resize-none bg-transparent text-white py-2 mx-4"
           name={name}
           defaultValue={defaultValue}
           placeholder={placeholder}

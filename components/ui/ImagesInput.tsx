@@ -73,7 +73,7 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, errMsg }) => {
             htmlFor="imagesInput"
           >
             <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />
-            <p className="text-zinc-400 text-center mx-3">请添加图片</p>
+            <p className="text-zinc-400 text-center mx-3">添加图片组</p>
           </label>
         </div>
 

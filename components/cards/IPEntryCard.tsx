@@ -37,7 +37,7 @@ export default function IPEntryCard({
       <div className="flex items-start justify-between">
         <div className="flex w-full flex-1 flex-row gap-4">
           <div className="flex flex-col items-center">
-            <Link href={`/profile/${_id}`} className="relative w-[81px] h-[81px]">
+            <Link href={`/ips/${_id}`} className="relative w-[81px] h-[81px]">
               <Image src={avatar} alt="user_community_image" fill className="cursor-pointer rounded-full" />
             </Link>
 
@@ -45,7 +45,7 @@ export default function IPEntryCard({
           </div>
 
           <div className="flex w-full flex-col">
-            <Link href={`/profile/${_id}`} className="w-fit">
+            <Link href={`/ips/${_id}`} className="w-fit">
               <h4 className="cursor-pointer text-body-semibold text-light-1">{title}</h4>
             </Link>
 
@@ -84,7 +84,11 @@ export default function IPEntryCard({
 
         <p className="text-subtle-medium text-gray-1 mx-1">-</p>
 
-        <Link className="text-subtle-medium text-sky-400 hover:text-sky-300 duration-200" href={officialLink}>
+        <Link
+          className="text-subtle-medium text-sky-400 hover:text-sky-300 duration-200"
+          href={officialLink}
+          target="_blank"
+        >
           {officialLink}
         </Link>
       </div>

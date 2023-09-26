@@ -41,6 +41,9 @@ body {
   text-shadow: 2px 3px 0px #767879;
 }
 
+input, textarea {
+  font-size: 14px
+}
 input::placeholder,
 textarea::placeholder {
   color: #999;

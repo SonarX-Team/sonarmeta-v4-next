@@ -12,17 +12,17 @@ type Props = {
   errMsg?: string;
 };
 
-const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) => {
-  const [avatarUrl, setAvatarUrl] = useState<string>(defaultValue ? defaultValue : "");
+const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) => {
+  const [coverUrl, setCoverUrl] = useState<string>(defaultValue ? defaultValue : "");
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
 
     if (!file) return;
 
     const fileUrl = URL.createObjectURL(file);
-    setAvatarUrl(fileUrl);
+    setCoverUrl(fileUrl);
   };
 
   return (
@@ -30,35 +30,35 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
       <div className="flex items-center text-small-regular gap-4">
         <div>
           <input
-            id="avatarInput"
+            id="coverInput"
             className="hidden"
             name={name}
             type="file"
             accept="image/*"
-            onChange={handleAvatarChange}
+            onChange={handleCoverChange}
           />
           <label
-            className={`flex flex-col justify-center items-center w-[120px] h-[120px] ${
-              !avatarUrl
+            className={`flex flex-col justify-center items-center w-[160px] h-[90px] ${
+              !coverUrl
                 ? "border-2 border-dashed border-zinc-400 text-zinc-400 bg-white/10 hover:bg-zinc-400/10 duration-200"
                 : ""
-            } rounded-full cursor-pointer`}
-            htmlFor="avatarInput"
+            } rounded-lg cursor-pointer`}
+            htmlFor="coverInput"
           >
-            {avatarUrl ? (
-              <Image className="rounded-full" src={avatarUrl} alt="avatar" width={120} height={120} />
+            {coverUrl ? (
+              <Image className="rounded-lg h-[90px]" src={coverUrl} alt="cover" width={160} height={90} />
             ) : (
               <>
                 <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />
-                <p className="text-zinc-400 text-center mx-3">添加方形图片</p>
+                <p className="text-zinc-400 text-center mx-3">添加图片</p>
               </>
             )}
           </label>
         </div>
 
         <div className="text-small-regular">
-          <label htmlFor="avatarInput" className="text-sky-400 hover:text-sky-300 duration-200 cursor-pointer">
-            选择头像图片 {required && <span className="text-red-400">*</span>}
+          <label htmlFor="coverInput" className="text-sky-400 hover:text-sky-300 duration-200 cursor-pointer">
+            选择封面图片 {required && <span className="text-red-400">*</span>}
           </label>
           {errMsg && <p className="text-red-400 mt-1">{errMsg}</p>}
         </div>
@@ -67,4 +67,4 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
   );
 };
 
-export default AvatarInput;
+export default CoverInput;
