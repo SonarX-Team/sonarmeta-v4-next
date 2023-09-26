@@ -27,13 +27,6 @@ const IPSchema = new mongoose.Schema({
       ref: "Union",
     },
   ],
-  // 以个人身份和这个IP签署了协议的开发者
-  singleMembers: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
   // 围绕这个IP做的二创
   adaptations: [
     {

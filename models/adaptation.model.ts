@@ -13,13 +13,6 @@ const adaptationSchema = new mongoose.Schema({
     minlength: 1,
   },
   images: [String], // 这个二创的预览图片
-  // 参与这个二创的作者们
-  creators: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
   // 参与这个二创的工会
   unions: [
     {

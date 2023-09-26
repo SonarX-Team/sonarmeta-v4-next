@@ -11,8 +11,8 @@ export default async function page() {
   return (
     <>
       <h1 className="head-text text-left mb-10">创建新IP</h1>
-      
-      <PostIP userId={user.id} author={user.username} />
+
+      <PostIP userId={user.id} />
     </>
   );
 }
