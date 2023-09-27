@@ -6,8 +6,9 @@ import IP from "@/models/ip.model";
 import User from "@/models/user.model";
 import { connectToDB } from "@/lib/mongoose";
 import { createIPValidation } from "@/validations/ip.validation";
+import { revalidatePath } from "next/cache";
 
-type IPType = {
+type IPsType = {
   _id: string;
   title: string;
   description: string;
@@ -18,6 +19,24 @@ type IPType = {
     avatar: string;
   };
   officialLink: string;
+  createdAt: string;
+  unions: string[];
+  adaptations: string[];
+};
+
+type IPType = {
+  _id: string;
+  title: string;
+  description: string;
+  avatar: string;
+  cover: string;
+  author: {
+    _id: string;
+    username: string;
+    avatar: string;
+  };
+  officialLink: string;
+  images: string[];
   createdAt: string;
   unions: string[];
   adaptations: string[];
@@ -38,7 +57,7 @@ export async function fetchIPs({ pageNumber = 1, pageSize = 20 }: { pageNumber: 
 
     const IPsRes = await IPsQuery.exec();
 
-    const IPs: IPType[] = [];
+    const IPs: IPsType[] = [];
     for (let i = 0; i < IPsRes.length; i++) {
       const ip = _.pick(IPsRes[i], [
         "_id",
@@ -61,6 +80,23 @@ export async function fetchIPs({ pageNumber = 1, pageSize = 20 }: { pageNumber: 
     return { IPs, isNext };
   } catch (error: any) {
     throw new Error(`Failed to fetch ips: ${error.message}`);
+  }
+}
+
+// 通过IPid获取IP - GET
+export async function fetchIP({ IPid }: { IPid: string }) {
+  try {
+    await connectToDB();
+
+    const IPRes = (await IP.findById(IPid).populate({
+      path: "author",
+      model: User,
+      select: "_id username avatar",
+    })) as IPType;
+
+    return { IPRes };
+  } catch (error: any) {
+    throw new Error(`Failed to fetch ip: ${error.message}`);
   }
 }
 
@@ -99,6 +135,8 @@ export async function createIP({
       author: userId,
     });
     await ip.save();
+
+    revalidatePath("/");
 
     return { status: 201, message: "Created" };
   } catch (error: any) {

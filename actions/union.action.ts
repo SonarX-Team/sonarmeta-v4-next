@@ -3,6 +3,7 @@
 import { connectToDB } from "@/lib/mongoose";
 import Union from "@/models/union.model";
 import { createUnionValidation } from "@/validations/union.validation";
+import { revalidatePath } from "next/cache";
 
 // 创建新工会
 export async function createUnion({
@@ -34,6 +35,8 @@ export async function createUnion({
       creator: userId,
     });
     await union.save();
+
+    revalidatePath("/unions");
 
     return { status: 201, message: "Created" };
   } catch (error: any) {

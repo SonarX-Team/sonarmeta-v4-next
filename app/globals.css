@@ -17,8 +17,15 @@ body {
 *::-webkit-scrollbar {
   width: 8px;
 }
+*::-webkit-scrollbar:horizontal {
+  height: 8px;
+}
 *::-webkit-scrollbar-track {
-  background-color: trasparent;
+  background-color: #090909;
+}
+*::-webkit-scrollbar-track:horizontal {
+  background-color: #090909;
+  border-radius: 9999px;
 }
 *::-webkit-scrollbar-thumb {
   background-color: #364044;
@@ -66,7 +73,7 @@ textarea::placeholder {
 @layer components {
   /* main */
   .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;
+    @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 py-[75px];
   }
 
   /* Head Text */
@@ -120,7 +127,7 @@ textarea::placeholder {
   }
 
   .topbar {
-    @apply fixed top-0 z-30 flex w-full items-center justify-between bg-dark-2 px-6 py-3;
+    @apply fixed top-0 z-30 flex w-full h-[75px] items-center justify-between bg-dark-2 px-6 py-3;
   }
 
   .bottombar {

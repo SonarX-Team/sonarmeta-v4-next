@@ -40,7 +40,7 @@ export default function PostIP({ userId }: { userId: string }) {
 
     // 客户端处理图片上传
     if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("IP头像不能为空");
-    if (!(coverFile && coverFile.size > 0)) return setAvatarErr("IP封面不能为空");
+    if (!(coverFile && coverFile.size > 0)) return setCoverErr("IP封面不能为空");
     if (!files.current) return setImagesErr("至少为IP图片列表加一个图片");
 
     const avatarRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
@@ -86,7 +86,7 @@ export default function PostIP({ userId }: { userId: string }) {
           <CoverInput name="cover" required={true} errMsg={coverErr} />
         </div>
       </div>
-      
+
       <AppInput
         name="title"
         label="IP名称"
