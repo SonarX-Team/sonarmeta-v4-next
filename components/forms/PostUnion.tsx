@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { deleteMulti, uploadFile } from "@/lib/alioss";
@@ -19,12 +19,14 @@ export default function PostUnion({ userId }: { userId: string }) {
   const [coverErr, setCoverErr] = useState<string>("");
   const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");
+  const [recruitmentErr, setRecruitmentErr] = useState<string>("");
 
   async function createUnionAction(formData: FormData) {
     setAvatarErr("");
     setCoverErr("");
     setTitleErr("");
     setDescriptionErr("");
+    setRecruitmentErr("");
 
     const timeStamp = Date.now();
 
@@ -44,6 +46,7 @@ export default function PostUnion({ userId }: { userId: string }) {
     if (res.ValidationErrors) {
       if (res.ValidationErrors.title) setTitleErr(res.ValidationErrors.title._errors[0]);
       if (res.ValidationErrors.description) setDescriptionErr(res.ValidationErrors.description._errors[0]);
+      if (res.ValidationErrors.recruitment) setRecruitmentErr(res.ValidationErrors.recruitment._errors[0]);
 
       // 删掉上传了的图片
       await deleteMulti([avatarRes.url, coverRes.url]);
@@ -82,6 +85,14 @@ export default function PostUnion({ userId }: { userId: string }) {
         required={true}
         rows={10}
         errMsg={descriptionErr}
+      />
+      <AppTextarea
+        name="recruitment"
+        label="招募说明"
+        placeholder="请输入您希望招募什么样的人才的说明"
+        required={true}
+        rows={10}
+        errMsg={recruitmentErr}
       />
 
       <div className="h-[50px]">

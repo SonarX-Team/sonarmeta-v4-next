@@ -9,6 +9,10 @@ const IPSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  agreement: {
+    type: String,
+    required: true,
+  },
   avatar: {
     type: String,
     required: true,

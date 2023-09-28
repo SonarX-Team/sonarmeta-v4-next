@@ -9,6 +9,11 @@ const unionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // 招募说明
+  recruitment: {
+    type: String,
+    required: true,
+  },
   avatar: {
     type: String,
     required: true,

@@ -61,9 +61,9 @@ export default function IPEntryCard({
 
             <p className="mt-2 text-small-regular text-light-2 whitespace-pre-line">{description.slice(0, 240)}</p>
 
-            <p className="mt-5">
+            <p className="mt-2">
               <Link href={`/ips/${_id}`} className="text-small-regular text-sky-400 hover:text-sky-300 duration-200">
-                查看全文
+                了解更多
               </Link>
             </p>
 

@@ -2,6 +2,7 @@
 
 import { connectToDB } from "@/lib/mongoose";
 import Union from "@/models/union.model";
+import User from "@/models/user.model";
 import { createUnionValidation } from "@/validations/union.validation";
 import { revalidatePath } from "next/cache";
 
@@ -19,9 +20,10 @@ export async function createUnion({
 }) {
   const title = String(formData.get("title"));
   const description = String(formData.get("description"));
+  const recruitment = String(formData.get("recruitment"));
 
   // 对客户端传来的数据做校验
-  const { isValid, errors } = createUnionValidation({ title, description });
+  const { isValid, errors } = createUnionValidation({ title, description, recruitment });
   if (!isValid) return { ValidationErrors: errors };
 
   try {
@@ -30,11 +32,17 @@ export async function createUnion({
     const union = new Union({
       title,
       description,
+      recruitment,
       avatar,
       cover,
       creator: userId,
     });
     await union.save();
+
+    // 更新User
+    await User.findByIdAndUpdate(userId, {
+      $push: { unions: union._id },
+    });
 
     revalidatePath("/unions");
 

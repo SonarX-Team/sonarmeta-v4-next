@@ -20,6 +20,7 @@ export default function PostIP({ userId }: { userId: string }) {
   const [coverErr, setCoverErr] = useState<string>("");
   const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");
+  const [agreementErr, setAgreementErr] = useState<string>("");
   const [officialLinkErr, setOfficialLinkErr] = useState<string>("");
   const [imagesErr, setImagesErr] = useState<string>("");
 
@@ -30,6 +31,7 @@ export default function PostIP({ userId }: { userId: string }) {
     setCoverErr("");
     setTitleErr("");
     setDescriptionErr("");
+    setAgreementErr("");
     setOfficialLinkErr("");
     setImagesErr("");
 
@@ -61,6 +63,7 @@ export default function PostIP({ userId }: { userId: string }) {
     if (res.ValidationErrors) {
       if (res.ValidationErrors.title) setTitleErr(res.ValidationErrors.title._errors[0]);
       if (res.ValidationErrors.description) setDescriptionErr(res.ValidationErrors.description._errors[0]);
+      if (res.ValidationErrors.agreement) setAgreementErr(res.ValidationErrors.agreement._errors[0]);
       if (res.ValidationErrors.officialLink) setOfficialLinkErr(res.ValidationErrors.officialLink._errors[0]);
 
       // 删掉上传了的图片
@@ -97,11 +100,19 @@ export default function PostIP({ userId }: { userId: string }) {
       />
       <AppTextarea
         name="description"
-        label="IP描述"
-        placeholder="请输入您的IP描述"
+        label="IP故事"
+        placeholder="请输入您的IP故事"
         required={true}
         rows={10}
         errMsg={descriptionErr}
+      />
+      <AppTextarea
+        name="agreement"
+        label="授权协议"
+        placeholder="请输入您希望怎样去授权孵化的具体说明"
+        required={true}
+        rows={10}
+        errMsg={agreementErr}
       />
       <AppInput
         name="officialLink"

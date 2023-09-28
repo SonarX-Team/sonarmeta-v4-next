@@ -12,10 +12,16 @@ const urlValidator = (value: string) => {
 };
 
 // 创建 or 更新 IP 的校验
-export const createIPValidation = (ip: { title: string; description: string; officialLink: string }) => {
+export const createIPValidation = (ip: {
+  title: string;
+  description: string;
+  agreement: string;
+  officialLink: string;
+}) => {
   const schema = z.object({
     title: z.string().nonempty({ message: "不能为空" }).max(30, { message: "IP名称太长了" }),
-    description: z.string().nonempty({ message: "不能为空" }).max(2000, { message: "IP介绍内容太长了" }),
+    description: z.string().nonempty({ message: "不能为空" }).max(2000, { message: "IP故事内容太长了" }),
+    agreement: z.string().nonempty({ message: "不能为空" }).max(2000, { message: "授权协议内容太长了" }),
     officialLink: z.string().refine(urlValidator, { message: "路由格式请参考https://example.com" }),
   });
 

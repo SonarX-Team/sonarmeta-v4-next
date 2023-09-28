@@ -12,6 +12,7 @@ type IPsType = {
   _id: string;
   title: string;
   description: string;
+  agreement: string;
   avatar: string;
   author: {
     _id: string;
@@ -28,6 +29,7 @@ type IPType = {
   _id: string;
   title: string;
   description: string;
+  agreement: string;
   avatar: string;
   cover: string;
   author: {
@@ -63,6 +65,7 @@ export async function fetchIPs({ pageNumber = 1, pageSize = 20 }: { pageNumber: 
         "_id",
         "title",
         "description",
+        "agreement",
         "avatar",
         "author",
         "officialLink",
@@ -116,10 +119,11 @@ export async function createIP({
 }) {
   const title = String(formData.get("title"));
   const description = String(formData.get("description"));
+  const agreement = String(formData.get("agreement"));
   const officialLink = String(formData.get("officialLink"));
 
   // 对客户端传来的数据做校验
-  const { isValid, errors } = createIPValidation({ title, description, officialLink });
+  const { isValid, errors } = createIPValidation({ title, description, agreement, officialLink });
   if (!isValid) return { ValidationErrors: errors };
 
   try {
@@ -128,6 +132,7 @@ export async function createIP({
     const ip = new IP({
       title,
       description,
+      agreement,
       officialLink,
       avatar,
       cover,
@@ -135,6 +140,11 @@ export async function createIP({
       author: userId,
     });
     await ip.save();
+
+    // 更新User
+    await User.findByIdAndUpdate(userId, {
+      $push: { IPs: ip._id },
+    });
 
     revalidatePath("/");
 
