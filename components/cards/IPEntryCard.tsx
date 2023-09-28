@@ -9,22 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
-
-type Props = {
-  _id: string;
-  title: string;
-  description: string;
-  avatar: string;
-  author: {
-    _id: string;
-    username: string;
-    avatar: string;
-  };
-  officialLink: string;
-  createdAt: string;
-  unions: string[];
-  adaptations: string[];
-};
+import { IPsType } from "@/types/IPTypes";
 
 export default function IPEntryCard({
   _id,
@@ -36,7 +21,7 @@ export default function IPEntryCard({
   createdAt,
   unions,
   adaptations,
-}: Props) {
+}: IPsType) {
   return (
     <div className="flex flex-col bg-dark-2 rounded-xl p-7">
       <div className="flex items-start justify-between">
@@ -67,7 +52,7 @@ export default function IPEntryCard({
               </Link>
             </p>
 
-            <div className="flex gap-6 mt-5">
+            <div className="flex items-center gap-6 mt-5">
               <div className="flex items-center gap-1 text-zinc-400">
                 <FontAwesomeIcon className="w-[20px] h-[20px]" icon={faHandshakeAngle} />
                 <p className="text-small-regular leading-none">{unions.length}</p>

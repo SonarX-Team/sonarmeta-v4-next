@@ -17,7 +17,7 @@ import { fetchIP } from "@/actions/ip.action";
 import { formatDateString } from "@/lib/utils";
 
 export default async function page({ params }: { params: { id: string } }) {
-  const { IPRes } = await fetchIP({ IPid: params.id });
+  const { IPRes } = await fetchIP({ IPId: params.id });
 
   return (
     <div className="relative w-full">
