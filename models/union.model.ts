@@ -28,6 +28,13 @@ const unionSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  // 已经向这个工会发出加入请求的用户列表（待审核列表）
+  inclinedMembers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   // 这个工会拥有的成员
   members: [
     {
@@ -37,13 +44,6 @@ const unionSchema = new mongoose.Schema({
   ],
   // 这个工会已签署协议的IP
   signedIPs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "IP",
-    },
-  ],
-  // 这个工会有意向的IP
-  inclinedIPs: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "IP",

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDove, faPeopleGroup, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import { faDove, faPeopleGroup, faPersonRunning, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
 import { UnionsType } from "@/types/UnionTypes";
@@ -26,13 +26,7 @@ export default function UnionEntryCard({
       </div>
 
       <div className="relative -mt-12 p-4 z-10">
-        <Image
-          className="bg-violet-900/70 rounded-full mb-2"
-          src={avatar}
-          alt="union-avatar"
-          width={56}
-          height={56}
-        />
+        <Image className="bg-violet-900/70 rounded-full mb-2" src={avatar} alt="union-avatar" width={56} height={56} />
 
         <h1 className="text-body-bold text-light-2 mb-4">{title}</h1>
 
@@ -48,6 +42,10 @@ export default function UnionEntryCard({
           <div className="flex items-center gap-1 text-zinc-400">
             <FontAwesomeIcon className="w-[16px] h-[16px]" icon={faPeopleGroup} />
             <p>{members.length}</p>
+          </div>
+          <div className="flex items-center gap-1 text-zinc-400">
+            <FontAwesomeIcon className="w-[16px] h-[16px]" icon={faPersonRunning} />
+            <p>8600</p>
           </div>
         </div>
 

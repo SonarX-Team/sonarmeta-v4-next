@@ -9,7 +9,7 @@ import User from "@/models/user.model";
 import { createUnionValidation } from "@/validations/union.validation";
 import { UnionsType, UnionType } from "@/types/UnionTypes";
 
-// 获取工会 - GET
+// 获取Unions - GET
 export async function fetchUnions({ pageNumber = 1, pageSize = 20 }: { pageNumber: number; pageSize: number }) {
   try {
     await connectToDB();
@@ -54,19 +54,59 @@ export async function fetchUnion({ unionId }: { unionId: string }) {
   try {
     await connectToDB();
 
-    const UnionRes = (await Union.findById(unionId).populate({
+    const unionRes = (await Union.findById(unionId).populate({
       path: "creator",
       model: User,
       select: "_id username avatar",
     })) as UnionType;
 
-    return { UnionRes };
+    return { unionRes };
   } catch (error: any) {
     throw new Error(`Failed to fetch union: ${error.message}`);
   }
 }
 
-// 创建新工会 - POST
+// 按Union[]获得members信息 - GET
+export async function getMembersFromUnions({ unionIds }: { unionIds: string[] }) {
+  try {
+    await connectToDB();
+
+    const members = await Union.aggregate([
+      {
+        $match: {
+          _id: { $in: unionIds },
+        },
+      },
+      {
+        $unwind: "$members",
+      },
+      {
+        $lookup: {
+          from: "users", // User模型的集合名
+          localField: "members",
+          foreignField: "_id",
+          as: "memberInfo",
+        },
+      },
+      {
+        $unwind: "$memberInfo",
+      },
+      {
+        $project: {
+          _id: "$memberInfo._id",
+          username: "$memberInfo.username",
+          avatar: "$memberInfo.avatar",
+        },
+      },
+    ]);
+
+    return { members };
+  } catch (error: any) {
+    throw new Error(`Failed to get members of unions: ${error.message}`);
+  }
+}
+
+// 创建新Union - POST
 export async function createUnion({
   userId,
   formData,
@@ -96,6 +136,7 @@ export async function createUnion({
       avatar,
       cover,
       creator: userId,
+      members: [userId],
     });
     await union.save();
 
@@ -109,5 +150,54 @@ export async function createUnion({
     return { status: 201, message: "Created" };
   } catch (error: any) {
     throw new Error(`Failed to create union: ${error.message}`);
+  }
+}
+
+// 用户申请加入Union - PATCH
+export async function requestUnion({ userId, unionId, path }: { userId: string; unionId: string; path: string }) {
+  try {
+    await connectToDB();
+
+    // 看这个用户是否已经加入或已经申请加入该Union了
+    const union = await Union.findById(unionId);
+    if (union.inclinedMembers.includes(userId) || union.members.includes(userId))
+      return { status: 400, message: "Already requested or joined" };
+
+    // 更新Union
+    union.inclinedMembers.push(userId);
+    union.save();
+
+    revalidatePath(path);
+
+    return { status: 200, message: "Requested" };
+  } catch (error: any) {
+    throw new Error(`Failed to join union: ${error.message}`);
+  }
+}
+
+// 准许用户加入Union - PATCH
+export async function joinUnion({ userId, unionId, path }: { userId: string; unionId: string; path: string }) {
+  try {
+    await connectToDB();
+
+    // 看这个用户是否已经加入该Union了
+    const user = await User.findById(userId);
+    if (user.unions.includes(unionId)) return { status: 400, message: "Already joined" };
+
+    // 更新Union
+    await Union.findByIdAndUpdate(unionId, {
+      $pull: { inlinedMembers: userId },
+      $push: { members: userId },
+    });
+
+    // 更新User
+    user.unions.push(userId);
+    user.save();
+
+    revalidatePath(path);
+
+    return { status: 200, message: "Joined" };
+  } catch (error: any) {
+    throw new Error(`Failed to join union: ${error.message}`);
   }
 }

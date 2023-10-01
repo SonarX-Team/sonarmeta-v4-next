@@ -22,7 +22,7 @@ export default function LeftSidebar({ loginStatus }: { loginStatus: boolean }) {
       <div className="flex flex-col justify-between h-full px-6">
         <div className="flex flex-col flex-1 w-full gap-4">
           {sidebarLinks.map((link) => {
-            const isActive = (pathname.includes(link.route) && link.route.length > 1) || pathname === link.route;
+            const isActive = pathname === link.route;
 
             return (
               <Link href={link.route} key={link.label} className={`leftsidebar_link ${isActive && "bg-primary-500 "}`}>

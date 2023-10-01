@@ -25,7 +25,7 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
   },
   {
     icon: faUser,
-    route: "/profile",
+    route: "/settings",
     label: "个人空间",
   },
 ];

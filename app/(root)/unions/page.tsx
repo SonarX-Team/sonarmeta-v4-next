@@ -11,7 +11,7 @@ export default async function page() {
       <h1 className="head-text text-left mb-10">选择工会，开启创作</h1>
 
       {unions.length > 0 ? (
-        <section className="grid grid-cols-3 gap-4">
+        <section className="grid sm:grid-cols-2 gap-4">
           {unions.map((union, index) => (
             <UnionEntryCard key={index} {...union} />
           ))}

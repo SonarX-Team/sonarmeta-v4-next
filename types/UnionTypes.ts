@@ -21,9 +21,9 @@ export type UnionType = {
     username: string;
     avatar: string;
   };
+  inclinedMembers: string[];
   members: string[];
   signedIPs: string[];
-  inclinedIPs: string[];
   adaptations: string[];
   createdAt: string;
 };
