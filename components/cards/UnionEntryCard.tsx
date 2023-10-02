@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDove, faPeopleGroup, faPersonRunning, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import { faDove, faPeopleGroup, faBell, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
 import { UnionsType } from "@/types/UnionTypes";
@@ -17,10 +17,7 @@ export default function UnionEntryCard({
   createdAt,
 }: UnionsType) {
   return (
-    <Link
-      href={`/unions/${_id}`}
-      className="relative bg-zinc-900 hover:bg-zinc-800 duration-200 rounded-xl overflow-hidden h-full z-0"
-    >
+    <Link href={`/unions/${_id}`} className="relative bg-dark-2 rounded-xl overflow-hidden h-full z-0">
       <div className="relative w-full aspect-[16/9] bg-zinc-700 hover:bg-zinc-600 duration-200">
         <Image src={cover} alt="union-cover" fill />
       </div>
@@ -44,7 +41,7 @@ export default function UnionEntryCard({
             <p>{members.length}</p>
           </div>
           <div className="flex items-center gap-1 text-zinc-400">
-            <FontAwesomeIcon className="w-[16px] h-[16px]" icon={faPersonRunning} />
+            <FontAwesomeIcon className="w-[16px] h-[16px]" icon={faBell} />
             <p>8600</p>
           </div>
         </div>

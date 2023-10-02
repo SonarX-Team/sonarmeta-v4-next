@@ -1,12 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHandshakeAngle,
-  faPeopleGroup,
-  faPersonRunning,
-  faWandMagicSparkles,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHandshakeAngle, faPeopleGroup, faBell, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
 import { IPsType } from "@/types/IPTypes";
@@ -66,7 +61,7 @@ export default function IPEntryCard({
                 <p className="text-small-regular leading-none">{100}</p>
               </div>
               <div className="flex items-center gap-1 text-zinc-400">
-                <FontAwesomeIcon className="w-[20px] h-[20px]" icon={faPersonRunning} />
+                <FontAwesomeIcon className="w-[20px] h-[20px]" icon={faBell} />
                 <p className="text-small-regular leading-none">{8600}</p>
               </div>
             </div>

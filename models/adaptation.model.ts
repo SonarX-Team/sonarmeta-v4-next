@@ -12,7 +12,10 @@ const adaptationSchema = new mongoose.Schema({
     required: true,
     minlength: 1,
   },
-  images: [String], // 这个二创的预览图片
+  cover: {
+    type: String,
+    required: true,
+  },
   // 参与这个二创的工会
   unions: [
     {

@@ -4,19 +4,32 @@ import { revalidatePath } from "next/cache";
 import _ from "lodash";
 
 import IP from "@/models/ip.model";
+import Union from "@/models/union.model";
 import User from "@/models/user.model";
 import { connectToDB } from "@/lib/mongoose";
 import { createIPValidation } from "@/validations/ip.validation";
 import { IPType, IPsType } from "@/types/IPTypes";
 
 // 获取IPs - GET
-export async function fetchIPs({ pageNumber = 1, pageSize = 20 }: { pageNumber: number; pageSize: number }) {
+export async function fetchIPs({
+  pageNumber = 1,
+  pageSize = 20,
+  unionId,
+}: {
+  pageNumber: number;
+  pageSize: number;
+  unionId?: string;
+}) {
   try {
     await connectToDB();
 
     const skipAmount = (pageNumber - 1) * pageSize;
 
-    const IPsQuery = IP.find().sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
+    // 处理filter
+    let filter = {};
+    if (unionId) filter = { unions: { $elemMatch: { $eq: unionId } } };
+
+    const IPsQuery = IP.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
       path: "author",
       model: User,
       select: "_id username avatar",
@@ -116,5 +129,54 @@ export async function createIP({
     return { status: 201, message: "Created" };
   } catch (error: any) {
     throw new Error(`Failed to create ip: ${error.message}`);
+  }
+}
+
+// Union申请孵化IP - PATCH
+export async function requestIP({ unionId, IPId, path }: { unionId: string; IPId: string; path: string }) {
+  try {
+    await connectToDB();
+
+    // 看这个Union是否已经孵化或已经申请孵化该IP了
+    const IPRes = await IP.findById(IPId);
+    if (IPRes.inclinedUnions.includes(unionId) || IPRes.unions.includes(unionId))
+      return { status: 400, message: "Already requested or nurtured" };
+
+    // 更新IP
+    IPRes.inclinedUnions.push(unionId);
+    IPRes.save();
+
+    revalidatePath(path);
+
+    return { status: 200, message: "Requested" };
+  } catch (error: any) {
+    throw new Error(`Failed to request IP: ${error.message}`);
+  }
+}
+
+// 准许Union孵化IP - PATCH
+export async function nurtureIP({ unionId, IPId, path }: { unionId: string; IPId: string; path: string }) {
+  try {
+    await connectToDB();
+
+    // 看这个Union是否已经孵化该IP了
+    const union = await Union.findById(unionId);
+    if (union.signedIPs.includes(IPId)) return { status: 400, message: "Already nurtured" };
+
+    // 更新IP
+    await IP.findByIdAndUpdate(IPId, {
+      $pull: { inclinedUnions: unionId },
+      $push: { unions: unionId },
+    });
+
+    // 更新Union
+    union.signedIPs.push(IPId);
+    union.save();
+
+    revalidatePath(path);
+
+    return { status: 200, message: "Nurtured" };
+  } catch (error: any) {
+    throw new Error(`Failed to nurture IP: ${error.message}`);
   }
 }

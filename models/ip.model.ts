@@ -28,6 +28,13 @@ const IPSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  // 关注者列表
+  subscribers: [
+    { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "User", 
+    }
+  ],
   // 已经向这个IP发出孵化请求的工会列表（待审核列表）
   inclinedUnions: [
     {

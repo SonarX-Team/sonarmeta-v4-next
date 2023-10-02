@@ -9,9 +9,9 @@ export type IPsType = {
     avatar: string;
   };
   officialLink: string;
-  createdAt: string;
   unions: string[];
   adaptations: string[];
+  createdAt: string;
 };
 
 export type IPType = {
@@ -28,7 +28,8 @@ export type IPType = {
   };
   officialLink: string;
   images: string[];
-  createdAt: string;
+  inclinedUnions: string[];
   unions: string[];
   adaptations: string[];
+  createdAt: string;
 };

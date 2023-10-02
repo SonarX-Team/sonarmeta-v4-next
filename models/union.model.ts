@@ -28,6 +28,13 @@ const unionSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  // 关注者列表
+  subscribers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   // 已经向这个工会发出加入请求的用户列表（待审核列表）
   inclinedMembers: [
     {

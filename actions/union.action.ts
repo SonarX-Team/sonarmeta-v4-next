@@ -10,13 +10,25 @@ import { createUnionValidation } from "@/validations/union.validation";
 import { UnionsType, UnionType } from "@/types/UnionTypes";
 
 // 获取Unions - GET
-export async function fetchUnions({ pageNumber = 1, pageSize = 20 }: { pageNumber: number; pageSize: number }) {
+export async function fetchUnions({
+  pageNumber = 1,
+  pageSize = 20,
+  IPId,
+}: {
+  pageNumber: number;
+  pageSize: number;
+  IPId?: string;
+}) {
   try {
     await connectToDB();
 
     const skipAmount = (pageNumber - 1) * pageSize;
 
-    const unionsQuery = Union.find().sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
+    // 处理filter
+    let filter = {};
+    if (IPId) filter = { signedIPs: { $elemMatch: { $eq: IPId } } };
+
+    const unionsQuery = Union.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
       path: "creator",
       model: User,
       select: "_id username avatar",
@@ -54,11 +66,17 @@ export async function fetchUnion({ unionId }: { unionId: string }) {
   try {
     await connectToDB();
 
-    const unionRes = (await Union.findById(unionId).populate({
-      path: "creator",
-      model: User,
-      select: "_id username avatar",
-    })) as UnionType;
+    const unionRes = (await Union.findById(unionId)
+      .populate({
+        path: "creator",
+        model: User,
+        select: "_id username avatar",
+      })
+      .populate({
+        path: "members",
+        model: User,
+        select: "_id username avatar bio",
+      })) as UnionType;
 
     return { unionRes };
   } catch (error: any) {
@@ -171,7 +189,7 @@ export async function requestUnion({ userId, unionId, path }: { userId: string; 
 
     return { status: 200, message: "Requested" };
   } catch (error: any) {
-    throw new Error(`Failed to join union: ${error.message}`);
+    throw new Error(`Failed to request union: ${error.message}`);
   }
 }
 
@@ -186,7 +204,7 @@ export async function joinUnion({ userId, unionId, path }: { userId: string; uni
 
     // 更新Union
     await Union.findByIdAndUpdate(unionId, {
-      $pull: { inlinedMembers: userId },
+      $pull: { inclinedMembers: userId },
       $push: { members: userId },
     });
 

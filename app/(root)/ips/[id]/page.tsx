@@ -18,6 +18,7 @@ export default async function page({ params }: { params: { id: string } }) {
             <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faLink} />
             官方链接
           </h3>
+          
           <Link
             className="text-small-regular text-sky-400 hover:text-sky-300 duration-200"
             href={IPRes.officialLink}
@@ -33,6 +34,7 @@ export default async function page({ params }: { params: { id: string } }) {
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faImages} />
           IP图册
         </h3>
+
         <div className="flex flex-wrap overflow-y-auto h-[200px] gap-4">
           {IPRes.images.map((image, index) => (
             <div className="flex justify-center items-center bg-zinc-800 rounded-lg min-w-[150px] h-[200px]">
@@ -47,7 +49,8 @@ export default async function page({ params }: { params: { id: string } }) {
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faBook} />
           IP故事
         </h3>
-        <p className="mt-2 text-small-regular text-zinc-300 whitespace-pre-line">{IPRes.description}</p>
+
+        <p className="text-small-regular text-zinc-300 whitespace-pre-line">{IPRes.description}</p>
       </div>
     </>
   );

@@ -17,9 +17,7 @@ export default async function page() {
           ))}
         </section>
       ) : (
-        <section>
-          <SadPlaceholder size={300} text="没有找到任何数据" />
-        </section>
+        <SadPlaceholder size={300} text="没有找到任何数据" />
       )}
     </div>
   );

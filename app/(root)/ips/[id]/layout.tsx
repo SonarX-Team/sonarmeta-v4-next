@@ -2,18 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHandshakeAngle,
-  faPeopleGroup,
-  faPersonRunning,
-  faWandMagicSparkles,
-} from "@fortawesome/free-solid-svg-icons";
-import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import { faBell, faHandshakeAngle, faPeopleGroup, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchIP } from "@/actions/ip.action";
-import { formatDateString } from "@/lib/utils";
-import CategoryTab from "@/components/shared/CategoryTab";
 import { getMembersFromUnions } from "@/actions/union.action";
+import { formatDateString } from "@/lib/utils";
+import RequestIP from "@/components/forms/RequestIP";
+import CategoryTab from "@/components/shared/CategoryTab";
 
 export default async function layout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
   const { IPRes } = await fetchIP({ IPId: params.id });
@@ -26,8 +21,8 @@ export default async function layout({ children, params }: { children: React.Rea
   const basicInfo = [
     { count: IPRes.unions.length, icon: faHandshakeAngle, title: "工会" },
     { count: IPRes.adaptations.length, icon: faWandMagicSparkles, title: "二创" },
-    { count: members.length, icon: faPeopleGroup, title: "成员" },
-    { count: 0, icon: faPersonRunning, title: "关注" },
+    { count: members.length, icon: faPeopleGroup, title: "孵化者" },
+    { count: 0, icon: faBell, title: "关注" },
   ];
   const basicCard: JSX.Element[] = basicInfo.map((info, index) => (
     <div key={index}>
@@ -87,15 +82,13 @@ export default async function layout({ children, params }: { children: React.Rea
             </div>
           </div>
 
-          <div className="flex items-start text-small-regular gap-3 leading-none">
-            <button className="flex items-center gap-2 border-2 border-rose-400 hover:border-rose-300 text-rose-400 hover:text-rose-300 duration-200 rounded-md px-4 py-2">
-              <FontAwesomeIcon className="w-[16px] h-[16px]" icon={faThumbsUp} />
-              <p> 8886</p>
-            </button>
-            <button className="border-2 border-violet-300 hover:border-violet-200 bg-violet-300 hover:bg-violet-200 duration-200 text-zinc-900 rounded-md px-4 py-2">
-              + 关注
-            </button>
-          </div>
+          {/* <RequestIP
+            requested={requested}
+            joined={joined}
+            IPId={IPRes._id}
+            unionId={unionRes._id}
+            path={`/ips/${params.id}`}
+          /> */}
         </div>
 
         <div className="flex items-center sm:gap-16 gap-8 my-8">{basicCard}</div>

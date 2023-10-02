@@ -22,7 +22,12 @@ export type UnionType = {
     avatar: string;
   };
   inclinedMembers: string[];
-  members: string[];
+  members: {
+    _id: string;
+    username: string;
+    avatar: string;
+    bio: string;
+  }[];
   signedIPs: string[];
   adaptations: string[];
   createdAt: string;

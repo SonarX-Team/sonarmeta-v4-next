@@ -2,13 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDove, faPeopleGroup, faPersonRunning, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import { faDove, faPeopleGroup, faBell, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchUnion } from "@/actions/union.action";
 import { getCurrentUser } from "@/actions/user.action";
 import { formatDateString } from "@/lib/utils";
-import CategoryTab from "@/components/shared/CategoryTab";
 import RequestUnion from "@/components/forms/RequestUnion";
+import CategoryTab from "@/components/shared/CategoryTab";
 
 export default async function layout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
   const { unionRes } = await fetchUnion({ unionId: params.id });
@@ -27,7 +27,7 @@ export default async function layout({ children, params }: { children: React.Rea
     { count: unionRes.signedIPs.length, icon: faDove, title: "孵化" },
     { count: unionRes.adaptations.length, icon: faWandMagicSparkles, title: "二创" },
     { count: unionRes.members.length, icon: faPeopleGroup, title: "成员" },
-    { count: 0, icon: faPersonRunning, title: "关注" },
+    { count: 0, icon: faBell, title: "关注" },
   ];
   const basicCard: JSX.Element[] = basicInfo.map((info, index) => (
     <div key={index}>
