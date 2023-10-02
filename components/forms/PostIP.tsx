@@ -24,7 +24,7 @@ export default function PostIP({ userId }: { userId: string }) {
   const [officialLinkErr, setOfficialLinkErr] = useState<string>("");
   const [imagesErr, setImagesErr] = useState<string>("");
 
-  const files = useRef<File[]>([]);
+  const imagesAdded = useRef<File[]>([]);
 
   async function createIPAction(formData: FormData) {
     setAvatarErr("");
@@ -43,16 +43,16 @@ export default function PostIP({ userId }: { userId: string }) {
     // 客户端处理图片上传
     if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("IP头像不能为空");
     if (!(coverFile && coverFile.size > 0)) return setCoverErr("IP封面不能为空");
-    if (!files.current) return setImagesErr("至少为IP图片列表加一个图片");
+    if (imagesAdded.current.length === 0) return setImagesErr("至少为IP图片列表加一个图片");
 
     const avatarRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
     const coverRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/cover.png`, coverFile);
 
     const imageUrls: string[] = [];
-    for (let i = 0; i < files.current.length; i++) {
+    for (let i = 0; i < imagesAdded.current.length; i++) {
       const result = await uploadFile(
         `ips/${String(formData.get("title"))}-${timeStamp}/image-${i}.png`,
-        files.current[i]
+        imagesAdded.current[i]
       );
       imageUrls.push(result.url);
     }
@@ -67,9 +67,9 @@ export default function PostIP({ userId }: { userId: string }) {
       if (res.ValidationErrors.officialLink) setOfficialLinkErr(res.ValidationErrors.officialLink._errors[0]);
 
       // 删掉上传了的图片
-      imageUrls.push(avatarRes.url);
-      imageUrls.push(coverRes.url);
-      await deleteMulti(imageUrls);
+      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarRes.url]);
+      if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
+      if (imagesAdded.current.length > 0) await deleteMulti(imageUrls);
 
       return;
     }
@@ -121,7 +121,7 @@ export default function PostIP({ userId }: { userId: string }) {
         type="text"
         errMsg={officialLinkErr}
       />
-      <ImagesInput name="images" getResults={(fs: File[]) => (files.current = fs)} errMsg={imagesErr} />
+      <ImagesInput name="images" getResults={(fs: File[]) => (imagesAdded.current = fs)} errMsg={imagesErr} />
 
       <div className="h-[50px]">
         <AppButton text="创 建" pendingText="创建中..." type="submit" />

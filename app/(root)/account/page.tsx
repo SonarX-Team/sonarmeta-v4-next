@@ -8,7 +8,6 @@ export default async function page() {
   if (res.status === 401 || !res.user) redirect("/sign-in");
 
   const userInfo = await fetchUser({ userId: res.user.id, isBasic: true });
-  if (userInfo.onboarded) redirect("/");
 
   const userData = {
     _id: String(userInfo._id),
@@ -20,12 +19,8 @@ export default async function page() {
   };
 
   return (
-    <div className="basis-full p-10">
-      <div className="mb-8">
-        <h1 className="head-text">还差一步即可开启...</h1>
-        <p className="mt-3 text-base-regular text-zinc-400">请提供一些您的用户信息以便继续使用声呐元~</p>
-      </div>
-
+    <div className="w-full max-w-4xl mt-12 px-6">
+      <h1 className="head-text text-left mb-10">编辑账户信息</h1>
       <AccountProfile {...userData} />
     </div>
   );

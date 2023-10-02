@@ -11,17 +11,9 @@ import AppTextarea from "../ui/AppTextarea";
 
 import { updateUser } from "@/actions/user.action";
 import { deleteMulti, uploadFile } from "@/lib/alioss";
+import { UserBasicType } from "@/types/UserTypes";
 
-type Props = {
-  id: string;
-  phone: string;
-  username: string;
-  email: string;
-  bio: string;
-  avatar: string;
-};
-
-export default function AccountProfile({ id, phone, username, email, bio, avatar }: Props) {
+export default function AccountProfile({ _id, phone, username, email, bio, avatar }: UserBasicType) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -35,14 +27,14 @@ export default function AccountProfile({ id, phone, username, email, bio, avatar
     setBioErr("");
 
     // 客户端处理头像上传
-    let avatarUrl = "";
+    let avatarUrl = avatar;
     const avatarFile = formData.get("avatar") as File;
     if (avatarFile && avatarFile.size > 0) {
-      const result = await uploadFile(`users/${id}-${String(formData.get("username"))}/avatar.png`, avatarFile);
+      const result = await uploadFile(`users/${_id}-${String(formData.get("username"))}/avatar.png`, avatarFile);
       avatarUrl = result.url;
     }
 
-    const res = await updateUser({ userId: id, phone, formData, pathname, avatar: avatarUrl });
+    const res = await updateUser({ userId: _id, phone, formData, pathname, avatar: avatarUrl });
 
     // 处理校验信息失败
     if (res.ValidationErrors) {
@@ -51,16 +43,20 @@ export default function AccountProfile({ id, phone, username, email, bio, avatar
       if (res.ValidationErrors.bio) setBioErr(res.ValidationErrors.bio._errors[0]);
 
       // 删掉上传了的图片
-      await deleteMulti([avatarUrl]);
+      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
 
       return;
+    }
+    if (res.errName === "username") {
+      // 删掉上传了的图片
+      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
+      return setUsernameErr(res.errMsg);
     }
 
     // 更新成功后
     if (res.status !== 200 || res.message !== "Updated") return;
 
-    if (pathname === "/profile/edit") router.back();
-    else router.push("/");
+    if (pathname === "/onboarding") router.push("/");
   }
 
   return (
@@ -88,7 +84,7 @@ export default function AccountProfile({ id, phone, username, email, bio, avatar
         label="个性描述"
         defaultValue={bio}
         placeholder="请设置您的个性描述"
-        rows={3}
+        rows={10}
         errMsg={bioErr}
       />
 

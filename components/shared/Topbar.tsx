@@ -23,7 +23,7 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
       {username && avatar && (
         <Link
           className="flex items-center bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-lg sm:px-4 sm:py-2 px-2 py-1 gap-2"
-          href={`profile/${userId}`}
+          href="/account"
         >
           <Image src={avatar} alt="user-avatar" className="rounded-full" width={36} height={36} priority />
           <p className="sm:text-base-regular text-small-regular text-zinc-300">{username}</p>

@@ -10,6 +10,7 @@ import { connectToDB } from "@/lib/mongoose";
 import User from "@/models/user.model";
 import { SignInValidation, SignUpValidation, UpdateUserValidation } from "@/validations/user.validation";
 import { COOKIE_NAME, EXPIRE_AGE } from "@/constants";
+import { UserBasicType } from "@/types/UserTypes";
 
 // 获取当前登录用户信息 - GET
 export async function getCurrentUser() {
@@ -37,11 +38,14 @@ export async function getCurrentUser() {
 }
 
 // 获取用户信息 - GET
-export async function fetchUser(userId: string) {
+export async function fetchUser({ userId, isBasic }: { userId: string; isBasic: boolean }) {
   try {
     await connectToDB();
 
-    return await User.findById(userId);
+    const user = await User.findById(userId);
+
+    if (isBasic) return _.pick(user, ["_id", "phone", "username", "email", "bio", "avatar"]) as UserBasicType;
+    else return user;
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
@@ -162,6 +166,10 @@ export async function updateUser({
   try {
     await connectToDB();
 
+    let user = await User.findOne({ username });
+
+    if (user && String(user._id) !== userId) return { errName: "username", errMsg: "此用户名已经被使用了" };
+
     await User.findByIdAndUpdate(userId, {
       username,
       email,
@@ -170,7 +178,7 @@ export async function updateUser({
       onboarded: true,
     });
 
-    // 生成JWT
+    // 对更新后的用户重新生成JWT
     const secret = process.env.JWT_SECRET || "";
     const token = sign(
       {
@@ -185,7 +193,7 @@ export async function updateUser({
       }
     );
 
-    // 设置Cookies
+    // 对更新后的用户重新设置Cookies
     cookies().set(COOKIE_NAME, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -194,7 +202,7 @@ export async function updateUser({
       path: "/",
     });
 
-    if (pathname === "/profile/edit") revalidatePath(pathname);
+    if (pathname === "/account") revalidatePath(pathname);
 
     return { status: 200, message: "Updated" };
   } catch (error: any) {
