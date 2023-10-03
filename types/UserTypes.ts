@@ -5,4 +5,5 @@ export type UserBasicType = {
   email: string;
   bio: string;
   avatar: string;
+  onboarded: boolean;
 }

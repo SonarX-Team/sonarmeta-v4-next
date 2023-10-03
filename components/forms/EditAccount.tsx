@@ -13,7 +13,7 @@ import { updateUser } from "@/actions/user.action";
 import { deleteMulti, uploadFile } from "@/lib/alioss";
 import { UserBasicType } from "@/types/UserTypes";
 
-export default function AccountProfile({ _id, phone, username, email, bio, avatar }: UserBasicType) {
+export default function EditAccount({ _id, phone, username, email, bio, avatar }: UserBasicType) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -60,7 +60,7 @@ export default function AccountProfile({ _id, phone, username, email, bio, avata
   }
 
   return (
-    <form action={updateUserAction} className="flex flex-col justify-start">
+    <form action={updateUserAction} className="flex flex-col justify-start gap-8">
       <AvatarInput name="avatar" defaultValue={avatar} />
       <AppInput
         name="username"

@@ -7,14 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
   name: string;
-  getResults: (files: File[]) => void;
+  getResults: (files: File[]) => void; // 只负责监听客户端文件添加或删除的情况并返回最终文件列表
+  getUrlsLeft?: (urls: string[]) => void; // 只负责监听已上传文件被删除的情况并返回最终url列表
+  defaultValue?: string[];
   errMsg?: string;
 };
 
-const ImagesInput: React.FC<Props> = ({ name, getResults, errMsg }) => {
-  const [urls, setUrls] = useState<string[]>([]);
+const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultValue, errMsg }) => {
+  const [urls, setUrls] = useState<string[]>(defaultValue ? defaultValue : []);
 
   const files = useRef<File[]>([]);
+  const urlIndexesLength = useRef<number>(defaultValue ? defaultValue.length : 0);
 
   const AddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -43,21 +46,26 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, errMsg }) => {
       return newUrls;
     });
 
-    files.current = files.current.filter((_, index) => index !== indexToRemove);
+    if (indexToRemove < urlIndexesLength.current && !!getUrlsLeft) {
+      urlIndexesLength.current -= 1;
+      getUrlsLeft(urls.slice(0, urlIndexesLength.current + 1));
+    }
+
+    files.current = files.current.filter((_, index) => index !== indexToRemove - urlIndexesLength.current);
     getResults(files.current);
   };
 
   return (
-    <>
+    <div>
       <div className="flex justify-between items-center text-small-regular mb-2">
         <label className="font-bold text-zinc-200">
-          添加图片组 <span className="text-red-400">*</span>
+          设置图片组 <span className="text-red-400">*</span>
         </label>
 
         {errMsg && <label className="text-red-400 err-message">{errMsg}</label>}
       </div>
 
-      <div className="grid lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 grid-cols-2 gap-4 text-small-regular mb-6">
+      <div className="grid lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 grid-cols-2 gap-4 text-small-regular">
         <div>
           <input
             id="imagesInput"
@@ -73,7 +81,7 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, errMsg }) => {
             htmlFor="imagesInput"
           >
             <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />
-            <p className="text-zinc-400 text-center mx-3">添加图片组</p>
+            <p className="text-zinc-400 text-center mx-3">设置图片组</p>
           </label>
         </div>
 
@@ -90,7 +98,7 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, errMsg }) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

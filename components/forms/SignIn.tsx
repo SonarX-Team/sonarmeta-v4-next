@@ -38,8 +38,10 @@ export default function SignIn() {
 
   return (
     <form action={signInAction}>
-      <AppInput name="phone" label="手机号" placeholder="请输入您的手机号" type="text" errMsg={phoneErr} />
-      <AppInput name="password" label="密码" placeholder="请输入您的密码" type="password" errMsg={passwordErr} />
+      <div className="flex flex-col justify-start gap-6">
+        <AppInput name="phone" label="手机号" placeholder="请输入您的手机号" type="text" errMsg={phoneErr} />
+        <AppInput name="password" label="密码" placeholder="请输入您的密码" type="password" errMsg={passwordErr} />
+      </div>
 
       <hr className="border-1 border-zinc-600 mt-8 mb-2" />
 

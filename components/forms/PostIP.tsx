@@ -40,14 +40,15 @@ export default function PostIP({ userId }: { userId: string }) {
     const avatarFile = formData.get("avatar") as File;
     const coverFile = formData.get("cover") as File;
 
-    // 客户端处理图片上传
     if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("IP头像不能为空");
     if (!(coverFile && coverFile.size > 0)) return setCoverErr("IP封面不能为空");
     if (imagesAdded.current.length === 0) return setImagesErr("至少为IP图片列表加一个图片");
 
+    // 处理头像和封面
     const avatarRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
     const coverRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/cover.png`, coverFile);
 
+    // 处理图册
     const imageUrls: string[] = [];
     for (let i = 0; i < imagesAdded.current.length; i++) {
       const result = await uploadFile(
@@ -57,7 +58,13 @@ export default function PostIP({ userId }: { userId: string }) {
       imageUrls.push(result.url);
     }
 
-    const res = await createIP({ userId, formData, avatar: avatarRes.url, cover: coverRes.url, images: imageUrls });
+    const res = await createIP({
+      userId,
+      formData,
+      avatar: avatarRes.url,
+      cover: coverRes.url,
+      images: imageUrls,
+    });
 
     // 处理校验信息失败
     if (res.ValidationErrors) {
@@ -66,7 +73,7 @@ export default function PostIP({ userId }: { userId: string }) {
       if (res.ValidationErrors.agreement) setAgreementErr(res.ValidationErrors.agreement._errors[0]);
       if (res.ValidationErrors.officialLink) setOfficialLinkErr(res.ValidationErrors.officialLink._errors[0]);
 
-      // 删掉上传了的图片
+      // 回滚：删掉上传了的图片
       if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarRes.url]);
       if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
       if (imagesAdded.current.length > 0) await deleteMulti(imageUrls);
@@ -80,7 +87,7 @@ export default function PostIP({ userId }: { userId: string }) {
   }
 
   return (
-    <form action={createIPAction} className="flex flex-col justify-start">
+    <form action={createIPAction} className="flex flex-col justify-start gap-8">
       <div className="sm:flex justify-between items-center">
         <div className="sm:basis-1/2">
           <AvatarInput name="avatar" required={true} errMsg={avatarErr} />
@@ -121,7 +128,12 @@ export default function PostIP({ userId }: { userId: string }) {
         type="text"
         errMsg={officialLinkErr}
       />
-      <ImagesInput name="images" getResults={(fs: File[]) => (imagesAdded.current = fs)} errMsg={imagesErr} />
+      <ImagesInput
+        name="images"
+        getResults={(fs: File[]) => (imagesAdded.current = fs)}
+        getUrlsLeft={(urls: string[]) => console.log(urls)}
+        errMsg={imagesErr}
+      />
 
       <div className="h-[50px]">
         <AppButton text="创 建" pendingText="创建中..." type="submit" />

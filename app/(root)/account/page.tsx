@@ -1,7 +1,7 @@
 import { fetchUser, getCurrentUser } from "@/actions/user.action";
 import { redirect } from "next/navigation";
 
-import AccountProfile from "@/components/forms/AccountProfile";
+import EditAccount from "@/components/forms/EditAccount";
 
 export default async function page() {
   const res = await getCurrentUser();
@@ -16,12 +16,13 @@ export default async function page() {
     email: userInfo.email ? userInfo.email : "",
     bio: userInfo.bio ? userInfo.bio : "",
     avatar: userInfo.avatar ? userInfo.avatar : "",
+    onboarded: userInfo.onboarded,
   };
 
   return (
     <div className="w-full max-w-4xl mt-12 px-6">
       <h1 className="head-text text-left mb-10">编辑账户信息</h1>
-      <AccountProfile {...userData} />
+      <EditAccount {...userData} />
     </div>
   );
 }

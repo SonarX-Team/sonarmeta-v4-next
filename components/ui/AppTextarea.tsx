@@ -11,7 +11,7 @@ type Props = {
 
 const AppTextarea: React.FC<Props> = ({ name, label, defaultValue, placeholder, rows, required, disabled, errMsg }) => {
   return (
-    <div className="mb-6">
+    <div>
       <div className="flex justify-between items-center text-small-regular mb-2">
         <label className="font-bold text-zinc-200">
           {label} {required && <span className="text-red-400">*</span>}

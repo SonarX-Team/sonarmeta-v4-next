@@ -61,7 +61,7 @@ export default function PostUnion({ userId }: { userId: string }) {
   }
 
   return (
-    <form action={createUnionAction} className="flex flex-col justify-start">
+    <form action={createUnionAction} className="flex flex-col justify-start gap-8">
       <div className="sm:flex justify-between items-center">
         <div className="sm:basis-1/2">
           <AvatarInput name="avatar" required={true} errMsg={avatarErr} />

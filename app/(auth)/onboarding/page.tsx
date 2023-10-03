@@ -1,7 +1,7 @@
 import { fetchUser, getCurrentUser } from "@/actions/user.action";
 import { redirect } from "next/navigation";
 
-import AccountProfile from "@/components/forms/AccountProfile";
+import EditAccount from "@/components/forms/EditAccount";
 
 export default async function page() {
   const res = await getCurrentUser();
@@ -17,6 +17,7 @@ export default async function page() {
     email: userInfo.email ? userInfo.email : "",
     bio: userInfo.bio ? userInfo.bio : "",
     avatar: userInfo.avatar ? userInfo.avatar : "",
+    onboarded: userInfo.onboarded,
   };
 
   return (
@@ -26,7 +27,7 @@ export default async function page() {
         <p className="mt-3 text-base-regular text-zinc-400">请提供一些您的用户信息以便继续使用声呐元~</p>
       </div>
 
-      <AccountProfile {...userData} />
+      <EditAccount {...userData} />
     </div>
   );
 }

@@ -41,15 +41,17 @@ export default function SignUp() {
 
   return (
     <form action={signUpAction}>
-      <AppInput name="phone" label="手机号" placeholder="请输入您的手机号" type="text" errMsg={phoneErr} />
-      <AppInput name="password" label="密码" placeholder="请输入您的密码" type="password" errMsg={passwordErr} />
-      <AppInput
-        name="passwordAgain"
-        label="重复密码"
-        placeholder="请再次输入您的密码"
-        type="password"
-        errMsg={passwordAgainErr}
-      />
+      <div className="flex flex-col justify-start gap-6">
+        <AppInput name="phone" label="手机号" placeholder="请输入您的手机号" type="text" errMsg={phoneErr} />
+        <AppInput name="password" label="密码" placeholder="请输入您的密码" type="password" errMsg={passwordErr} />
+        <AppInput
+          name="passwordAgain"
+          label="重复密码"
+          placeholder="请再次输入您的密码"
+          type="password"
+          errMsg={passwordAgainErr}
+        />
+      </div>
 
       <hr className="border-1 border-zinc-600 mt-8 mb-2" />
 

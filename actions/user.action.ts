@@ -44,7 +44,8 @@ export async function fetchUser({ userId, isBasic }: { userId: string; isBasic: 
 
     const user = await User.findById(userId);
 
-    if (isBasic) return _.pick(user, ["_id", "phone", "username", "email", "bio", "avatar"]) as UserBasicType;
+    if (isBasic)
+      return _.pick(user, ["_id", "phone", "username", "email", "bio", "avatar", "onboarded"]) as UserBasicType;
     else return user;
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
