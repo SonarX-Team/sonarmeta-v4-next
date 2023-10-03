@@ -1,44 +1,35 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import AvatarInput from "../ui/AvatarInput";
 import CoverInput from "../ui/coverInput";
 import AppInput from "../ui/AppInput";
 import AppTextarea from "../ui/AppTextarea";
 import AppButton from "../ui/AppButton";
-import ImagesInput from "../ui/ImagesInput";
 
-export default function EditIP({
-  IPId,
+export default function EditUnion({
+  unionId,
   userId,
   avatar,
   cover,
   title,
   description,
-  agreement,
-  officialLink,
-  images,
+  recruitment,
 }: {
-  IPId: string;
+  unionId: string;
   userId: string;
   avatar: string;
   cover: string;
   title: string;
   description: string;
-  agreement: string;
-  officialLink: string;
-  images: string[];
+  recruitment: string;
 }) {
   const [avatarErr, setAvatarErr] = useState<string>("");
   const [coverErr, setCoverErr] = useState<string>("");
   const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");
-  const [agreementErr, setAgreementErr] = useState<string>("");
-  const [officialLinkErr, setOfficialLinkErr] = useState<string>("");
-  const [imagesErr, setImagesErr] = useState<string>("");
-
-  const imagesAdded = useRef<File[]>([]);
+  const [recruitmentErr, setRecruitmentErr] = useState<string>("");
 
   return (
     <div className="flex flex-col justify-start gap-8">
@@ -67,8 +58,8 @@ export default function EditIP({
       <form action="" className="">
         <AppInput
           name="title"
-          label="IP名称"
-          placeholder="请输入您的IP名称"
+          label="工会名称"
+          placeholder="请输入您的工会名称"
           defaultValue={title}
           required={true}
           type="text"
@@ -89,49 +80,23 @@ export default function EditIP({
         <div className="flex flex-col justify-start gap-6">
           <AppTextarea
             name="description"
-            label="IP故事"
-            placeholder="请输入您的IP故事"
+            label="工会描述"
+            placeholder="请输入您的工会描述"
             defaultValue={description}
             required={true}
             rows={10}
             errMsg={descriptionErr}
           />
           <AppTextarea
-            name="agreement"
-            label="授权协议"
-            placeholder="请输入您希望怎样去授权孵化的具体说明"
-            defaultValue={agreement}
+            name="recruitment"
+            label="招募说明"
+            placeholder="请输入您希望招募什么样的人才的说明"
+            defaultValue={recruitment}
             required={true}
             rows={10}
-            errMsg={agreementErr}
-          />
-          <AppInput
-            name="officialLink"
-            label="IP官网链接"
-            placeholder="请输入您的IP官网链接，格式如https://example.com"
-            defaultValue={officialLink}
-            type="text"
-            errMsg={officialLinkErr}
+            errMsg={recruitmentErr}
           />
         </div>
-
-        <div className="flex justify-end mt-3">
-          <div className="text-small-regular w-[100px] h-[44px]">
-            <AppButton text="保存" pendingText="保存中..." type="submit" />
-          </div>
-        </div>
-      </form>
-
-      <hr className="border-bottom-[1px] border-zinc-600" />
-
-      <form action="">
-        <ImagesInput
-          name="images"
-          getResults={(fs: File[]) => (imagesAdded.current = fs)}
-          getUrlsLeft={(urls: string[]) => console.log(urls)}
-          defaultValue={images}
-          errMsg={imagesErr}
-        />
 
         <div className="flex justify-end mt-3">
           <div className="text-small-regular w-[100px] h-[44px]">

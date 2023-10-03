@@ -20,7 +20,7 @@ export default async function layout({ children, params }: { children: React.Rea
   let requested = false,
     joined = false;
   if (user && unionRes.inclinedMembers.includes(user.id)) requested = true;
-  if (user && unionRes.members.includes(user.id)) joined = true;
+  // if (user && unionRes.members.includes(user.id)) joined = true;
 
   // 基本信息卡
   const basicInfo = [
@@ -91,7 +91,7 @@ export default async function layout({ children, params }: { children: React.Rea
             requested={requested}
             joined={joined}
             userId={user?.id}
-            unionId={unionRes._id}
+            unionId={String(unionRes._id)}
             path={`/union/${params.id}`}
           />
         </div>
