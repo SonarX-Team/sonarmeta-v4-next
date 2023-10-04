@@ -3,6 +3,7 @@ export type UnionsType = {
   title: string;
   avatar: string;
   cover: string;
+  creator: string;
   members: string[];
   signedIPs: string[];
   adaptations: string[];

@@ -1,7 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandshakeAngle, faPeopleGroup, faBell, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHandshakeAngle,
+  faPeopleGroup,
+  faBell,
+  faWandMagicSparkles,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
 import { IPsType } from "@/types/IPTypes";
@@ -16,7 +22,8 @@ export default function IPEntryCard({
   createdAt,
   unions,
   adaptations,
-}: IPsType) {
+  editMode,
+}: IPsType & { editMode?: boolean }) {
   return (
     <div className="flex flex-col bg-dark-2 rounded-xl p-7">
       <div className="flex items-start justify-between">
@@ -32,12 +39,24 @@ export default function IPEntryCard({
             <div className="thread-card_bar" />
           </div>
 
-          <div className="flex w-full flex-col">
-            <Link href={`/ips/${_id}`} className="w-fit">
-              <h4 className="cursor-pointer text-body-semibold text-sky-400 hover:text-sky-300 duration-200">
-                {title}
-              </h4>
-            </Link>
+          <div className="flex w-full flex-col gap-2">
+            <div className="flex justify-between items-center">
+              <Link href={`/ips/${_id}`} className="w-fit">
+                <h4 className="cursor-pointer text-body-semibold text-sky-400 hover:text-sky-300 duration-200">
+                  {title}
+                </h4>
+              </Link>
+
+              {editMode && (
+                <Link
+                  href={`/edit-ip/${_id}`}
+                  className="flex justify-center items-center gap-2 text-small-regular bg-sky-300 hover:bg-sky-200 duration-200 rounded-lg px-3 py-2"
+                >
+                  <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faPencil} />
+                  <p className="leading-none">编辑</p>
+                </Link>
+              )}
+            </div>
 
             <p className="mt-2 text-small-regular text-light-2 whitespace-pre-line">{description.slice(0, 240)}</p>
 
@@ -74,10 +93,7 @@ export default function IPEntryCard({
 
         <p className="text-gray-1 mx-1">-</p>
 
-        <Link
-          href={`/space/${author._id}`}
-          className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
-        >
+        <Link href={`/space/${author._id}`} className="flex items-center text-sky-400 hover:text-sky-300 duration-200">
           <p>{author.username}</p>
           <Image
             src={author.avatar}

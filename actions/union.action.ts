@@ -31,11 +31,7 @@ export async function fetchUnions({
     if (userId) filter = { members: { $elemMatch: { $eq: userId } } };
     if (IPId) filter = { signedIPs: { $elemMatch: { $eq: IPId } } };
 
-    const unionsQuery = Union.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
-      path: "creator",
-      model: User,
-      select: "_id username avatar",
-    });
+    const unionsQuery = Union.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize);
 
     const unionsRes = await unionsQuery.exec();
 
@@ -46,6 +42,7 @@ export async function fetchUnions({
         "title",
         "avatar",
         "cover",
+        "creator",
         "members",
         "signedIPs",
         "adaptations",

@@ -21,6 +21,20 @@ const userSchema = new mongoose.Schema({
   avatar: String,
   bio: String,
   walletAddresses: [String],
+  // 关注的别人
+  follows: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  // 粉丝
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   // 这个用户创建的IP
   IPs: [
     {

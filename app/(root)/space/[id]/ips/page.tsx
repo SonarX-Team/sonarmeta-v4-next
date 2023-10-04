@@ -21,7 +21,7 @@ export default async function page({ params }: { params: { id: string } }) {
 
       <div className="flex flex-col gap-10">
         {IPs.length > 0 ? (
-          IPs.map((IP, index) => <IPEntryCard key={index} {...IP} />)
+          IPs.map((IP, index) => <IPEntryCard key={index} {...IP} editMode={String(IP.author._id) === user?.id} />)
         ) : (
           <SadPlaceholder size={300} text="没有找到任何数据" />
         )}
