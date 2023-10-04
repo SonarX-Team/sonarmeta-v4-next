@@ -29,7 +29,7 @@ export default function RequestUnion({
   }
 
   return (
-    <form action={requestAction} className="flex items-start text-small-regular gap-3 leading-none">
+    <form action={requestAction} className="flex items-start text-small-regular gap-3 leading-none h-[44px]">
       <button className="flex items-center gap-2 border-2 border-rose-400 hover:border-rose-300 text-rose-400 hover:text-rose-300 duration-200 rounded-md px-4 py-2">
         <FontAwesomeIcon className="w-[16px] h-[16px]" icon={faThumbsUp} />
         <p> 9999</p>

@@ -70,7 +70,7 @@ export default async function layout({ children, params }: { children: React.Rea
               <p className="text-gray-1 mx-1">由</p>
 
               <Link
-                href={`/profile/${unionRes.creator._id}`}
+                href={`/space/${unionRes.creator._id}`}
                 className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
               >
                 <p>{unionRes.creator.username}</p>

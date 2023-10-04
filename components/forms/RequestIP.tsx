@@ -29,7 +29,7 @@ export default function RequestIP({
   }
 
   return (
-    <div className="flex items-start text-small-regular gap-3 leading-none">
+    <div className="flex items-start text-small-regular gap-3 leading-none h-[44px]">
       <form action={subscribeAction}>
         <AppButton text="+ 关注" pendingText="关注中..." type="submit" />
       </form>

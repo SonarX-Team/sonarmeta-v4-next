@@ -1,6 +1,6 @@
-import { fetchUser, getCurrentUser } from "@/actions/user.action";
 import { redirect } from "next/navigation";
 
+import { fetchUser, getCurrentUser } from "@/actions/user.action";
 import EditAccount from "@/components/forms/EditAccount";
 
 export default async function page() {

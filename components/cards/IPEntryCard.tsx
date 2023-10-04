@@ -75,7 +75,7 @@ export default function IPEntryCard({
         <p className="text-gray-1 mx-1">-</p>
 
         <Link
-          href={`/profile/${author._id}`}
+          href={`/space/${author._id}`}
           className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
         >
           <p>{author.username}</p>

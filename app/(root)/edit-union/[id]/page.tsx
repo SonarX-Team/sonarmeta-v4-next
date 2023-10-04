@@ -1,8 +1,9 @@
-import { getCurrentUser } from "@/actions/user.action";
 import { redirect } from "next/navigation";
 
-import EditUnion from "@/components/forms/EditUnion";
+import { getCurrentUser } from "@/actions/user.action";
 import { fetchUnion } from "@/actions/union.action";
+
+import EditUnion from "@/components/forms/EditUnion";
 
 export default async function page({ params }: { params: { id: string } }) {
   const { user } = await getCurrentUser();

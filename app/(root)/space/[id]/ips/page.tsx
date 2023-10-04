@@ -1,24 +1,22 @@
-import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDove } from "@fortawesome/free-solid-svg-icons";
 
-import { fetchUnion } from "@/actions/union.action";
 import { fetchIPs } from "@/actions/ip.action";
+import { getCurrentUser } from "@/actions/user.action";
 
-import SadPlaceholder from "@/components/shared/SadPlaceholder";
 import IPEntryCard from "@/components/cards/IPEntryCard";
+import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 export default async function page({ params }: { params: { id: string } }) {
-  const { unionRes } = await fetchUnion({ unionId: params.id });
-  if (!unionRes) redirect("/notfound");
+  const { user } = await getCurrentUser();
 
-  const { IPs } = await fetchIPs({ pageNumber: 1, pageSize: 20, unionId: unionRes._id });
+  const { IPs } = await fetchIPs({ pageNumber: 1, pageSize: 20, userId: params.id });
 
   return (
-    <div className="mt-8">
-      <h3 className="flex leading-none text-base-regular text-zinc-400 mb-4">
+    <>
+      <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
         <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faDove} />
-        孵化中的IP
+        创建的IP
       </h3>
 
       <div className="flex flex-col gap-10">
@@ -28,6 +26,6 @@ export default async function page({ params }: { params: { id: string } }) {
           <SadPlaceholder size={300} text="没有找到任何数据" />
         )}
       </div>
-    </div>
+    </>
   );
 }

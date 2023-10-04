@@ -1,6 +1,6 @@
-import { getCurrentUser } from "@/actions/user.action";
 import { redirect } from "next/navigation";
 
+import { getCurrentUser } from "@/actions/user.action";
 import PostIP from "@/components/forms/PostIP";
 
 export default async function page() {

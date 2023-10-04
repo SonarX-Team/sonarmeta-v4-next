@@ -14,10 +14,12 @@ import { IPType, IPsType } from "@/types/IPTypes";
 export async function fetchIPs({
   pageNumber = 1,
   pageSize = 20,
+  userId,
   unionId,
 }: {
   pageNumber: number;
   pageSize: number;
+  userId?: string;
   unionId?: string;
 }) {
   try {
@@ -27,6 +29,7 @@ export async function fetchIPs({
 
     // 处理filter
     let filter = {};
+    if (userId) filter = { author: userId };
     if (unionId) filter = { unions: { $elemMatch: { $eq: unionId } } };
 
     const IPsQuery = IP.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({

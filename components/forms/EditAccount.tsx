@@ -57,6 +57,7 @@ export default function EditAccount({ _id, phone, username, email, bio, avatar }
     if (res.status !== 200 || res.message !== "Updated") return;
 
     if (pathname === "/onboarding") router.push("/");
+    else router.back();
   }
 
   return (

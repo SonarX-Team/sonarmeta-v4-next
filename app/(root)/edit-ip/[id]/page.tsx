@@ -1,8 +1,9 @@
-import { getCurrentUser } from "@/actions/user.action";
 import { redirect } from "next/navigation";
 
-import EditIP from "@/components/forms/EditIP";
+import { getCurrentUser } from "@/actions/user.action";
 import { fetchIP } from "@/actions/ip.action";
+
+import EditIP from "@/components/forms/EditIP";
 
 export default async function page({ params }: { params: { id: string } }) {
   const { user } = await getCurrentUser();

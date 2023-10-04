@@ -13,10 +13,12 @@ import { UnionsType, UnionType } from "@/types/UnionTypes";
 export async function fetchUnions({
   pageNumber = 1,
   pageSize = 20,
+  userId,
   IPId,
 }: {
   pageNumber: number;
   pageSize: number;
+  userId?: string;
   IPId?: string;
 }) {
   try {
@@ -26,6 +28,7 @@ export async function fetchUnions({
 
     // 处理filter
     let filter = {};
+    if (userId) filter = { members: { $elemMatch: { $eq: userId } } };
     if (IPId) filter = { signedIPs: { $elemMatch: { $eq: IPId } } };
 
     const unionsQuery = Union.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
