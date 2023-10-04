@@ -31,7 +31,13 @@ export default async function page({ params }: { params: { id: string } }) {
         {unionRes.members.length > 0 ? (
           <div className="grid sm:grid-cols-3 grid-cols-2 gap-4">
             {unionRes.members.map((member, index) => (
-              <UserCard key={index} username={member.username} avatar={member.avatar} bio={member.bio} />
+              <UserCard
+                key={index}
+                id={String(member._id)}
+                username={member.username}
+                avatar={member.avatar}
+                bio={member.bio}
+              />
             ))}
           </div>
         ) : (
