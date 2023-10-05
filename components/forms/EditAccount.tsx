@@ -42,13 +42,13 @@ export default function EditAccount({ _id, phone, username, email, bio, avatar }
       if (res.ValidationErrors.email) setEmailErr(res.ValidationErrors.email._errors[0]);
       if (res.ValidationErrors.bio) setBioErr(res.ValidationErrors.bio._errors[0]);
 
-      // 删掉上传了的图片
+      // 回滚：删掉上传了的图片
       if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
 
       return;
     }
     if (res.errName === "username") {
-      // 删掉上传了的图片
+      // 回滚：删掉上传了的图片
       if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
       return setUsernameErr(res.errMsg);
     }

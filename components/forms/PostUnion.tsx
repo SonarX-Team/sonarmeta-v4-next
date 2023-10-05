@@ -48,7 +48,7 @@ export default function PostUnion({ userId }: { userId: string }) {
       if (res.ValidationErrors.description) setDescriptionErr(res.ValidationErrors.description._errors[0]);
       if (res.ValidationErrors.recruitment) setRecruitmentErr(res.ValidationErrors.recruitment._errors[0]);
 
-      // 删掉上传了的图片
+      // 回滚：删掉上传了的图片
       if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarRes.url]);
       if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
 

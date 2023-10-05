@@ -42,7 +42,7 @@ export default async function layout({ children, params }: { children: React.Rea
           <div className="flex items-center gap-2 text-zinc-400">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faWallet} />
             <p className="text-small-regular text-zinc-300 leading-none">
-              {res.walletAddresses.length > 0 ? res.walletAddresses[0] : "暂无钱包信息"}
+              {res.walletAddresses ? res.walletAddresses : "暂无钱包信息"}
             </p>
           </div>
         </div>

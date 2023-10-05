@@ -20,15 +20,15 @@ const userSchema = new mongoose.Schema({
   email: String,
   avatar: String,
   bio: String,
-  walletAddresses: [String],
-  // 关注的别人
+  walletAddresses: String,
+  // 这个用户关注的别人
   follows: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
-  // 粉丝
+  // 这个用户的粉丝
   followers: [
     {
       type: mongoose.Schema.Types.ObjectId,

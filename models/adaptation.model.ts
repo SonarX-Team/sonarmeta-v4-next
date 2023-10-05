@@ -5,24 +5,24 @@ const adaptationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: String,
+  description: {
+    type: String,
+    required: true,
+  },
   // 这个二创所发布平台的网络链接
   url: {
-    type: [String],
+    type: String,
     required: true,
-    minlength: 1,
   },
   cover: {
     type: String,
     required: true,
   },
-  // 参与这个二创的工会
-  unions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Union",
-    },
-  ],
+  // 创建这个二创的工会
+  union: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Union",
+  },
   // 这个二创改编自哪些IP
   relatedIPs: [
     {
