@@ -10,6 +10,12 @@ export type UnionsType = {
   createdAt: string;
 };
 
+export type BasicUnionsType = {
+  _id: string;
+  title: string;
+  avatar: string;
+};
+
 export type UnionType = {
   _id: string;
   title: string;

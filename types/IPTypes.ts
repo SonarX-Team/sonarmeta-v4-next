@@ -14,6 +14,12 @@ export type IPsType = {
   createdAt: string;
 };
 
+export type BasicIPsType = {
+  _id: string;
+  title: string;
+  avatar: string;
+};
+
 export type IPType = {
   _id: string;
   title: string;
