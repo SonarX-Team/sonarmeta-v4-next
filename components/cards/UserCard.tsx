@@ -13,7 +13,10 @@ export default function UserCard({
   bio: string;
 }) {
   return (
-    <Link href={`/space/${id}`} className="flex bg-zinc-900 hover:bg-zinc-800 duration-200 rounded-xl gap-4 p-2">
+    <Link
+      href={`/space/${id}`}
+      className="flex items-center bg-zinc-900 hover:bg-zinc-800 duration-200 rounded-xl gap-4 p-2"
+    >
       <div>
         <Image className="rounded-full" src={avatar} alt="user-avatar" width={48} height={48} />
       </div>

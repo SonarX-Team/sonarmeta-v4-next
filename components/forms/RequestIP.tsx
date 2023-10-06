@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -8,20 +9,25 @@ import { requestIP } from "@/actions/ip.action";
 import AppButton from "../ui/AppButton";
 
 export default function RequestIP({
+  userId,
   unionId,
   IPId,
   path,
   requested,
   joined,
 }: {
+  userId: string | undefined;
   unionId: string;
   IPId: string;
   path: string;
   requested: boolean;
   joined: boolean;
 }) {
+  const router = useRouter();
+  
   async function subscribeAction() {
-    console.log("todo");
+    if (!userId) return router.push("/sign-in");
+    // await subscribeUnion({ userId, unionId, path });
   }
 
   async function requestAction() {

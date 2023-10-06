@@ -93,8 +93,8 @@ export default async function layout({ children, params }: { children: React.Rea
 
       <div className="basis-3/4 sm:pl-10 sm:mt-0 mt-6">
         <CategoryTab
-          tabs={["概览", "IP", "工会", "二创"]}
-          routes={["", "/ips", "/unions", "/adaptations"]}
+          tabs={["概览", "IP", "工会", "二创", "申请"]}
+          routes={["", "/ips", "/unions", "/adaptations", "/request"]}
           root={`/space/${params.id}`}
         />
 

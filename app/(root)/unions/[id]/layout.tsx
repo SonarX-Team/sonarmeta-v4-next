@@ -19,8 +19,8 @@ export default async function layout({ children, params }: { children: React.Rea
   // 检查当前用户是否已经申请加入或已经在这个工会里了
   let requested = false,
     joined = false;
-  if (user && unionRes.inclinedMembers.includes(user.id)) requested = true;
-  // if (user && unionRes.members.includes(user.id)) joined = true;
+  if (user && unionRes.inclinedMembers.some((memberId) => String(memberId) === user.id)) requested = true;
+  if (user && unionRes.members.some((member) => String(member._id) === user.id)) joined = true;
 
   // 基本信息卡
   const basicInfo = [

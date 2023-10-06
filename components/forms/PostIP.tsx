@@ -89,7 +89,7 @@ export default function PostIP({ userId }: { userId: string }) {
   return (
     <form action={createIPAction} className="flex flex-col justify-start gap-8">
       <div className="sm:flex justify-between items-center">
-        <div className="sm:basis-1/2">
+        <div className="sm:basis-1/2 sm:mb-0 mb-8">
           <AvatarInput name="avatar" required={true} errMsg={avatarErr} />
         </div>
         <div className="sm:basis-1/2">

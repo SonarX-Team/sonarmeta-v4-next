@@ -1,4 +1,11 @@
-import { faHome, faPlus, faUser, faHandshakeAngle, faHammer } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faPlus,
+  faUser,
+  faHandshakeAngle,
+  faHammer,
+  faWandMagicSparkles,
+} from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 // 导航栏链接常量
@@ -22,6 +29,11 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
     icon: faHammer,
     route: "/create-union",
     label: "创建工会",
+  },
+  {
+    icon: faWandMagicSparkles,
+    route: "/create-adaptation",
+    label: "创建二创",
   },
   {
     icon: faUser,

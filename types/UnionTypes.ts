@@ -4,6 +4,11 @@ export type UnionsType = {
   avatar: string;
   cover: string;
   creator: string;
+  inclinedMembers: {
+    _id: string;
+    username: string;
+    avatar: string;
+  }[];
   members: string[];
   signedIPs: string[];
   adaptations: string[];
