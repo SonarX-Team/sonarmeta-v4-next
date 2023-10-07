@@ -52,9 +52,9 @@ export default function IPsPicker({ label, ips, getIPs, required, errMsg }: Prop
           {ips.map((ip, index) => (
             <div
               key={index}
-              onClick={() => handleClick(String(ip._id))}
+              onClick={() => handleClick(ip._id)}
               className={`flex items-center bg-zinc-900 hover:bg-zinc-800 duration-200 border-2 ${
-                pickedIPs.includes(String(ip._id))
+                pickedIPs.includes(ip._id)
                   ? "border-sky-300 hover:border-zinc-200"
                   : "border-zinc-900 hover:border-zinc-800"
               } rounded-xl cursor-pointer gap-4 px-4 py-2`}

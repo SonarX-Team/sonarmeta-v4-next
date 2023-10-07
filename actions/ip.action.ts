@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { ObjectId } from "mongoose";
 import _ from "lodash";
 
 import IP from "@/models/ip.model";
@@ -14,12 +15,12 @@ import { IPType, IPsType } from "@/types/IPTypes";
 export async function fetchIPs({
   pageNumber = 1,
   pageSize = 20,
-  userId,
+  authorId,
   unionId,
 }: {
   pageNumber: number;
   pageSize: number;
-  userId?: string;
+  authorId?: string;
   unionId?: string;
 }) {
   try {
@@ -29,14 +30,23 @@ export async function fetchIPs({
 
     // 处理filter
     let filter = {};
-    if (userId) filter = { author: userId };
+    if (authorId) filter = { author: authorId };
     if (unionId) filter = { unions: { $elemMatch: { $eq: unionId } } };
 
-    const IPsQuery = IP.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
-      path: "author",
-      model: User,
-      select: "_id username avatar",
-    });
+    const IPsQuery = IP.find(filter)
+      .sort({ createdAt: "desc" })
+      .skip(skipAmount)
+      .limit(pageSize)
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id username avatar",
+      })
+      .populate({
+        path: "inclinedUnions",
+        model: Union,
+        select: "_id title avatar",
+      });
 
     const IPsRes = await IPsQuery.exec();
 
@@ -50,6 +60,7 @@ export async function fetchIPs({
         "avatar",
         "author",
         "officialLink",
+        "inclinedUnions",
         "unions",
         "adaptations",
         "createdAt",
@@ -136,13 +147,30 @@ export async function createIP({
 }
 
 // Union申请孵化IP - PATCH
-export async function requestIP({ unionId, IPId, path }: { unionId: string; IPId: string; path: string }) {
+export async function requestIP({
+  adminId,
+  unionId,
+  IPId,
+  path,
+}: {
+  adminId: string;
+  unionId: string;
+  IPId: string;
+  path: string;
+}) {
   try {
     await connectToDB();
 
+    // 看当前用户是不是这个Union的管理员
+    const union = await Union.findById(unionId);
+    if (String(union.creator) !== adminId) return { status: 401, message: "No access to this union" };
+
     // 看这个Union是否已经孵化或已经申请孵化该IP了
     const IPRes = await IP.findById(IPId);
-    if (IPRes.inclinedUnions.includes(unionId) || IPRes.unions.includes(unionId))
+    if (
+      IPRes.inclinedUnions.some((union: ObjectId) => String(union) === unionId) ||
+      IPRes.unions.some((union: ObjectId) => String(union) === unionId)
+    )
       return { status: 400, message: "Already requested or nurtured" };
 
     // 更新IP
@@ -158,19 +186,38 @@ export async function requestIP({ unionId, IPId, path }: { unionId: string; IPId
 }
 
 // 准许Union孵化IP - PATCH
-export async function nurtureIP({ unionId, IPId, path }: { unionId: string; IPId: string; path: string }) {
+export async function nurtureIP({
+  adminId,
+  unionId,
+  IPId,
+  path,
+}: {
+  adminId: string;
+  unionId: string;
+  IPId: string;
+  path: string;
+}) {
   try {
     await connectToDB();
 
+    // 看当前用户是不是这个IP的管理员
+    const IPRes = await IP.findById(IPId);
+    if (String(IPRes.author) !== adminId) return { status: 401, message: "No access to this IP" };
+
     // 看这个Union是否已经孵化该IP了
     const union = await Union.findById(unionId);
-    if (union.signedIPs.includes(IPId)) return { status: 400, message: "Already nurtured" };
+    if (union.signedIPs.some((IP: ObjectId) => String(IP) === IPId))
+      return { status: 400, message: "Already nurtured" };
 
     // 更新IP
-    await IP.findByIdAndUpdate(IPId, {
-      $pull: { inclinedUnions: unionId },
-      $push: { unions: unionId },
-    });
+    // await IP.findByIdAndUpdate(IPId, {
+    //   $pull: { inclinedUnions: unionId },
+    //   $push: { unions: unionId },
+    // });
+
+    IPRes.inclinedUnions = IPRes.inclinedUnions.filter((union: ObjectId) => String(union) !== unionId);
+    IPRes.unions.push(unionId);
+    IPRes.save();
 
     // 更新Union
     union.signedIPs.push(IPId);

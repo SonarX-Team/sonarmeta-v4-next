@@ -10,7 +10,7 @@ import SadPlaceholder from "@/components/shared/SadPlaceholder";
 export default async function page({ params }: { params: { id: string } }) {
   const { user } = await getCurrentUser();
 
-  const { IPs } = await fetchIPs({ pageNumber: 1, pageSize: 20, userId: params.id });
+  const { IPs } = await fetchIPs({ pageNumber: 1, pageSize: 20, authorId: params.id });
 
   return (
     <>

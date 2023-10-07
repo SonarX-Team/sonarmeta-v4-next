@@ -9,6 +9,11 @@ export type IPsType = {
     avatar: string;
   };
   officialLink: string;
+  inclinedUnions: {
+    _id: string;
+    title: string;
+    avatar: string;
+  }[];
   unions: string[];
   adaptations: string[];
   createdAt: string;

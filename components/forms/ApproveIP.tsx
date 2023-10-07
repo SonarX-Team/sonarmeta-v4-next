@@ -1,21 +1,21 @@
 "use client";
 
-import { joinUnion } from "@/actions/union.action";
+import { nurtureIP } from "@/actions/ip.action";
 import AppButton from "../ui/AppButton";
 
-export default function ApproveUnion({
-  userId, // 待加入工会的用户
+export default function ApproveIP({
   adminId,
+  IPId,
   unionId,
   path,
 }: {
-  userId: string;
   adminId: string;
+  IPId: string;
   unionId: string;
   path: string;
 }) {
   async function approveAction() {
-    const { status } = await joinUnion({ userId, adminId, unionId, path });
+    const { status } = await nurtureIP({ adminId, IPId, unionId, path });
 
     if (status === 200) alert("批准成功");
   }

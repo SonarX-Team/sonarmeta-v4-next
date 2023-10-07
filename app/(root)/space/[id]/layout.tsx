@@ -16,6 +16,17 @@ import CategoryTab from "@/components/shared/CategoryTab";
 export default async function layout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
   const { user } = await getCurrentUser();
 
+  let tabNames: string[] = [];
+  let tabRoutes: string[] = [];
+
+  if (user && user.id === params.id) {
+    tabNames = ["概览", "IP", "工会", "二创", "审核"];
+    tabRoutes = ["", "/ips", "/unions", "/adaptations", "/examine"];
+  } else {
+    tabNames = ["概览", "IP", "工会", "二创"];
+    tabRoutes = ["", "/ips", "/unions", "/adaptations"];
+  }
+
   const res = await fetchUser({ userId: params.id, isBasic: false });
 
   return (
@@ -92,11 +103,7 @@ export default async function layout({ children, params }: { children: React.Rea
       </div>
 
       <div className="basis-3/4 sm:pl-10 sm:mt-0 mt-6">
-        <CategoryTab
-          tabs={["概览", "IP", "工会", "二创", "申请"]}
-          routes={["", "/ips", "/unions", "/adaptations", "/request"]}
-          root={`/space/${params.id}`}
-        />
+        <CategoryTab tabs={tabNames} routes={tabRoutes} root={`/space/${params.id}`} />
 
         {children}
       </div>

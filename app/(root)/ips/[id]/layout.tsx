@@ -3,19 +3,38 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faHandshakeAngle, faPeopleGroup, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import _ from "lodash";
 
 import { fetchIP } from "@/actions/ip.action";
-import { getMembersFromUnions } from "@/actions/union.action";
+import { fetchUnions, getMembersFromUnions } from "@/actions/union.action";
+import { getCurrentUser } from "@/actions/user.action";
+
 import { formatDateString } from "@/lib/utils";
+
 import RequestIP from "@/components/forms/RequestIP";
 import CategoryTab from "@/components/shared/CategoryTab";
+
+import { BasicUnionsType } from "@/types/UnionTypes";
 
 export default async function layout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
   const { IPRes } = await fetchIP({ IPId: params.id });
   if (!IPRes) redirect("/notfound");
 
+  const { user } = await getCurrentUser();
+
+  // 获取孵化这个IP的所有工会中的所有成员列表
   const { members } = await getMembersFromUnions({ unionIds: IPRes.unions });
-  console.log(members);
+
+  // 获取当前用户可用的工会列表
+  const basicUnions: BasicUnionsType[] = [];
+  if (user) {
+    const { unions } = await fetchUnions({ pageNumber: 1, pageSize: 20, creatorId: user.id });
+    for (let i = 0; i < unions.length; i++) {
+      const newUnion = _.pick(unions[i], ["_id", "title", "avatar"]);
+      newUnion._id = String(newUnion._id);
+      basicUnions.push(newUnion);
+    }
+  }
 
   // 基本信息卡
   const basicInfo = [
@@ -82,13 +101,12 @@ export default async function layout({ children, params }: { children: React.Rea
             </div>
           </div>
 
-          {/* <RequestIP
-            requested={requested}
-            joined={joined}
+          <RequestIP
+            userId={user?.id}
             IPId={String(IPRes._id)}
-            unionId={String(unionRes._id)}
+            unions={basicUnions}
             path={`/ips/${params.id}`}
-          /> */}
+          />
         </div>
 
         <div className="flex items-center sm:gap-16 gap-8 my-8">{basicCard}</div>

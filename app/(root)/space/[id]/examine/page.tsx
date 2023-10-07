@@ -1,18 +1,38 @@
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDove, faHandshakeAngle } from "@fortawesome/free-solid-svg-icons";
 
+import { fetchIPs } from "@/actions/ip.action";
 import { fetchUnions } from "@/actions/union.action";
 import { getCurrentUser } from "@/actions/user.action";
 
+import ApproveIP from "@/components/forms/ApproveIP";
 import ApproveUnion from "@/components/forms/ApproveUnion";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 export default async function page({ params }: { params: { id: string } }) {
   const { user } = await getCurrentUser();
+  if (!user || user.id !== params.id) return redirect("sign-in"); // 只有自己才能看到本页面
 
-  const { unions } = await fetchUnions({ pageNumber: 1, pageSize: 20, userId: params.id });
+  const { IPs } = await fetchIPs({ pageNumber: 1, pageSize: 20, authorId: user.id });
+  const { unions } = await fetchUnions({ pageNumber: 1, pageSize: 20, creatorId: user.id });
+
+  // 准备IP的审核列表
+  const IPRequests = [];
+  for (let i = 0; i < IPs.length; i++) {
+    for (let j = 0; j < IPs[i].inclinedUnions.length; j++) {
+      IPRequests.push({
+        IPId: String(IPs[i]._id),
+        IPTitle: IPs[i].title,
+        IPAvatar: IPs[i].avatar,
+        unionId: String(IPs[i].inclinedUnions[j]._id),
+        unionTitle: IPs[i].inclinedUnions[j].title,
+        unionAvatar: IPs[i].inclinedUnions[j].avatar,
+      });
+    }
+  }
 
   // 准备工会的审核列表
   const unionRequests = [];
@@ -37,29 +57,33 @@ export default async function page({ params }: { params: { id: string } }) {
           孵化申请
         </h3>
 
-        {/* <div className="min-h-[200px] max-h-[800px] overflow-y-auto">
-          {unionRequests.length > 0 ? (
-            unionRequests.map((request, index) => (
-              <div key={index} className="flex justify-between items-center text-small-regular">
-                <div className="flex items-center">
+        <div className="min-h-[200px] max-h-[800px] bg-dark-2 rounded-xl px-6 py-3 overflow-y-auto">
+          {IPRequests.length > 0 ? (
+            IPRequests.map((request, index) => (
+              <div key={index} className="flex justify-between items-center gap-3">
+                <div className="sm:flex items-center gap-3">
+                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-light-1 text-small-semibold leading-none rounded-full p-2">
+                    {index + 1}
+                  </p>
+
                   <Link
-                    href={`/space/${request.memberId}`}
+                    href={`/unions/${request.unionId}`}
                     className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
                   >
-                    <p>{request.memberName}</p>
+                    <p>{request.IPTitle}</p>
                     <Image
-                      src={request.memberAvatar}
-                      alt={request.memberName}
+                      src={request.IPAvatar}
+                      alt={request.IPTitle}
                       width={24}
                       height={24}
                       className="ml-1 rounded-full object-cover"
                     />
                   </Link>
 
-                  <p className="text-zinc-400 mx-1">想要申请加入</p>
+                  <p className="text-small-regular text-zinc-200 leading-none">想要申请孵化</p>
 
                   <Link
-                    href={`/space/${request.unionId}`}
+                    href={`/ips/${request.IPId}`}
                     className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
                   >
                     <p>{request.unionTitle}</p>
@@ -73,13 +97,18 @@ export default async function page({ params }: { params: { id: string } }) {
                   </Link>
                 </div>
 
-                <ApproveUnion userId={user?.id} unionId={request.unionId} path={`/space/${params.id}/request`} />
+                <ApproveIP
+                  adminId={user.id}
+                  IPId={request.IPId}
+                  unionId={request.unionId}
+                  path={`/space/${params.id}/examine`}
+                />
               </div>
             ))
           ) : (
-            <SadPlaceholder size={300} text="没有找到任何数据" />
+            <SadPlaceholder size={300} text="没有需要审核的IP" />
           )}
-        </div> */}
+        </div>
       </div>
 
       <div>
@@ -93,7 +122,7 @@ export default async function page({ params }: { params: { id: string } }) {
             unionRequests.map((request, index) => (
               <div key={index} className="flex justify-between items-center gap-3">
                 <div className="sm:flex items-center gap-3">
-                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-red-600 text-light-1 text-small-semibold leading-none rounded-full p-2">
+                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-light-1 text-small-semibold leading-none rounded-full p-2">
                     {index + 1}
                   </p>
 
@@ -130,13 +159,14 @@ export default async function page({ params }: { params: { id: string } }) {
 
                 <ApproveUnion
                   userId={request.memberId}
+                  adminId={user.id}
                   unionId={request.unionId}
-                  path={`/space/${params.id}/request`}
+                  path={`/space/${params.id}/examine`}
                 />
               </div>
             ))
           ) : (
-            <SadPlaceholder size={300} text="没有找到任何数据" />
+            <SadPlaceholder size={300} text="没有需要审核的工会" />
           )}
         </div>
       </div>

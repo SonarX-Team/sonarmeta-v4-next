@@ -37,7 +37,7 @@ export default function RequestUnion({
       </form>
 
       <form action={requestAction}>
-        {!requested && !joined && <AppButton text="申请加入" pendingText="加载中..." type="submit" />}
+        {!requested && !joined && <AppButton text="申请加入" pendingText="提交中..." type="submit" />}
         {requested && <AppButton text="申请审核中" disabled={true} />}
         {joined && <AppButton text="已加入" disabled={true} />}
       </form>

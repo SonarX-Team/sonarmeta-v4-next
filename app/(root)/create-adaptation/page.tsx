@@ -13,7 +13,7 @@ export default async function page() {
   if (!user) redirect("/sign-in");
 
   // 按当前用户获取可选的公会列表
-  const { unions } = await fetchUnions({ pageNumber: 1, pageSize: 20, userId: user.id });
+  const { unions } = await fetchUnions({ pageNumber: 1, pageSize: 20, memberId: user.id });
   const basicUnions: BasicUnionsType[] = [];
   for (let i = 0; i < unions.length; i++) {
     const newUnion = _.pick(unions[i], ["_id", "title", "avatar"]);

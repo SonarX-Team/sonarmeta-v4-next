@@ -42,9 +42,9 @@ export default function UnionPicker({ label, unions, getUnion, required, errMsg 
           {unions.map((union, index) => (
             <div
               key={index}
-              onClick={() => handleClick(String(union._id))}
+              onClick={() => handleClick(union._id)}
               className={`flex items-center bg-zinc-900 hover:bg-zinc-800 duration-200 border-2 ${
-                currentUnion === String(union._id)
+                currentUnion === union._id
                   ? "border-sky-300 hover:border-zinc-200"
                   : "border-zinc-900 hover:border-zinc-800"
               } rounded-xl cursor-pointer gap-4 px-4 py-2`}

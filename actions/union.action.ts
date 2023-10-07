@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { ObjectId } from "mongoose";
 import _ from "lodash";
 
 import { connectToDB } from "@/lib/mongoose";
@@ -13,12 +14,14 @@ import { UnionsType, UnionType } from "@/types/UnionTypes";
 export async function fetchUnions({
   pageNumber = 1,
   pageSize = 20,
-  userId,
+  creatorId,
+  memberId,
   IPId,
 }: {
   pageNumber: number;
   pageSize: number;
-  userId?: string;
+  creatorId?: string;
+  memberId?: string;
   IPId?: string;
 }) {
   try {
@@ -28,7 +31,8 @@ export async function fetchUnions({
 
     // 处理filter
     let filter = {};
-    if (userId) filter = { members: { $elemMatch: { $eq: userId } } };
+    if (creatorId) filter = { creator: creatorId };
+    if (memberId) filter = { members: { $elemMatch: { $eq: memberId } } };
     if (IPId) filter = { signedIPs: { $elemMatch: { $eq: IPId } } };
 
     const unionsQuery = Union.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
@@ -183,7 +187,10 @@ export async function requestUnion({ userId, unionId, path }: { userId: string; 
 
     // 看这个用户是否已经加入或已经申请加入该Union了
     const union = await Union.findById(unionId);
-    if (union.inclinedMembers.includes(userId) || union.members.includes(userId))
+    if (
+      union.inclinedMembers.some((member: ObjectId) => String(member) === userId) ||
+      union.members.some((member: ObjectId) => String(member) === userId)
+    )
       return { status: 400, message: "Already requested or joined" };
 
     // 更新Union
@@ -199,19 +206,39 @@ export async function requestUnion({ userId, unionId, path }: { userId: string; 
 }
 
 // 准许用户加入Union - PATCH
-export async function joinUnion({ userId, unionId, path }: { userId: string; unionId: string; path: string }) {
+export async function joinUnion({
+  userId,
+  adminId,
+  unionId,
+  path,
+}: {
+  userId: string;
+  adminId: string;
+  unionId: string;
+  path: string;
+}) {
   try {
     await connectToDB();
 
+    const union = await Union.findById(unionId);
+
+    // 看当前操作者是否有权限
+    if (String(union.creator) !== adminId) return { status: 401, message: "No accesss to this union" };
+
     // 看这个用户是否已经加入该Union了
     const user = await User.findById(userId);
-    if (user.unions.includes(unionId)) return { status: 400, message: "Already joined" };
+    if (user.unions.some((union: ObjectId) => String(union) === unionId))
+      return { status: 400, message: "Already joined" };
 
     // 更新Union
-    await Union.findByIdAndUpdate(unionId, {
-      $pull: { inclinedMembers: userId },
-      $push: { members: userId },
-    });
+    // await Union.findByIdAndUpdate(unionId, {
+    //   $pull: { inclinedMembers: userId },
+    //   $push: { members: userId },
+    // });
+
+    union.inclinedMembers = union.inclinedMembers.filter((member: ObjectId) => String(member) !== userId);
+    union.members.push(userId);
+    union.save();
 
     // 更新User
     user.unions.push(userId);
