@@ -22,19 +22,19 @@ export default function IPsPicker({ label, ips, getIPs, required, errMsg }: Prop
     // 创建一个新的数组newPickedIPs以保存更新后的值，然后再返回
     if (pickedIPs.includes(IPId)) {
       setPickedIPs((prev) => {
-        const newPickedIPs = [...prev];
-        newPickedIPs.push(IPId);
+        let newPickedIPs = [...prev];
+        newPickedIPs = newPickedIPs.filter((id: string) => id !== IPId);
+        getIPs(newPickedIPs);
         return newPickedIPs;
       });
     } else {
       setPickedIPs((prev) => {
         const newPickedIPs = [...prev];
-        newPickedIPs.filter((id: string) => id !== IPId);
+        newPickedIPs.push(IPId);
+        getIPs(newPickedIPs);
         return newPickedIPs;
       });
     }
-
-    getIPs(pickedIPs);
   };
 
   return (

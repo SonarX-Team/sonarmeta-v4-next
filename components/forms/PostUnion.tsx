@@ -37,8 +37,8 @@ export default function PostUnion({ userId }: { userId: string }) {
     if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("工会头像不能为空");
     if (!(coverFile && coverFile.size > 0)) return setCoverErr("工会封面不能为空");
 
-    const avatarRes = await uploadFile(`unions/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
-    const coverRes = await uploadFile(`unions/${String(formData.get("title"))}-${timeStamp}/cover.png`, coverFile);
+    const avatarRes = await uploadFile(`unions/${timeStamp}/avatar.png`, avatarFile);
+    const coverRes = await uploadFile(`unions/${timeStamp}/cover.png`, coverFile);
 
     const res = await createUnion({ userId, formData, avatar: avatarRes.url, cover: coverRes.url });
 

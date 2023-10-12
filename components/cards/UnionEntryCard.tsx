@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDove, faPeopleGroup, faBell, faWandMagicSparkles, faPencil } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDove,
+  faPeopleGroup,
+  faBell,
+  faWandMagicSparkles,
+  faPencil,
+  faRecordVinyl,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
 import { UnionsType } from "@/types/UnionTypes";
@@ -35,21 +42,31 @@ export default function UnionEntryCard({
             height={56}
           />
         </Link>
-        
+
         <div className="flex justify-between items-center mb-4">
           <Link href={`/unions/${_id}`} className="w-fit">
             <h4 className="text-body-bold text-sky-300 hover:text-sky-200 duration-200">{title}</h4>
           </Link>
 
-          {editMode && (
+          <div className="flex items-center gap-2">
             <Link
-              href={`/edit-union/${_id}`}
+              href={`/unions/${_id}/record-adaptation`}
               className="flex justify-center items-center gap-2 text-small-regular bg-sky-300 hover:bg-sky-200 duration-200 rounded-lg px-3 py-2"
             >
-              <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faPencil} />
-              <p className="leading-none">编辑</p>
+              <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faRecordVinyl} />
+              <p className="leading-none">存证</p>
             </Link>
-          )}
+
+            {editMode && (
+              <Link
+                href={`/edit-union/${_id}`}
+                className="flex justify-center items-center gap-2 text-small-regular bg-sky-300 hover:bg-sky-200 duration-200 rounded-lg px-3 py-2"
+              >
+                <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faPencil} />
+                <p className="leading-none">编辑</p>
+              </Link>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center text-small-regular leading-none gap-6 mb-4">

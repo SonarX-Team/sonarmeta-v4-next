@@ -45,16 +45,13 @@ export default function PostIP({ userId }: { userId: string }) {
     if (imagesAdded.current.length === 0) return setImagesErr("至少为IP图片列表加一个图片");
 
     // 处理头像和封面
-    const avatarRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/avatar.png`, avatarFile);
-    const coverRes = await uploadFile(`ips/${String(formData.get("title"))}-${timeStamp}/cover.png`, coverFile);
+    const avatarRes = await uploadFile(`ips/${timeStamp}/avatar.png`, avatarFile);
+    const coverRes = await uploadFile(`ips/${timeStamp}/cover.png`, coverFile);
 
     // 处理图册
     const imageUrls: string[] = [];
     for (let i = 0; i < imagesAdded.current.length; i++) {
-      const result = await uploadFile(
-        `ips/${String(formData.get("title"))}-${timeStamp}/image-${i}.png`,
-        imagesAdded.current[i]
-      );
+      const result = await uploadFile(`ips/${timeStamp}/image-${i}.png`, imagesAdded.current[i]);
       imageUrls.push(result.url);
     }
 
