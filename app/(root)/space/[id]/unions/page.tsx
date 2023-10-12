@@ -22,7 +22,12 @@ export default async function page({ params }: { params: { id: string } }) {
       {unions.length > 0 ? (
         <div className="grid sm:grid-cols-2 gap-4">
           {unions.map((union, index) => (
-            <UnionEntryCard key={index} {...union} editMode={String(union.creator) === user?.id} />
+            <UnionEntryCard
+              key={index}
+              {...union}
+              memberMode={union.members.some((memberId) => String(memberId) === user?.id)}
+              editMode={String(union.creator) === user?.id}
+            />
           ))}
         </div>
       ) : (

@@ -6,8 +6,8 @@ import bcryptjs from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
 import _ from "lodash";
 
-import { connectToDB } from "@/lib/mongoose";
 import User from "@/models/user.model";
+import { connectToDB } from "@/lib/mongoose";
 import { SignInValidation, SignUpValidation, UpdateUserValidation } from "@/validations/user.validation";
 import { COOKIE_NAME, EXPIRE_AGE } from "@/constants";
 import { UserBasicType } from "@/types/UserTypes";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { requestIP } from "@/actions/ip.action";
@@ -15,14 +15,13 @@ export default function RequestIP({
   userId,
   unions,
   IPId,
-  path,
 }: {
   userId: string | undefined;
   unions: BasicUnionsType[];
   IPId: string;
-  path: string;
 }) {
   const router = useRouter();
+  const path = usePathname();
 
   const [modalFlag, setModalFlag] = useState<boolean>(false);
   const [unionSelected, setUnionSelected] = useState<string>("");

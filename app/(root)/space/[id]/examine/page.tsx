@@ -101,7 +101,6 @@ export default async function page({ params }: { params: { id: string } }) {
                   adminId={user.id}
                   IPId={request.IPId}
                   unionId={request.unionId}
-                  path={`/space/${params.id}/examine`}
                 />
               </div>
             ))
@@ -161,7 +160,6 @@ export default async function page({ params }: { params: { id: string } }) {
                   userId={request.memberId}
                   adminId={user.id}
                   unionId={request.unionId}
-                  path={`/space/${params.id}/examine`}
                 />
               </div>
             ))

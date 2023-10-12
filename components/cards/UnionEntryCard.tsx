@@ -7,7 +7,7 @@ import {
   faBell,
   faWandMagicSparkles,
   faPencil,
-  faRecordVinyl,
+  faDatabase,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
@@ -22,8 +22,9 @@ export default function UnionEntryCard({
   signedIPs,
   adaptations,
   createdAt,
+  memberMode,
   editMode,
-}: UnionsType & { editMode?: boolean }) {
+}: UnionsType & { memberMode?: boolean; editMode?: boolean }) {
   return (
     <div className="relative bg-dark-2 rounded-xl overflow-hidden h-full z-0">
       <div className="relative w-full aspect-[16/9] bg-zinc-700 hover:bg-zinc-600 duration-200">
@@ -49,13 +50,15 @@ export default function UnionEntryCard({
           </Link>
 
           <div className="flex items-center gap-2">
-            <Link
-              href={`/unions/${_id}/record-adaptation`}
-              className="flex justify-center items-center gap-2 text-small-regular bg-sky-300 hover:bg-sky-200 duration-200 rounded-lg px-3 py-2"
-            >
-              <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faRecordVinyl} />
-              <p className="leading-none">存证</p>
-            </Link>
+            {memberMode && (
+              <Link
+                href={`/unions/${_id}/record-adaptation`}
+                className="flex justify-center items-center gap-2 text-small-regular bg-sky-300 hover:bg-sky-200 duration-200 rounded-lg px-3 py-2"
+              >
+                <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faDatabase} />
+                <p className="leading-none">存证</p>
+              </Link>
+            )}
 
             {editMode && (
               <Link

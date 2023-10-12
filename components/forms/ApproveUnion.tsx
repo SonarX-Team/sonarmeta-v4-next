@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { joinUnion } from "@/actions/union.action";
 import AppButton from "../ui/AppButton";
 
@@ -7,13 +9,13 @@ export default function ApproveUnion({
   userId, // 待加入工会的用户
   adminId,
   unionId,
-  path,
 }: {
   userId: string;
   adminId: string;
   unionId: string;
-  path: string;
 }) {
+  const path = usePathname();
+
   async function approveAction() {
     const { status } = await joinUnion({ userId, adminId, unionId, path });
 

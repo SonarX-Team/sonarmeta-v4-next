@@ -4,10 +4,13 @@ import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongoose";
 import _ from "lodash";
 
-import { connectToDB } from "@/lib/mongoose";
 import Union from "@/models/union.model";
 import User from "@/models/user.model";
+
+import { connectToDB } from "@/lib/mongoose";
+
 import { createUnionValidation } from "@/validations/union.validation";
+
 import { UnionsType, UnionType } from "@/types/UnionTypes";
 
 // 获取Unions - GET

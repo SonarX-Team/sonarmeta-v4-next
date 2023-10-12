@@ -67,7 +67,7 @@ export default function PostAdaptation({
       if (res.ValidationErrors.url) setUrlErr(res.ValidationErrors.url._errors[0]);
 
       // 回滚：删掉上传了的图片
-      await deleteMulti([coverRes.url]);
+      if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
 
       return;
     }
@@ -78,7 +78,7 @@ export default function PostAdaptation({
       else if (res.status === 403) alert("您无权对当前工会进行操作");
 
       // 回滚：删掉上传了的图片
-      await deleteMulti([coverRes.url]);
+      if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
 
       return;
     }

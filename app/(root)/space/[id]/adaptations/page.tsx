@@ -1,15 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 
-import { getCurrentUser } from "@/actions/user.action";
+import { fetchAdaptations } from "@/actions/adaptation.action";
 
-import SadPlaceholder from "@/components/shared/SadPlaceholder";
 import AdaptationCard from "@/components/cards/AdaptationCard";
+import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 export default async function page({ params }: { params: { id: string } }) {
-  const { user } = await getCurrentUser();
-
-  // const { adaptations } = await fetchAdaptations({ pageNumber: 1, pageSize: 20, userId: params.id });
+  const { adaptations } = await fetchAdaptations({ pageNumber: 1, pageSize: 20, memberId: params.id });
 
   return (
     <>
@@ -19,13 +17,11 @@ export default async function page({ params }: { params: { id: string } }) {
       </h3>
 
       <div className="flex flex-col gap-6">
-        <AdaptationCard
-          title="123"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni deserunt alias, ipsa impedit quam nam, omnis dolores voluptas enim esse reprehenderit totam. Numquam dolore amet, quaerat explicabo praesentium ea quasi?Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni deserunt alias, ipsa impedit quam nam, omnis dolores voluptas enim esse reprehenderit totam. Numquam dolore amet, quaerat explicabo praesentium ea quasi?"
-          url="https://baidu.com"
-          cover="/auth-bg.webp"
-          createdAt="2023-09-28T02:22:54.822+00:00"
-        />
+        {adaptations.length > 0 ? (
+          adaptations.map((adaptation, index) => <AdaptationCard key={index} {...adaptation} />)
+        ) : (
+          <SadPlaceholder size={300} text="没有找到任何数据" />
+        )}
       </div>
     </>
   );

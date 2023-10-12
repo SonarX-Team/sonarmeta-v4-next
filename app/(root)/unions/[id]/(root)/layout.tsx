@@ -89,13 +89,7 @@ export default async function layout({ children, params }: { children: React.Rea
             </div>
           </div>
 
-          <RequestUnion
-            requested={requested}
-            joined={joined}
-            userId={user?.id}
-            unionId={String(unionRes._id)}
-            path={`/union/${params.id}`}
-          />
+          <RequestUnion requested={requested} joined={joined} userId={user?.id} unionId={String(unionRes._id)} />
         </div>
 
         <div className="flex items-center sm:gap-16 gap-8 my-8">{basicCard}</div>

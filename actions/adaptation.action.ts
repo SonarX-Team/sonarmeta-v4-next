@@ -1,18 +1,32 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import _ from "lodash";
 
 import Adaptation from "@/models/adaptation.model";
 import IP from "@/models/ip.model";
 import Union from "@/models/union.model";
 import User from "@/models/user.model";
+
 import { connectToDB } from "@/lib/mongoose";
+
 import { createAdaptationValidation } from "@/validations/adaptation.validation";
+
 import { AdaptationsType, AdaptationType } from "@/types/AdaptationTypes";
 
 // 获取Adaptations - GET
-export async function fetchAdaptations({ pageNumber = 1, pageSize = 20 }: { pageNumber: number; pageSize: number }) {
+export async function fetchAdaptations({
+  pageNumber = 1,
+  pageSize = 20,
+  memberId,
+  unionId,
+  IPId,
+}: {
+  pageNumber: number;
+  pageSize: number;
+  memberId?: string;
+  unionId?: string;
+  IPId?: string;
+}) {
   try {
     await connectToDB();
 
@@ -20,6 +34,12 @@ export async function fetchAdaptations({ pageNumber = 1, pageSize = 20 }: { page
 
     // 处理filter
     let filter = {};
+    if (memberId) {
+      const member = await User.findById(memberId);
+      filter = { union: { $in: member.unions } };
+    }
+    if (unionId) filter = { union: unionId };
+    if (IPId) filter = { relatedIPs: { $elemMatch: { $eq: IPId } } };
 
     const adaptationsQuery = Adaptation.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize);
 
@@ -109,10 +129,12 @@ export async function createAdaptation({
     union.adaptations.push(adaptation._id);
     await union.save();
 
-    // 更新User
-    await User.findByIdAndUpdate(userId, {
-      $push: { adaptations: adaptation._id },
-    });
+    // 更新所有Union的成员（这里已经包含作者userId了）
+    for (let i = 0; i < union.members.length; i++) {
+      await User.findByIdAndUpdate(union.members[i], {
+        $push: { adaptations: adaptation._id },
+      });
+    }
 
     return { status: 201, message: "Created" };
   } catch (error: any) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { requestUnion } from "@/actions/union.action";
 import AppButton from "../ui/AppButton";
@@ -8,17 +8,16 @@ import AppButton from "../ui/AppButton";
 export default function RequestUnion({
   userId,
   unionId,
-  path,
   requested,
   joined,
 }: {
   userId: string | undefined;
   unionId: string;
-  path: string;
   requested: boolean;
   joined: boolean;
 }) {
   const router = useRouter();
+  const path = usePathname();
 
   async function subscribeAction() {
     if (!userId) return router.push("/sign-in");

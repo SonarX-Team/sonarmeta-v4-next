@@ -105,7 +105,6 @@ export default async function layout({ children, params }: { children: React.Rea
             userId={user?.id}
             IPId={String(IPRes._id)}
             unions={basicUnions}
-            path={`/ips/${params.id}`}
           />
         </div>
 
