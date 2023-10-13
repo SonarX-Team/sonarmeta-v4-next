@@ -23,8 +23,10 @@ export default async function page() {
   return (
     <div className="basis-full p-10">
       <div className="mb-8">
-        <h1 className="head-text">还差一步即可开启...</h1>
-        <p className="mt-3 text-base-regular text-zinc-400">请提供一些您的用户信息以便继续使用声呐元~</p>
+        <h1 className="head-text">One step away from starting...</h1>
+        <p className="mt-3 text-base-regular text-zinc-400">
+          Please provide some of your user information to continue using SonarMeta.~
+        </p>
       </div>
 
       <EditAccount {...userData} />

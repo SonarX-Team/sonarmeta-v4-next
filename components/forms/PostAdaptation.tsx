@@ -96,7 +96,7 @@ export default function PostAdaptation({
       <CoverInput name="cover" required={true} errMsg={coverErr} />
 
       <IPsPicker
-        label="选择IP（可多选）"
+        label="Select IPs (multiple-choice)"
         ips={IPs}
         getIPs={(IPIds: string[]) => (IPsPicked.current = IPIds)}
         required={true}
@@ -105,31 +105,31 @@ export default function PostAdaptation({
 
       <AppInput
         name="title"
-        label="二创名称"
-        placeholder="请输入您的二创名称"
+        label="Adaptation name"
+        placeholder="Type your adaptation's name"
         required={true}
         type="text"
         errMsg={titleErr}
       />
       <AppTextarea
         name="description"
-        label="二创简介"
-        placeholder="请输入您的二创简介"
+        label="Description"
+        placeholder="Type description for your adaptation"
         required={true}
         rows={10}
         errMsg={descriptionErr}
       />
       <AppInput
         name="url"
-        label="二创链接"
-        placeholder="请输入二创发布平台的链接，格式如https://example.com"
+        label="Url link"
+        placeholder="Type the url link where can visit your adaptation. e.g. https://example.com"
         required={true}
         type="text"
         errMsg={urlErr}
       />
 
       <div className="h-[50px]">
-        <AppButton text="创 建" pendingText="创建中..." type="submit" />
+        <AppButton text="Create" pendingText="Creating..." type="submit" />
       </div>
     </form>
   );

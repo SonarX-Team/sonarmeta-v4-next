@@ -16,7 +16,7 @@ export default async function page({ params }: { params: { id: string } }) {
         <div className="mt-8">
           <h3 className="flex leading-none text-base-regular text-zinc-400 mb-2">
             <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faLink} />
-            官方链接
+            Official link
           </h3>
           
           <Link
@@ -32,7 +32,7 @@ export default async function page({ params }: { params: { id: string } }) {
       <div className="mt-8">
         <h3 className="flex leading-none text-base-regular text-zinc-400 mb-3">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faImages} />
-          IP图册
+          IP image collection
         </h3>
 
         <div className="flex flex-wrap overflow-y-auto h-[200px] gap-4">
@@ -47,7 +47,7 @@ export default async function page({ params }: { params: { id: string } }) {
       <div className="mt-8">
         <h3 className="flex leading-none text-base-regular text-zinc-400 mb-4">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faBook} />
-          IP故事
+          IP story
         </h3>
 
         <p className="text-small-regular text-zinc-300 whitespace-pre-line">{IPRes.description}</p>

@@ -14,12 +14,12 @@ const urlValidator = (value: string) => {
 // 创建 or 更新 Adaptation 的校验
 export const createAdaptationValidation = (adaptation: { title: string; description: string; url: string }) => {
   const schema = z.object({
-    title: z.string().nonempty({ message: "不能为空" }).max(30, { message: "二创名称太长了" }),
-    description: z.string().nonempty({ message: "不能为空" }).max(2000, { message: "二创简介太长了" }),
+    title: z.string().nonempty({ message: "No empty" }).max(30, { message: "Adaptation's name is too long" }),
+    description: z.string().nonempty({ message: "No empty" }).max(2000, { message: "Adaptation's description is too long" }),
     url: z
       .string()
-      .nonempty({ message: "不能为空" })
-      .refine(urlValidator, { message: "路由格式请参考https://example.com" }),
+      .nonempty({ message: "No empty" })
+      .refine(urlValidator, { message: "Follow the example format: https://example.com" }),
   });
 
   const result = schema.safeParse(adaptation);

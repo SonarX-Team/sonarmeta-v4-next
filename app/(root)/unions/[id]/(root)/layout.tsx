@@ -26,10 +26,10 @@ export default async function layout({ children, params }: { children: React.Rea
 
   // 基本信息卡
   const basicInfo = [
-    { count: unionRes.signedIPs.length, icon: faDove, title: "孵化" },
-    { count: unionRes.adaptations.length, icon: faWandMagicSparkles, title: "二创" },
-    { count: unionRes.members.length, icon: faPeopleGroup, title: "成员" },
-    { count: 0, icon: faBell, title: "关注" },
+    { count: unionRes.signedIPs.length, icon: faDove, title: "Nurtures" },
+    { count: unionRes.adaptations.length, icon: faWandMagicSparkles, title: "Adaptations" },
+    { count: unionRes.members.length, icon: faPeopleGroup, title: "Members" },
+    { count: 0, icon: faBell, title: "Followers" },
   ];
   const basicCard: JSX.Element[] = basicInfo.map((info, index) => (
     <div key={index}>
@@ -69,7 +69,7 @@ export default async function layout({ children, params }: { children: React.Rea
             <div className="flex items-center text-small-regular">
               <p className="text-gray-1">{formatDateString(unionRes.createdAt)}</p>
 
-              <p className="text-gray-1 mx-1">由</p>
+              <p className="text-gray-1 mx-1">by</p>
 
               <Link
                 href={`/space/${unionRes.creator._id}`}
@@ -84,8 +84,6 @@ export default async function layout({ children, params }: { children: React.Rea
                   className="ml-1 rounded-full object-cover"
                 />
               </Link>
-
-              <p className="text-gray-1 mx-1">创建</p>
             </div>
           </div>
 
@@ -95,7 +93,7 @@ export default async function layout({ children, params }: { children: React.Rea
         <div className="flex items-center sm:gap-16 gap-8 my-8">{basicCard}</div>
 
         <CategoryTab
-          tabs={["简介", "孵化", "二创", "招募说明"]}
+          tabs={["Intro", "Nurtures", "Adaptations", "Recruitment"]}
           routes={["", "/nurtures", "/adaptations", "/recruitment"]}
           root={`/unions/${params.id}`}
         />

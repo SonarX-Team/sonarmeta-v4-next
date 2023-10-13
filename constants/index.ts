@@ -6,27 +6,27 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
   {
     icon: faHome,
     route: "/",
-    label: "首页",
+    label: "Home",
   },
   {
     icon: faHandshakeAngle,
     route: "/unions",
-    label: "IP工会",
+    label: "IP unions",
   },
   {
     icon: faPlus,
     route: "/create-ip",
-    label: "创建IP",
+    label: "Create IP",
   },
   {
     icon: faHammer,
     route: "/create-union",
-    label: "创建工会",
+    label: "Create union",
   },
   {
     icon: faUser,
     route: "/space",
-    label: "个人空间",
+    label: "Profile space",
   },
 ];
 

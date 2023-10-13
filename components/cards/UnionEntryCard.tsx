@@ -56,7 +56,7 @@ export default function UnionEntryCard({
                 className="flex justify-center items-center gap-2 text-small-regular bg-sky-300 hover:bg-sky-200 duration-200 rounded-lg px-3 py-2"
               >
                 <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faDatabase} />
-                <p className="leading-none">存证</p>
+                <p className="leading-none">Record</p>
               </Link>
             )}
 
@@ -66,7 +66,7 @@ export default function UnionEntryCard({
                 className="flex justify-center items-center gap-2 text-small-regular bg-sky-300 hover:bg-sky-200 duration-200 rounded-lg px-3 py-2"
               >
                 <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faPencil} />
-                <p className="leading-none">编辑</p>
+                <p className="leading-none">Edit</p>
               </Link>
             )}
           </div>

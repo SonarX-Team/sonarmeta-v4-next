@@ -16,14 +16,14 @@ export default async function page({ params }: { params: { id: string } }) {
     <>
       <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
         <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faDove} />
-        创建的IP
+        IPs created
       </h3>
 
       <div className="flex flex-col gap-10">
         {IPs.length > 0 ? (
           IPs.map((IP, index) => <IPEntryCard key={index} {...IP} editMode={String(IP.author._id) === user?.id} />)
         ) : (
-          <SadPlaceholder size={300} text="没有找到任何数据" />
+          <SadPlaceholder size={300} text="No data source found" />
         )}
       </div>
     </>

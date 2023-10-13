@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import AppButton from "../ui/AppButton";
-
 export default function Topbar({ userId, username, avatar }: { userId: string; username: string; avatar: string }) {
   return (
     <nav className="topbar">
@@ -36,13 +34,13 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
             className="bg-zinc-600 hover:bg-zinc-500 duration-200 text-zinc-200 rounded-md px-4 py-2"
             href="/sign-in"
           >
-            登录
+            Sign in
           </Link>
           <Link
             className="bg-violet-300 hover:bg-violet-200 duration-200 text-zinc-900 rounded-md px-4 py-2"
             href="/sign-up"
           >
-            即刻注册
+            Sign up now
           </Link>
         </div>
       )}

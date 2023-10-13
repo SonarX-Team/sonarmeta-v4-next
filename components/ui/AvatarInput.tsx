@@ -49,7 +49,7 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
           ) : (
             <>
               <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />
-              <p className="text-zinc-400 text-center mx-3">添加方形图片</p>
+              <p className="text-zinc-400 text-center mx-3">Aspect 1:1</p>
             </>
           )}
         </label>
@@ -57,7 +57,7 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
 
       <div className="text-small-regular">
         <label htmlFor="avatarInput" className="text-sky-400 hover:text-sky-300 duration-200 cursor-pointer">
-          选择头像图片 {required && <span className="text-red-400">*</span>}
+          Select your avatar image {required && <span className="text-red-400">*</span>}
         </label>
         {errMsg && <p className="text-red-400 mt-1">{errMsg}</p>}
       </div>

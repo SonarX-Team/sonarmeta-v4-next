@@ -15,7 +15,7 @@ export default async function page({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full max-w-4xl mt-12 px-6">
-      <h1 className="head-text text-left mb-10">编辑工会信息</h1>
+      <h1 className="head-text text-left mb-10">Edit union info (comming soon)</h1>
       <EditUnion
         unionId={String(unionRes._id)}
         userId={user.id}

@@ -10,7 +10,7 @@ export default async function page() {
 
   return (
     <div className="w-full max-w-4xl mt-12 px-6">
-      <h1 className="head-text text-left mb-10">创建新工会</h1>
+      <h1 className="head-text text-left mb-10">Create a new union</h1>
       <PostUnion userId={user.id} />
     </div>
   );

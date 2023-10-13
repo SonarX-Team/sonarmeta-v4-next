@@ -65,32 +65,32 @@ export default function EditAccount({ _id, phone, username, email, bio, avatar }
       <AvatarInput name="avatar" defaultValue={avatar} />
       <AppInput
         name="username"
-        label="用户名"
+        label="Username"
         defaultValue={username}
-        placeholder="请设置您的用户名"
+        placeholder="Set your username"
         required={true}
         type="text"
         errMsg={usernameErr}
       />
       <AppInput
         name="email"
-        label="邮箱"
+        label="Email"
         defaultValue={email}
-        placeholder="请设置您的邮箱"
+        placeholder="Set your email"
         type="text"
         errMsg={emailErr}
       />
       <AppTextarea
         name="bio"
-        label="个性描述"
+        label="Bio"
         defaultValue={bio}
-        placeholder="请设置您的个性描述"
+        placeholder="Write something as your bio..."
         rows={10}
         errMsg={bioErr}
       />
 
       <div className="h-[50px]">
-        <AppButton text="提 交" pendingText="提交中..." type="submit" />
+        <AppButton text="Save" pendingText="Saving..." type="submit" />
       </div>
     </form>
   );

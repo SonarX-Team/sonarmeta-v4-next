@@ -36,12 +36,12 @@ export default function LeftSidebar({ loginStatus }: { loginStatus: boolean }) {
         <div className="flex flex-col w-full gap-4">
           <div className="leftsidebar_link cursor-pointer">
             <FontAwesomeIcon className="w-[20px] h-[20px] text-light-2" icon={faWallet} />
-            <p className="text-light-1 max-lg:hidden">连接钱包</p>
+            <p className="text-light-1 max-lg:hidden">Connect wallet</p>
           </div>
           {loginStatus && (
             <div className="leftsidebar_link cursor-pointer" onClick={handleSignOut}>
               <FontAwesomeIcon className="w-[20px] h-[20px] text-light-2" icon={faArrowRightFromBracket} />
-              <p className="text-light-1 max-lg:hidden">退出登录</p>
+              <p className="text-light-1 max-lg:hidden">Sign out</p>
             </div>
           )}
         </div>

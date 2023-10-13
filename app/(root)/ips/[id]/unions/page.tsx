@@ -18,7 +18,7 @@ export default async function page({ params }: { params: { id: string } }) {
     <div className="mt-8">
       <h3 className="flex leading-none text-base-regular text-zinc-400 mb-4">
         <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faHandshakeAngle} />
-        提供孵化的工会
+        Unions list
       </h3>
 
       {unions.length > 0 ? (
@@ -28,7 +28,7 @@ export default async function page({ params }: { params: { id: string } }) {
           ))}
         </div>
       ) : (
-        <SadPlaceholder size={300} text="没有找到任何数据" />
+        <SadPlaceholder size={300} text="No data source found" />
       )}
     </div>
   );

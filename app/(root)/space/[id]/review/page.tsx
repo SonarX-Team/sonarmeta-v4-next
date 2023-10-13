@@ -52,9 +52,9 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col justify-start gap-8">
       <div>
-        <h3 className="flex leading-none text-body-bold text-light-1 mb-3">
+        <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faDove} />
-          孵化申请
+          Nurturing applies
         </h3>
 
         <div className="min-h-[200px] max-h-[800px] bg-dark-2 rounded-xl px-6 py-3 overflow-y-auto">
@@ -80,7 +80,7 @@ export default async function page({ params }: { params: { id: string } }) {
                     />
                   </Link>
 
-                  <p className="text-small-regular text-zinc-200 leading-none">想要申请孵化</p>
+                  <p className="text-small-regular text-zinc-200 leading-none">wants to nurture</p>
 
                   <Link
                     href={`/ips/${request.IPId}`}
@@ -105,15 +105,15 @@ export default async function page({ params }: { params: { id: string } }) {
               </div>
             ))
           ) : (
-            <SadPlaceholder size={300} text="没有需要审核的IP" />
+            <SadPlaceholder size={300} text="No IPs waiting review" />
           )}
         </div>
       </div>
 
       <div>
-        <h3 className="flex leading-none text-body-bold text-light-1 mb-3">
+        <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faHandshakeAngle} />
-          工会申请
+          Union applies
         </h3>
 
         <div className="min-h-[200px] max-h-[800px] bg-dark-2 rounded-xl px-6 py-3 overflow-y-auto">
@@ -139,7 +139,7 @@ export default async function page({ params }: { params: { id: string } }) {
                     />
                   </Link>
 
-                  <p className="text-small-regular text-zinc-200 leading-none">想要申请加入</p>
+                  <p className="text-small-regular text-zinc-200 leading-none">wants to join</p>
 
                   <Link
                     href={`/space/${request.unionId}`}
@@ -164,7 +164,7 @@ export default async function page({ params }: { params: { id: string } }) {
               </div>
             ))
           ) : (
-            <SadPlaceholder size={300} text="没有需要审核的工会" />
+            <SadPlaceholder size={300} text="No unions waiting review" />
           )}
         </div>
       </div>

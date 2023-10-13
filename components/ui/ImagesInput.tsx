@@ -59,7 +59,7 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultVa
     <div>
       <div className="flex justify-between items-center text-small-regular mb-2">
         <label className="font-bold text-zinc-200">
-          设置图片组 <span className="text-red-400">*</span>
+          Image collection <span className="text-red-400">*</span>
         </label>
 
         {errMsg && <label className="text-red-400 err-message">{errMsg}</label>}
@@ -81,7 +81,7 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultVa
             htmlFor="imagesInput"
           >
             <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />
-            <p className="text-zinc-400 text-center mx-3">设置图片组</p>
+            <p className="text-zinc-400 text-center mx-3">Add images</p>
           </label>
         </div>
 

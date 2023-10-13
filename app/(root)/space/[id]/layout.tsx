@@ -20,10 +20,10 @@ export default async function layout({ children, params }: { children: React.Rea
   let tabRoutes: string[] = [];
 
   if (user && user.id === params.id) {
-    tabNames = ["概览", "IP", "工会", "二创", "审核"];
-    tabRoutes = ["", "/ips", "/unions", "/adaptations", "/examine"];
+    tabNames = ["Overview", "IPs", "Unions", "Adaptations", "Reviews"];
+    tabRoutes = ["", "/ips", "/unions", "/adaptations", "/review"];
   } else {
-    tabNames = ["概览", "IP", "工会", "二创"];
+    tabNames = ["Overview", "IPs", "Unions", "Adaptations"];
     tabRoutes = ["", "/ips", "/unions", "/adaptations"];
   }
 
@@ -53,7 +53,7 @@ export default async function layout({ children, params }: { children: React.Rea
           <div className="flex items-center gap-2 text-zinc-400">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faWallet} />
             <p className="text-small-regular text-zinc-300 leading-none">
-              {res.walletAddresses ? res.walletAddresses : "暂无钱包信息"}
+              {res.walletAddresses ? res.walletAddresses : "No wallet connected"}
             </p>
           </div>
         </div>
@@ -64,14 +64,14 @@ export default async function layout({ children, params }: { children: React.Rea
               className="bg-violet-300 hover:bg-violet-200 duration-200 text-small-regular text-center rounded-md px-3 py-2"
               href="/account"
             >
-              编辑个人信息
+              Edit account
             </Link>
           )}
           <button
             className="bg-orange-500 hover:bg-orange-400 duration-200 disabled:bg-zinc-800 disabled:text-zinc-400 text-small-regular text-center rounded-md px-3 py-2"
             disabled={!user || user.id === params.id}
           >
-            + 关注
+            + Follow
           </button>
         </div>
 
@@ -79,25 +79,25 @@ export default async function layout({ children, params }: { children: React.Rea
           <div className="flex items-center gap-2 text-zinc-400">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faDove} />
             <p className="text-small-semibold text-light-1 leading-none">{res.IPs.length}</p>
-            <p className="text-small-regular">创建的IP</p>
+            <p className="text-small-regular">IPs created</p>
           </div>
           <div className="flex items-center gap-2 text-zinc-400">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faHandshakeAngle} />
             <p className="text-small-semibold text-light-1 leading-none">{res.unions.length}</p>
-            <p className="text-small-regular">加入的工会</p>
+            <p className="text-small-regular">Unions joined</p>
           </div>
           <div className="flex items-center gap-2 text-zinc-400">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faWandMagicSparkles} />
             <p className="text-small-semibold text-light-1 leading-none">{res.adaptations.length}</p>
-            <p className="text-small-regular">贡献的二创</p>
+            <p className="text-small-regular">Adaptations contributed</p>
           </div>
           <div className="flex items-center gap-2 text-zinc-400">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faBell} />
             <p className="text-small-semibold text-light-1 leading-none">0</p>
-            <p className="text-small-regular">粉丝</p>
+            <p className="text-small-regular">Followers</p>
             <p className="text-small-regular">·</p>
             <p className="text-small-semibold text-light-1 leading-none">0</p>
-            <p className="text-small-regular">关注</p>
+            <p className="text-small-regular">Follows</p>
           </div>
         </div>
       </div>

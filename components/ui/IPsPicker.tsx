@@ -67,7 +67,7 @@ export default function IPsPicker({ label, ips, getIPs, required, errMsg }: Prop
       )}
       {ips.length === 0 && (
         <div className="flex justify-center items-center">
-          <SadPlaceholder size={300} text="暂无可选择的IP" />
+          <SadPlaceholder size={300} text="No IP available" />
         </div>
       )}
     </div>

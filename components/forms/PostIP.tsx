@@ -96,32 +96,32 @@ export default function PostIP({ userId }: { userId: string }) {
 
       <AppInput
         name="title"
-        label="IP名称"
-        placeholder="请输入您的IP名称"
+        label="IP name"
+        placeholder="Type your IP's name"
         required={true}
         type="text"
         errMsg={titleErr}
       />
       <AppTextarea
         name="description"
-        label="IP故事"
-        placeholder="请输入您的IP故事"
+        label="IP story"
+        placeholder="Type a story for your IP"
         required={true}
         rows={10}
         errMsg={descriptionErr}
       />
       <AppTextarea
         name="agreement"
-        label="授权协议"
-        placeholder="请输入您希望怎样去授权孵化的具体说明"
+        label="Agreement"
+        placeholder="Provide specific instructions on how you would like to authorize."
         required={true}
         rows={10}
         errMsg={agreementErr}
       />
       <AppInput
         name="officialLink"
-        label="IP官网链接"
-        placeholder="请输入您的IP官网链接，格式如https://example.com"
+        label="Official link"
+        placeholder="Type the official link of your IP，e.g. https://example.com"
         type="text"
         errMsg={officialLinkErr}
       />
@@ -133,7 +133,7 @@ export default function PostIP({ userId }: { userId: string }) {
       />
 
       <div className="h-[50px]">
-        <AppButton text="创 建" pendingText="创建中..." type="submit" />
+        <AppButton text="Create" pendingText="Creating..." type="submit" />
       </div>
     </form>
   );

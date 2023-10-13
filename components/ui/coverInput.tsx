@@ -49,7 +49,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
           ) : (
             <>
               <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />
-              <p className="text-zinc-400 text-center mx-3">添加图片</p>
+              <p className="text-zinc-400 text-center mx-3">Aspect 16:9</p>
             </>
           )}
         </label>
@@ -57,7 +57,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
 
       <div className="text-small-regular">
         <label htmlFor="coverInput" className="text-sky-400 hover:text-sky-300 duration-200 cursor-pointer">
-          选择封面图片 {required && <span className="text-red-400">*</span>}
+          Select your cover image {required && <span className="text-red-400">*</span>}
         </label>
         {errMsg && <p className="text-red-400 mt-1">{errMsg}</p>}
       </div>

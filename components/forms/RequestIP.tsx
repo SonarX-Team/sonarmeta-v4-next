@@ -35,16 +35,15 @@ export default function RequestIP({
   async function requestAction() {
     if (!userId) return router.push("/sign-in");
 
-    if (!unionSelected) return setUnionErr("* 必须选择一个工会");
+    if (!unionSelected) return setUnionErr("* Select one union at least");
 
     const { status, message } = await requestIP({ adminId: userId, unionId: unionSelected, IPId, path });
-    if (status === 401) alert("您无权操作此工会");
-    if (status === 400) alert("该工会已经在当前IP的审核列表中，或已经审核通过了");
+    if (status === 400 || status === 401) return alert(message);
 
     // 请求成功后
     if (status === 200 && message === "Requested") {
       setModalFlag(false);
-      alert("申请成功");
+      alert("Applied successfully");
     }
   }
 
@@ -61,7 +60,7 @@ export default function RequestIP({
           <div className="fixed inset-0 bg-black opacity-70"></div>
 
           <div className="relative z-10 bg-dark-2 rounded-xl w-[400px] p-6">
-            <h2 className="text-body-bold text-light-1 mb-4">选择工会</h2>
+            <h2 className="text-body-bold text-light-1 mb-4">Select a union</h2>
 
             {unions.length > 0 && (
               <>
@@ -84,13 +83,13 @@ export default function RequestIP({
 
                 <form action={requestAction}>
                   <p className="text-small-regular text-red-400 mb-2">{unionErr}</p>
-                  <AppButton text="确定孵化" pendingText="提交中..." type="submit" />
+                  <AppButton text="Confirm" pendingText="Proceeding..." type="submit" />
                 </form>
               </>
             )}
             {unions.length === 0 && (
               <div className="flex justify-center items-center">
-                <SadPlaceholder size={300} text="暂无可选择的工会" />
+                <SadPlaceholder size={300} text="No union available" />
               </div>
             )}
 
@@ -116,11 +115,11 @@ export default function RequestIP({
       {/* 按钮部分 */}
       <div className="flex items-start text-small-regular gap-3 leading-none h-[44px]">
         <form action={subscribeAction}>
-          <AppButton text="+ 关注" pendingText="关注中..." type="submit" />
+          <AppButton text="+ Follow" pendingText="Proceeding..." type="submit" />
         </form>
 
         <div>
-          <AppButton text="申请孵化" type="button" handleClick={() => setModalFlag(true)} />
+          <AppButton text="Apply for nurturing" type="button" handleClick={() => setModalFlag(true)} />
         </div>
       </div>
     </>

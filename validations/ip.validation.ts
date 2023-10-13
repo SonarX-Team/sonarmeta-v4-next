@@ -19,10 +19,10 @@ export const createIPValidation = (ip: {
   officialLink: string;
 }) => {
   const schema = z.object({
-    title: z.string().nonempty({ message: "不能为空" }).max(30, { message: "IP名称太长了" }),
-    description: z.string().nonempty({ message: "不能为空" }).max(2000, { message: "IP故事内容太长了" }),
-    agreement: z.string().nonempty({ message: "不能为空" }).max(2000, { message: "授权协议内容太长了" }),
-    officialLink: z.string().refine(urlValidator, { message: "路由格式请参考https://example.com" }),
+    title: z.string().nonempty({ message: "No empty" }).max(30, { message: "IP's name is too long" }),
+    description: z.string().nonempty({ message: "No empty" }).max(2000, { message: "IP's story is too long" }),
+    agreement: z.string().nonempty({ message: "No empty" }).max(2000, { message: "Agreement is too long" }),
+    officialLink: z.string().refine(urlValidator, { message: "Follow the example format: https://example.com" }),
   });
 
   const result = schema.safeParse(ip);

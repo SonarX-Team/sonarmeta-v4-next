@@ -8,7 +8,7 @@ export default async function page() {
 
   return (
     <div className="w-full max-w-4xl mt-12 px-6">
-      <h1 className="head-text text-left mb-10">选择工会，开启创作</h1>
+      <h1 className="head-text text-left mb-10">Choose a union and start creating.</h1>
 
       {unions.length > 0 ? (
         <section className="grid sm:grid-cols-2 gap-4">
@@ -17,7 +17,7 @@ export default async function page() {
           ))}
         </section>
       ) : (
-        <SadPlaceholder size={300} text="没有找到任何数据" />
+        <SadPlaceholder size={300} text="No data source found" />
       )}
     </div>
   );

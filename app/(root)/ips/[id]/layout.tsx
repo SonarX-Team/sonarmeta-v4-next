@@ -38,10 +38,10 @@ export default async function layout({ children, params }: { children: React.Rea
 
   // 基本信息卡
   const basicInfo = [
-    { count: IPRes.unions.length, icon: faHandshakeAngle, title: "工会" },
-    { count: IPRes.adaptations.length, icon: faWandMagicSparkles, title: "二创" },
-    { count: members.length, icon: faPeopleGroup, title: "孵化者" },
-    { count: 0, icon: faBell, title: "关注" },
+    { count: IPRes.unions.length, icon: faHandshakeAngle, title: "Unions" },
+    { count: IPRes.adaptations.length, icon: faWandMagicSparkles, title: "Adaptations" },
+    { count: members.length, icon: faPeopleGroup, title: "Holders" },
+    { count: 0, icon: faBell, title: "Followers" },
   ];
   const basicCard: JSX.Element[] = basicInfo.map((info, index) => (
     <div key={index}>
@@ -81,7 +81,7 @@ export default async function layout({ children, params }: { children: React.Rea
             <div className="flex items-center text-small-regular">
               <p className="text-gray-1">{formatDateString(IPRes.createdAt)}</p>
 
-              <p className="text-gray-1 mx-1">由</p>
+              <p className="text-gray-1 mx-1">by</p>
 
               <Link
                 href={`/space/${IPRes.author._id}`}
@@ -96,22 +96,16 @@ export default async function layout({ children, params }: { children: React.Rea
                   className="ml-1 rounded-full object-cover"
                 />
               </Link>
-
-              <p className="text-gray-1 mx-1">创建</p>
             </div>
           </div>
 
-          <RequestIP
-            userId={user?.id}
-            IPId={String(IPRes._id)}
-            unions={basicUnions}
-          />
+          <RequestIP userId={user?.id} IPId={String(IPRes._id)} unions={basicUnions} />
         </div>
 
         <div className="flex items-center sm:gap-16 gap-8 my-8">{basicCard}</div>
 
         <CategoryTab
-          tabs={["简介", "工会", "二创", "授权协议"]}
+          tabs={["Intro", "Unions", "Adaptations", "Agreement"]}
           routes={["", "/unions", "/adaptations", "/agreement"]}
           root={`/ips/${params.id}`}
         />

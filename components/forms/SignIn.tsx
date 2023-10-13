@@ -39,8 +39,14 @@ export default function SignIn() {
   return (
     <form action={signInAction}>
       <div className="flex flex-col justify-start gap-6">
-        <AppInput name="phone" label="手机号" placeholder="请输入您的手机号" type="text" errMsg={phoneErr} />
-        <AppInput name="password" label="密码" placeholder="请输入您的密码" type="password" errMsg={passwordErr} />
+        <AppInput name="phone" label="Phone" placeholder="Type your phone number" type="text" errMsg={phoneErr} />
+        <AppInput
+          name="password"
+          label="Password"
+          placeholder="Type your password"
+          type="password"
+          errMsg={passwordErr}
+        />
       </div>
 
       <hr className="border-1 border-zinc-600 mt-8 mb-2" />
@@ -54,19 +60,19 @@ export default function SignIn() {
           onChange={(e) => setIsChecked(e.target.checked)}
         />
         <label htmlFor="confirm" className="text-small-regular text-zinc-400 ml-2">
-          我已阅读并同意
+          I agree to the 
           <Link
             href="https://deck.sonarmeta.com"
-            className="text-sky-400 hover:text-sky-300 duration-200"
+            className="text-sky-400 hover:text-sky-300 duration-200 ml-1"
             target="_blank"
           >
-            《用户使用协议》
+            Terms of Service
           </Link>
         </label>
       </div>
 
       <div className="h-[50px]">
-        <AppButton text="登 录" pendingText="登录中..." type="submit" disabled={!isChecked} />
+        <AppButton text="Sign in" pendingText="Proceeding..." type="submit" disabled={!isChecked} />
       </div>
     </form>
   );

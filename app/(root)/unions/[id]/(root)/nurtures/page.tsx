@@ -18,14 +18,14 @@ export default async function page({ params }: { params: { id: string } }) {
     <div className="mt-8">
       <h3 className="flex leading-none text-base-regular text-zinc-400 mb-4">
         <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faDove} />
-        孵化中的IP
+        IPs are nurturing
       </h3>
 
       <div className="flex flex-col gap-10">
         {IPs.length > 0 ? (
           IPs.map((IP, index) => <IPEntryCard key={index} {...IP} />)
         ) : (
-          <SadPlaceholder size={300} text="没有找到任何数据" />
+          <SadPlaceholder size={300} text="No data source found" />
         )}
       </div>
     </div>

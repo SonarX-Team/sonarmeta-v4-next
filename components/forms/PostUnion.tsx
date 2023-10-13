@@ -73,31 +73,31 @@ export default function PostUnion({ userId }: { userId: string }) {
 
       <AppInput
         name="title"
-        label="工会名称"
-        placeholder="请输入您的工会名称"
+        label="Union name"
+        placeholder="Type your union's name"
         required={true}
         type="text"
         errMsg={titleErr}
       />
       <AppTextarea
         name="description"
-        label="工会描述"
-        placeholder="请输入您的工会描述"
+        label="Description"
+        placeholder="Type description for your union"
         required={true}
         rows={10}
         errMsg={descriptionErr}
       />
       <AppTextarea
         name="recruitment"
-        label="招募说明"
-        placeholder="请输入您希望招募什么样的人才的说明"
+        label="Recruitment"
+        placeholder="Provide rules of the type of talent you wish to recruit."
         required={true}
         rows={10}
         errMsg={recruitmentErr}
       />
 
       <div className="h-[50px]">
-        <AppButton text="创 建" pendingText="创建中..." type="submit" />
+        <AppButton text="Create" pendingText="Creating..." type="submit" />
       </div>
     </form>
   );

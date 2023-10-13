@@ -47,10 +47,10 @@ export default function page() {
 
       <div className="md:basis-1/2 basis-full px-6 py-12">
         <div className="mb-8">
-          <h1 className="head-text">登 录</h1>
-          <p className="mt-3 text-base-regular text-zinc-400">和蝠星一起，即刻加入IP的去中心化网络</p>
+          <h1 className="head-text">Sign in</h1>
+          <p className="mt-3 text-base-regular text-zinc-400">Join the decentralized IP network today!</p>
           <Link className="text-base-regular text-sky-400 hover:text-sky-300 duration-200" href="/sign-up">
-            还没有账号？去注册
+            Have no account?
           </Link>
         </div>
 

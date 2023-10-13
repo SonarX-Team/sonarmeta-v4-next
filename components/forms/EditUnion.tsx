@@ -37,7 +37,7 @@ export default function EditUnion({
         <AvatarInput name="avatar" defaultValue={avatar} required={true} errMsg={avatarErr} />
         <div className="flex justify-end sm:mt-0 mt-3">
           <div className="text-small-regular w-[100px] h-[44px]">
-            <AppButton text="保存" pendingText="保存中..." type="submit" />
+            <AppButton text="Save" pendingText="Saving..." type="submit" />
           </div>
         </div>
       </form>
@@ -48,7 +48,7 @@ export default function EditUnion({
         <CoverInput name="cover" defaultValue={cover} required={true} errMsg={coverErr} />
         <div className="flex justify-end sm:mt-0 mt-3">
           <div className="text-small-regular w-[100px] h-[44px]">
-            <AppButton text="保存" pendingText="保存中..." type="submit" />
+            <AppButton text="Save" pendingText="Saving..." type="submit" />
           </div>
         </div>
       </form>
@@ -58,8 +58,8 @@ export default function EditUnion({
       <form action="" className="">
         <AppInput
           name="title"
-          label="工会名称"
-          placeholder="请输入您的工会名称"
+          label="Union name"
+          placeholder="Change your union's name"
           defaultValue={title}
           required={true}
           type="text"
@@ -67,7 +67,7 @@ export default function EditUnion({
         />
         <div className="flex justify-end mt-3">
           <div className="text-small-regular w-[100px] h-[44px]">
-            <AppButton text="保存" pendingText="保存中..." type="submit" />
+            <AppButton text="Save" pendingText="Saving..." type="submit" />
           </div>
         </div>
       </form>
@@ -75,13 +75,13 @@ export default function EditUnion({
       <hr className="border-bottom-[1px] border-zinc-600" />
 
       <form action="">
-        <h1 className="text-body-bold text-light-1 mb-3">基本信息</h1>
+        <h1 className="text-body-bold text-light-1 mb-3">Basic info</h1>
 
         <div className="flex flex-col justify-start gap-6">
           <AppTextarea
             name="description"
-            label="工会描述"
-            placeholder="请输入您的工会描述"
+            label="Description"
+            placeholder="Change the description of your union"
             defaultValue={description}
             required={true}
             rows={10}
@@ -89,8 +89,8 @@ export default function EditUnion({
           />
           <AppTextarea
             name="recruitment"
-            label="招募说明"
-            placeholder="请输入您希望招募什么样的人才的说明"
+            label="Recruitment"
+            placeholder="Change the rules of the type of talent you wish to recruit."
             defaultValue={recruitment}
             required={true}
             rows={10}
@@ -100,7 +100,7 @@ export default function EditUnion({
 
         <div className="flex justify-end mt-3">
           <div className="text-small-regular w-[100px] h-[44px]">
-            <AppButton text="保存" pendingText="保存中..." type="submit" />
+            <AppButton text="Save" pendingText="Saving..." type="submit" />
           </div>
         </div>
       </form>

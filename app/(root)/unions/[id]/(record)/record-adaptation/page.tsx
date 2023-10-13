@@ -23,7 +23,7 @@ export default async function page({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full max-w-4xl mt-12 px-6">
-      <h1 className="head-text text-left mb-10">创建新二创</h1>
+      <h1 className="head-text text-left mb-10">Create a new adaptation</h1>
       <PostAdaptation userId={user.id} unionId={params.id} IPs={basicIPs} />
     </div>
   );
