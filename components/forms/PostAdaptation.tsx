@@ -73,13 +73,16 @@ export default function PostAdaptation({
     }
 
     // 处理4开头异常
-    if (res.status) {
-      if (res.status === 401) setIPsErr("所选IP存在未授权当前工会的情况");
-      else if (res.status === 403) alert("您无权对当前工会进行操作");
-
+    if (res.status === 401) {
+      setIPsErr("所选IP存在未授权当前工会的情况");
       // 回滚：删掉上传了的图片
       if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
-
+      return;
+    }
+    if (res.status === 403) {
+      alert("您无权对当前工会进行操作");
+      // 回滚：删掉上传了的图片
+      if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
       return;
     }
 

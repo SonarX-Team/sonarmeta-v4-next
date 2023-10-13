@@ -234,17 +234,12 @@ export async function joinUnion({
       return { status: 400, message: "Already joined" };
 
     // 更新Union
-    // await Union.findByIdAndUpdate(unionId, {
-    //   $pull: { inclinedMembers: userId },
-    //   $push: { members: userId },
-    // });
-
     union.inclinedMembers = union.inclinedMembers.filter((member: ObjectId) => String(member) !== userId);
     union.members.push(userId);
     union.save();
 
     // 更新User
-    user.unions.push(userId);
+    user.unions.push(unionId);
     user.save();
 
     revalidatePath(path);

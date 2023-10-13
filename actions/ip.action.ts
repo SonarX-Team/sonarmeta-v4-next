@@ -213,11 +213,6 @@ export async function nurtureIP({
       return { status: 400, message: "Already nurtured" };
 
     // 更新IP
-    // await IP.findByIdAndUpdate(IPId, {
-    //   $pull: { inclinedUnions: unionId },
-    //   $push: { unions: unionId },
-    // });
-
     IPRes.inclinedUnions = IPRes.inclinedUnions.filter((union: ObjectId) => String(union) !== unionId);
     IPRes.unions.push(unionId);
     IPRes.save();
