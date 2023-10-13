@@ -21,7 +21,7 @@ export default async function layout({ children, params }: { children: React.Rea
 
   if (user && user.id === params.id) {
     tabNames = ["概览", "IP", "工会", "二创", "审核"];
-    tabRoutes = ["", "/ips", "/unions", "/adaptations", "/examine"];
+    tabRoutes = ["", "/ips", "/unions", "/adaptations", "/review"];
   } else {
     tabNames = ["概览", "IP", "工会", "二创"];
     tabRoutes = ["", "/ips", "/unions", "/adaptations"];

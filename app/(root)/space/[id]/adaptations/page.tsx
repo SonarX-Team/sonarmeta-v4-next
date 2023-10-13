@@ -13,7 +13,7 @@ export default async function page({ params }: { params: { id: string } }) {
     <>
       <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
         <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faWandMagicSparkles} />
-        二创列表
+        贡献的二创
       </h3>
 
       <div className="flex flex-col gap-6">

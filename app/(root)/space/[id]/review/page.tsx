@@ -52,7 +52,7 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col justify-start gap-8">
       <div>
-        <h3 className="flex leading-none text-body-bold text-light-1 mb-3">
+        <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faDove} />
           孵化申请
         </h3>
@@ -111,7 +111,7 @@ export default async function page({ params }: { params: { id: string } }) {
       </div>
 
       <div>
-        <h3 className="flex leading-none text-body-bold text-light-1 mb-3">
+        <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faHandshakeAngle} />
           工会申请
         </h3>
