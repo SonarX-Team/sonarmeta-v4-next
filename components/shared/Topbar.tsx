@@ -20,11 +20,11 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
 
       {username && avatar && (
         <Link
-          className="flex items-center bg-zinc-700 hover:bg-zinc-600 duration-200 rounded-lg sm:px-4 sm:py-2 px-2 py-1 gap-2"
+          className="flex items-center bg-zinc-800 hover:bg-zinc-700 duration-200 rounded-lg sm:px-4 sm:py-2 px-2 py-1 gap-2"
           href="/account"
         >
           <Image src={avatar} alt="user-avatar" className="rounded-full" width={36} height={36} priority />
-          <p className="sm:text-base-regular text-small-regular text-zinc-300">{username}</p>
+          <p className="sm:block hidden sm:text-base-regular text-small-regular text-zinc-300">{username}</p>
         </Link>
       )}
 
@@ -37,10 +37,10 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
             Sign in
           </Link>
           <Link
-            className="bg-violet-300 hover:bg-violet-200 duration-200 text-zinc-900 rounded-md px-4 py-2"
+            className="bg-violet-600 hover:bg-violet-500 duration-200 text-zinc-200 rounded-md px-4 py-2"
             href="/sign-up"
           >
-            Sign up now
+            Sign up
           </Link>
         </div>
       )}

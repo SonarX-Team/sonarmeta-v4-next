@@ -17,6 +17,7 @@
     "@hookform/resolvers": "^3.3.1",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@rainbow-me/rainbowkit": "^1.1.1",
     "@types/ali-oss": "^6.16.8",
     "@types/bcryptjs": "^2.4.3",
     "@types/jsonwebtoken": "^9.0.2",
@@ -46,6 +47,8 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
+    "viem": "^1.16.5",
+    "wagmi": "^1.4.3",
     "zod": "^3.22.2"
   }
 }

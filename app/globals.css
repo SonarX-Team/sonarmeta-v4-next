@@ -147,7 +147,7 @@ textarea::placeholder {
   }
 
   .leftsidebar_link {
-    @apply relative flex justify-start gap-4 rounded-lg p-4;
+    @apply relative flex justify-start items-center gap-4 rounded-lg p-4;
   }
 
   .pagination {

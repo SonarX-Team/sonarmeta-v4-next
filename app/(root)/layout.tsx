@@ -2,6 +2,8 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import RainbowKit from "@/components/wallet/RainbowKit";
+
 import Topbar from "@/components/shared/Topbar";
 import Bottombar from "@/components/shared/Bottombar";
 import LeftSidebar from "@/components/shared/LeftSidebar";
@@ -28,17 +30,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Topbar {...userInfo} />
+        <RainbowKit>
+          <Topbar {...userInfo} />
 
-        <main className="flex flex-row">
-          <LeftSidebar loginStatus={user ? true : false} />
+          <main className="flex flex-row">
+            <LeftSidebar loginStatus={user ? true : false} />
 
-          <section className="main-container">{children}</section>
+            <section className="main-container">{children}</section>
 
-          <RightSidebar />
-        </main>
+            <RightSidebar />
+          </main>
 
-        <Bottombar />
+          <Bottombar />
+        </RainbowKit>
       </body>
     </html>
   );
