@@ -25,7 +25,7 @@ export default async function page({ params }: { params: { id: string } }) {
       <div className="mt-8">
         <h3 className="flex leading-none text-base-regular text-zinc-400 mb-4">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faPeopleGroup} />
-          Union's members
+          Union members
         </h3>
 
         {unionRes.members.length > 0 ? (

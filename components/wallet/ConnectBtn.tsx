@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -53,7 +54,13 @@ export const ConnectBtn = () => {
                     {chain.hasIcon && (
                       <div className="w-[24px] h-[24px] rounded-full overflow-hidden">
                         {chain.iconUrl && (
-                          <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} className="w-[24px] h-[24px]" />
+                          <Image
+                            className="w-[24px] h-[24px]"
+                            src={chain.iconUrl}
+                            alt={chain.name ?? "Chain icon"}
+                            width={24}
+                            height={24}
+                          />
                         )}
                       </div>
                     )}
