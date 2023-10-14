@@ -32,7 +32,7 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
 
 // Auth常量
 export const EXPIRE_AGE = 60 * 60 * 24 * 30; // JWT失效时间30天
-export const COOKIE_NAME = "jsonWebTokenValue";
+export const COOKIE_NAME = "sonarmetaAuthToken";
 
 // AliOSS常量
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";

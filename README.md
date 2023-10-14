@@ -1,5 +1,16 @@
 这是“声呐探索（杭州）科技有限公司”产品声呐元的官方网站工程，由Next.js框架实现。
 
+## 如何安装
+```bash
+$ git clone ...
+$ yarn install
+
+根目录下添加.env.local文件
+
+$ yarn build
+$ yarn start (pm2 start yarn)
+```
+
 ## 如何调试
 
 ```bash
