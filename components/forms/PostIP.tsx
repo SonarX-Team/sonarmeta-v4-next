@@ -55,15 +55,22 @@ export default function PostIP({ userId }: { userId: string }) {
       imageUrls.push(result.url);
     }
 
+    // 图册在formData里可能引起413错误，所以这个action不传formData，把字段读出来
+    const title = String(formData.get("title"));
+    const description = String(formData.get("description"));
+    const agreement = String(formData.get("agreement"));
+    const officialLink = String(formData.get("officialLink"));
+
     const res = await createIP({
       userId,
-      formData,
+      title,
+      description,
+      agreement,
+      officialLink,
       avatar: avatarRes.url,
       cover: coverRes.url,
       images: imageUrls,
     });
-
-    console.log(res, res.ValidationErrors);
 
     // 处理校验信息失败
     if (res.ValidationErrors) {

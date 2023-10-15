@@ -57,7 +57,7 @@ export default function IPEntryCard({
               )}
             </div>
 
-            <p className="mt-2 text-small-regular text-light-2 whitespace-pre-line">{description.slice(0, 240)}</p>
+            <p className="mt-2 text-small-regular text-light-2 line-clamp-6 whitespace-pre-line">{description}</p>
 
             <p className="mt-2">
               <Link href={`/ips/${_id}`} className="text-small-regular text-sky-400 hover:text-sky-300 duration-200">
@@ -94,11 +94,7 @@ export default function IPEntryCard({
 
         <Link href={`/space/${author._id}`} className="flex items-center text-sky-400 hover:text-sky-300 duration-200">
           <p>{author.username}</p>
-          <img
-            className="w-[24px] h-[24px] ml-1 rounded-full object-cover"
-            src={author.avatar}
-            alt={author.username}
-          />
+          <img className="w-[24px] h-[24px] ml-1 rounded-full object-cover" src={author.avatar} alt={author.username} />
         </Link>
 
         <p className="text-gray-1 mx-1">-</p>

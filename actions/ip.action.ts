@@ -101,22 +101,23 @@ export async function fetchIP({ IPId }: { IPId: string }) {
 // 创建新IP - POST
 export async function createIP({
   userId,
-  formData,
+  title,
+  description,
+  agreement,
+  officialLink,
   avatar,
   cover,
   images,
 }: {
   userId: string;
-  formData: FormData;
+  title: string;
+  description: string;
+  agreement: string;
+  officialLink: string;
   avatar: string;
   cover: string;
   images: string[];
 }) {
-  const title = String(formData.get("title"));
-  const description = String(formData.get("description"));
-  const agreement = String(formData.get("agreement"));
-  const officialLink = String(formData.get("officialLink"));
-
   // 对客户端传来的数据做校验
   const { isValid, errors } = createIPValidation({ title, description, agreement, officialLink });
   if (!isValid) return { ValidationErrors: errors };
