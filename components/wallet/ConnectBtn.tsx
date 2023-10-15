@@ -60,6 +60,7 @@ export const ConnectBtn = () => {
                             alt={chain.name ?? "Chain icon"}
                             width={24}
                             height={24}
+                            priority
                           />
                         )}
                       </div>

@@ -40,9 +40,9 @@ export default function PostIP({ userId }: { userId: string }) {
     const avatarFile = formData.get("avatar") as File;
     const coverFile = formData.get("cover") as File;
 
-    if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("IP头像不能为空");
-    if (!(coverFile && coverFile.size > 0)) return setCoverErr("IP封面不能为空");
-    if (imagesAdded.current.length === 0) return setImagesErr("至少为IP图片列表加一个图片");
+    if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("Must select an avatar");
+    if (!(coverFile && coverFile.size > 0)) return setCoverErr("Must select a cover");
+    if (imagesAdded.current.length === 0) return setImagesErr("Must add one image at least");
 
     // 处理头像和封面
     const avatarRes = await uploadFile(`ips/${timeStamp}/avatar.png`, avatarFile);

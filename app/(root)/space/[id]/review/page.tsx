@@ -72,11 +72,12 @@ export default async function page({ params }: { params: { id: string } }) {
                   >
                     <p>{request.IPTitle}</p>
                     <Image
+                      className="ml-1 rounded-full object-cover"
                       src={request.IPAvatar}
                       alt={request.IPTitle}
                       width={24}
                       height={24}
-                      className="ml-1 rounded-full object-cover"
+                      priority
                     />
                   </Link>
 
@@ -88,20 +89,17 @@ export default async function page({ params }: { params: { id: string } }) {
                   >
                     <p>{request.unionTitle}</p>
                     <Image
+                      className="ml-1 rounded-full object-cover"
                       src={request.unionAvatar}
                       alt={request.unionTitle}
                       width={24}
                       height={24}
-                      className="ml-1 rounded-full object-cover"
+                      priority
                     />
                   </Link>
                 </div>
 
-                <ApproveIP
-                  adminId={user.id}
-                  IPId={request.IPId}
-                  unionId={request.unionId}
-                />
+                <ApproveIP adminId={user.id} IPId={request.IPId} unionId={request.unionId} />
               </div>
             ))
           ) : (
@@ -131,11 +129,12 @@ export default async function page({ params }: { params: { id: string } }) {
                   >
                     <p>{request.memberName}</p>
                     <Image
+                      className="ml-1 rounded-full object-cover"
                       src={request.memberAvatar}
                       alt={request.memberName}
                       width={24}
                       height={24}
-                      className="ml-1 rounded-full object-cover"
+                      priority
                     />
                   </Link>
 
@@ -147,20 +146,17 @@ export default async function page({ params }: { params: { id: string } }) {
                   >
                     <p>{request.unionTitle}</p>
                     <Image
+                      className="ml-1 rounded-full object-cover"
                       src={request.unionAvatar}
                       alt={request.unionTitle}
                       width={24}
                       height={24}
-                      className="ml-1 rounded-full object-cover"
+                      priority
                     />
                   </Link>
                 </div>
 
-                <ApproveUnion
-                  userId={request.memberId}
-                  adminId={user.id}
-                  unionId={request.unionId}
-                />
+                <ApproveUnion userId={request.memberId} adminId={user.id} unionId={request.unionId} />
               </div>
             ))
           ) : (

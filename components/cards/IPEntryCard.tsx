@@ -33,7 +33,7 @@ export default function IPEntryCard({
               href={`/ips/${_id}`}
               className="relative w-[81px] h-[81px] rounded-full bg-violet-900 hover:bg-violet-800 duration-200"
             >
-              <Image src={avatar} alt="user_community_image" fill className="cursor-pointer rounded-full" />
+              <Image src={avatar} alt="user_community_image" fill className="cursor-pointer rounded-full" priority />
             </Link>
 
             <div className="thread-card_bar" />
@@ -96,11 +96,12 @@ export default function IPEntryCard({
         <Link href={`/space/${author._id}`} className="flex items-center text-sky-400 hover:text-sky-300 duration-200">
           <p>{author.username}</p>
           <Image
+            className="ml-1 rounded-full object-cover"
             src={author.avatar}
             alt={author.username}
             width={24}
             height={24}
-            className="ml-1 rounded-full object-cover"
+            priority
           />
         </Link>
 

@@ -9,7 +9,7 @@ type Props = {
 const SadPlaceholder: React.FC<Props> = ({ size, text }) => {
   return (
     <div className="flex flex-col justify-center items-center py-12">
-      <Image src="/sad.png" alt="sad" width={size} height={size} />
+      <Image src="/sad.png" alt="sad" width={size} height={size} priority />
       <p className="text-zinc-500 text-lg">{text}</p>
     </div>
   );

@@ -45,7 +45,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
           htmlFor="coverInput"
         >
           {coverUrl ? (
-            <Image className="rounded-lg h-[90px]" src={coverUrl} alt="cover" width={160} height={90} />
+            <Image className="rounded-lg h-[90px]" src={coverUrl} alt="cover" width={160} height={90} priority />
           ) : (
             <>
               <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />

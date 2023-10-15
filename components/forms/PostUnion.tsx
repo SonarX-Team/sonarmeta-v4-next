@@ -34,8 +34,8 @@ export default function PostUnion({ userId }: { userId: string }) {
     const coverFile = formData.get("cover") as File;
 
     // 客户端处理图片上传
-    if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("工会头像不能为空");
-    if (!(coverFile && coverFile.size > 0)) return setCoverErr("工会封面不能为空");
+    if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("Must select an avatar");
+    if (!(coverFile && coverFile.size > 0)) return setCoverErr("Must select a cover");
 
     const avatarRes = await uploadFile(`unions/${timeStamp}/avatar.png`, avatarFile);
     const coverRes = await uploadFile(`unions/${timeStamp}/cover.png`, coverFile);

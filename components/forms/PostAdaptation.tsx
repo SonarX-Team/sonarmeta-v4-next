@@ -46,8 +46,8 @@ export default function PostAdaptation({
 
     const coverFile = formData.get("cover") as File;
 
-    if (!(coverFile && coverFile.size > 0)) return setCoverErr("二创封面不能为空");
-    if (IPsPicked.current.length === 0) return setIPsErr("必须至少选择一个IP");
+    if (!(coverFile && coverFile.size > 0)) return setCoverErr("Must select a cover");
+    if (IPsPicked.current.length === 0) return setIPsErr("Must select one IP at least");
 
     // 客户端处理图片上传
     const coverRes = await uploadFile(`adaptations/${timeStamp}/cover.png`, coverFile);

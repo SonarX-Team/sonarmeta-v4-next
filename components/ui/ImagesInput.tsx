@@ -87,7 +87,7 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultVa
 
         {urls.map((url, index) => (
           <div className="flex justify-center items-center relative bg-zinc-800 rounded-lg h-[160px]" key={index}>
-            <Image className="rounded-lg" src={url} alt="ip-image" width={120} height={160} />
+            <Image className="rounded-lg" src={url} alt="ip-image" width={120} height={160} priority />
             <button
               className="flex justify-center items-center absolute top-0 right-0 translate-x-1/3 -translate-y-1/3"
               type="button"

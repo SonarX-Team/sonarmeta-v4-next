@@ -20,7 +20,14 @@ const AppButton: React.FC<Props> = ({ text, pendingText, disabled, type, handleC
       onClick={handleClick}
     >
       {pending && (
-        <Image className="d-inline mr-1 animate-spin" src="/pending.png" alt="pending" width={20} height={20} />
+        <Image
+          className="d-inline mr-1 animate-spin"
+          src="/pending.png"
+          alt="pending"
+          width={20}
+          height={20}
+          priority
+        />
       )}
       {pending ? pendingText : text}
     </button>

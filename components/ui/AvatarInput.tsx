@@ -45,7 +45,7 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
           htmlFor="avatarInput"
         >
           {avatarUrl ? (
-            <Image className="rounded-full" src={avatarUrl} alt="avatar" width={120} height={120} />
+            <Image className="rounded-full" src={avatarUrl} alt="avatar" width={120} height={120} priority />
           ) : (
             <>
               <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />

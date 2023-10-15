@@ -29,7 +29,7 @@ export default function UnionEntryCard({
     <div className="relative bg-dark-2 rounded-xl overflow-hidden h-full z-0">
       <div className="relative w-full aspect-[16/9] bg-zinc-700 hover:bg-zinc-600 duration-200">
         <Link href={`/unions/${_id}`} className="w-fit">
-          <Image src={cover} alt="union-cover" fill />
+          <Image src={cover} alt="union-cover" fill priority />
         </Link>
       </div>
 
@@ -41,6 +41,7 @@ export default function UnionEntryCard({
             alt="union-avatar"
             width={56}
             height={56}
+            priority
           />
         </Link>
 

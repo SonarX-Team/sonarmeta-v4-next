@@ -18,7 +18,7 @@ export default function UserCard({
       className="flex items-center bg-zinc-900 hover:bg-zinc-800 duration-200 rounded-xl gap-4 p-2"
     >
       <div>
-        <Image className="rounded-full" src={avatar} alt="user-avatar" width={48} height={48} />
+        <Image className="rounded-full" src={avatar} alt="user-avatar" width={48} height={48} priority />
       </div>
 
       <div className="flex-1">

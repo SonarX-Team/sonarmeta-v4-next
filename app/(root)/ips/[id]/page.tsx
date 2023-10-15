@@ -18,7 +18,7 @@ export default async function page({ params }: { params: { id: string } }) {
             <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faLink} />
             Official link
           </h3>
-          
+
           <Link
             className="text-small-regular text-sky-400 hover:text-sky-300 duration-200"
             href={IPRes.officialLink}
@@ -37,8 +37,11 @@ export default async function page({ params }: { params: { id: string } }) {
 
         <div className="flex flex-wrap overflow-y-auto h-[200px] gap-4">
           {IPRes.images.map((image, index) => (
-            <div key={index} className="flex justify-center items-center bg-zinc-800 rounded-lg min-w-[150px] h-[200px]">
-              <Image className="rounded-lg" src={image} alt="ip-image" width={150} height={200} />
+            <div
+              key={index}
+              className="flex justify-center items-center bg-zinc-800 rounded-lg min-w-[150px] h-[200px]"
+            >
+              <Image className="rounded-lg" src={image} alt="ip-image" width={150} height={200} priority />
             </div>
           ))}
         </div>

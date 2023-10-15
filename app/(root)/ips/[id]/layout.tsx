@@ -62,6 +62,7 @@ export default async function layout({ children, params }: { children: React.Rea
           alt="IP-cover"
           width={1600}
           height={900}
+          priority
         />
       </div>
 
@@ -72,6 +73,7 @@ export default async function layout({ children, params }: { children: React.Rea
           alt="IP-avatar"
           width={140}
           height={140}
+          priority
         />
 
         <div className="sm:flex justify-between item-start mt-8">
@@ -89,11 +91,12 @@ export default async function layout({ children, params }: { children: React.Rea
               >
                 <p>{IPRes.author.username}</p>
                 <Image
+                  className="ml-1 rounded-full object-cover"
                   src={IPRes.author.avatar}
                   alt={IPRes.author.username}
                   width={30}
                   height={30}
-                  className="ml-1 rounded-full object-cover"
+                  priority
                 />
               </Link>
             </div>

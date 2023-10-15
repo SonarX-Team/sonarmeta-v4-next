@@ -39,6 +39,7 @@ export default async function layout({ children, params }: { children: React.Rea
             alt="user-avatar"
             width={270}
             height={270}
+            priority
           />
 
           <h1 className="text-heading2-semibold text-zinc-50">{res.username}</h1>

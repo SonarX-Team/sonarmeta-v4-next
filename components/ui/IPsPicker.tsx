@@ -59,7 +59,7 @@ export default function IPsPicker({ label, ips, getIPs, required, errMsg }: Prop
                   : "border-zinc-900 hover:border-zinc-800"
               } rounded-xl cursor-pointer gap-4 px-4 py-2`}
             >
-              <Image className="rounded-full" src={ip.avatar} alt="user-avatar" width={48} height={48} />
+              <Image className="rounded-full" src={ip.avatar} alt="user-avatar" width={48} height={48} priority />
               <h1 className="flex-1 text-body-bold text-light-2">{ip.title}</h1>
             </div>
           ))}
