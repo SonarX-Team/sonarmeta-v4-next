@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,24 +55,18 @@ export default async function layout({ children, params }: { children: React.Rea
   return (
     <div className="relative w-full">
       <div className="relative w-full h-[240px] overflow-hidden z-0">
-        <Image
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        <img
+          className="absolute w-[1600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           src={IPRes.cover}
           alt="IP-cover"
-          width={1600}
-          height={900}
-          priority
         />
       </div>
 
       <div className="relative max-w-4xl mx-auto z-10 -mt-16 px-6">
-        <Image
-          className="bg-violet-900 hover:bg-violet-800 duration-200 rounded-full"
+        <img
+          className="w-[140px] h-[140px] bg-violet-900 hover:bg-violet-800 duration-200 rounded-full"
           src={IPRes.avatar}
           alt="IP-avatar"
-          width={140}
-          height={140}
-          priority
         />
 
         <div className="sm:flex justify-between item-start mt-8">
@@ -90,13 +83,10 @@ export default async function layout({ children, params }: { children: React.Rea
                 className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
               >
                 <p>{IPRes.author.username}</p>
-                <Image
-                  className="ml-1 rounded-full object-cover"
+                <img
+                  className="w-[30px] h-[30px] ml-1 rounded-full object-cover"
                   src={IPRes.author.avatar}
                   alt={IPRes.author.username}
-                  width={30}
-                  height={30}
-                  priority
                 />
               </Link>
             </div>

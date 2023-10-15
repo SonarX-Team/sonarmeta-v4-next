@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function UserCard({
   id,
@@ -18,7 +17,7 @@ export default function UserCard({
       className="flex items-center bg-zinc-900 hover:bg-zinc-800 duration-200 rounded-xl gap-4 p-2"
     >
       <div>
-        <Image className="rounded-full" src={avatar} alt="user-avatar" width={48} height={48} priority />
+        <img className="w-[48px] h-[48px] rounded-full" src={avatar} alt="user-avatar" />
       </div>
 
       <div className="flex-1">

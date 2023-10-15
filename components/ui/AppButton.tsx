@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 type Props = {
@@ -19,16 +18,7 @@ const AppButton: React.FC<Props> = ({ text, pendingText, disabled, type, handleC
       disabled={disabled || pending}
       onClick={handleClick}
     >
-      {pending && (
-        <Image
-          className="d-inline mr-1 animate-spin"
-          src="/pending.png"
-          alt="pending"
-          width={20}
-          height={20}
-          priority
-        />
-      )}
+      {pending && <img className="d-inline w-[20px] h-[20px] mr-1 animate-spin" src="/pending.png" alt="pending" />}
       {pending ? pendingText : text}
     </button>
   );

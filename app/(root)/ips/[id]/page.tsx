@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,7 +40,7 @@ export default async function page({ params }: { params: { id: string } }) {
               key={index}
               className="flex justify-center items-center bg-zinc-800 rounded-lg min-w-[150px] h-[200px]"
             >
-              <Image className="rounded-lg" src={image} alt="ip-image" width={150} height={200} priority />
+              <img className="w-[150px] rounded-lg" src={image} alt="ip-image" />
             </div>
           ))}
         </div>

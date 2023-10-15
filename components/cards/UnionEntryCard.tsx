@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDove,
@@ -29,20 +28,13 @@ export default function UnionEntryCard({
     <div className="relative bg-dark-2 rounded-xl overflow-hidden h-full z-0">
       <div className="relative w-full aspect-[16/9] bg-zinc-700 hover:bg-zinc-600 duration-200">
         <Link href={`/unions/${_id}`} className="w-fit">
-          <Image src={cover} alt="union-cover" fill priority />
+          <img className="w-full" src={cover} alt="union-cover" />
         </Link>
       </div>
 
       <div className="relative -mt-12 p-4 z-10">
         <Link href={`/unions/${_id}`} className="w-fit">
-          <Image
-            className="bg-violet-900/70 rounded-full mb-2"
-            src={avatar}
-            alt="union-avatar"
-            width={56}
-            height={56}
-            priority
-          />
+          <img className="w-[56px] h-[56px] bg-violet-900/70 rounded-full mb-2" src={avatar} alt="union-avatar" />
         </Link>
 
         <div className="flex justify-between items-center mb-4">

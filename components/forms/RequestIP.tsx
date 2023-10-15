@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 
 import { requestIP } from "@/actions/ip.action";
 
@@ -75,14 +74,7 @@ export default function RequestIP({
                           : "border-zinc-900 hover:border-zinc-800"
                       } rounded-xl cursor-pointer gap-4 px-4 py-2`}
                     >
-                      <Image
-                        className="rounded-full"
-                        src={union.avatar}
-                        alt="user-avatar"
-                        width={48}
-                        height={48}
-                        priority
-                      />
+                      <img className="w-[48px] h-[48px] rounded-full" src={union.avatar} alt="user-avatar" />
                       <h1 className="flex-1 text-body-bold text-light-2">{union.title}</h1>
                     </div>
                   ))}

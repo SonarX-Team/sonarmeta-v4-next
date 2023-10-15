@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -33,13 +32,10 @@ export default async function layout({ children, params }: { children: React.Rea
     <div className="sm:flex w-full max-w-6xl mt-12 px-6">
       <div className="flex flex-col justify-start gap-8 basis-1/4">
         <div className="flex flex-col justify-start gap-3">
-          <Image
-            className="bg-violet-900 hover:bg-violet-800 duration-200 border-2 border-zinc-400 rounded-full"
+          <img
+            className="w-[270px] h-[270px] bg-violet-900 hover:bg-violet-800 duration-200 border-2 border-zinc-400 rounded-full"
             src={res.avatar}
             alt="user-avatar"
-            width={270}
-            height={270}
-            priority
           />
 
           <h1 className="text-heading2-semibold text-zinc-50">{res.username}</h1>

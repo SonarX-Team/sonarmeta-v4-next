@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 import { formatDateString } from "@/lib/utils";
 
@@ -19,7 +18,7 @@ export default function AdaptationCard({
   return (
     <div className="sm:flex bg-dark-2 rounded-xl overflow-hidden gap-4 p-4">
       <div className="sm:mb-0 mb-2">
-        <Image className="rounded-xl" src={cover} alt="adaptation-cover" width={160} height={90} priority />
+        <img className="w-[160px] rounded-xl" src={cover} alt="adaptation-cover" />
       </div>
 
       <div className="flex flex-col flex-1 gap-2">

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,7 +44,7 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
           htmlFor="avatarInput"
         >
           {avatarUrl ? (
-            <Image className="rounded-full" src={avatarUrl} alt="avatar" width={120} height={120} priority />
+            <img className="w-[120px] h-[120px] rounded-full" src={avatarUrl} alt="avatar" />
           ) : (
             <>
               <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />

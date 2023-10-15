@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDove, faHandshakeAngle } from "@fortawesome/free-solid-svg-icons";
@@ -71,13 +70,10 @@ export default async function page({ params }: { params: { id: string } }) {
                     className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
                   >
                     <p>{request.IPTitle}</p>
-                    <Image
-                      className="ml-1 rounded-full object-cover"
+                    <img
+                      className="w-[24px] h-[24px] ml-1 rounded-full object-cover"
                       src={request.IPAvatar}
                       alt={request.IPTitle}
-                      width={24}
-                      height={24}
-                      priority
                     />
                   </Link>
 
@@ -88,13 +84,10 @@ export default async function page({ params }: { params: { id: string } }) {
                     className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
                   >
                     <p>{request.unionTitle}</p>
-                    <Image
-                      className="ml-1 rounded-full object-cover"
+                    <img
+                      className="w-[24px] h-[24px] ml-1 rounded-full object-cover"
                       src={request.unionAvatar}
                       alt={request.unionTitle}
-                      width={24}
-                      height={24}
-                      priority
                     />
                   </Link>
                 </div>
@@ -128,13 +121,10 @@ export default async function page({ params }: { params: { id: string } }) {
                     className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
                   >
                     <p>{request.memberName}</p>
-                    <Image
-                      className="ml-1 rounded-full object-cover"
+                    <img
+                      className="w-[24px] h-[24px] ml-1 rounded-full object-cover"
                       src={request.memberAvatar}
                       alt={request.memberName}
-                      width={24}
-                      height={24}
-                      priority
                     />
                   </Link>
 
@@ -145,13 +135,10 @@ export default async function page({ params }: { params: { id: string } }) {
                     className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
                   >
                     <p>{request.unionTitle}</p>
-                    <Image
-                      className="ml-1 rounded-full object-cover"
+                    <img
+                      className="w-[24px] h-[24px] ml-1 rounded-full object-cover"
                       src={request.unionAvatar}
                       alt={request.unionTitle}
-                      width={24}
-                      height={24}
-                      priority
                     />
                   </Link>
                 </div>

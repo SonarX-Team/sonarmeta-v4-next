@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,7 +44,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
           htmlFor="coverInput"
         >
           {coverUrl ? (
-            <Image className="rounded-lg h-[90px]" src={coverUrl} alt="cover" width={160} height={90} priority />
+            <img className="w-[160px] h-[90px] rounded-lg h-[90px]" src={coverUrl} alt="cover" />
           ) : (
             <>
               <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />

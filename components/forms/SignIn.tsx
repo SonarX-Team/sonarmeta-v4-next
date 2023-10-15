@@ -60,7 +60,7 @@ export default function SignIn() {
           onChange={(e) => setIsChecked(e.target.checked)}
         />
         <label htmlFor="confirm" className="text-small-regular text-zinc-400 ml-2">
-          I agree to the 
+          I agree to the
           <Link
             href="https://deck.sonarmeta.com"
             className="text-sky-400 hover:text-sky-300 duration-200 ml-1"

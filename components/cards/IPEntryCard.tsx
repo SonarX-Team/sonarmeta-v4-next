@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHandshakeAngle,
@@ -33,7 +32,7 @@ export default function IPEntryCard({
               href={`/ips/${_id}`}
               className="relative w-[81px] h-[81px] rounded-full bg-violet-900 hover:bg-violet-800 duration-200"
             >
-              <Image src={avatar} alt="user_community_image" fill className="cursor-pointer rounded-full" priority />
+              <img src={avatar} alt="user_community_image" className="cursor-pointer rounded-full" />
             </Link>
 
             <div className="thread-card_bar" />
@@ -95,13 +94,10 @@ export default function IPEntryCard({
 
         <Link href={`/space/${author._id}`} className="flex items-center text-sky-400 hover:text-sky-300 duration-200">
           <p>{author.username}</p>
-          <Image
-            className="ml-1 rounded-full object-cover"
+          <img
+            className="w-[24px] h-[24px] ml-1 rounded-full object-cover"
             src={author.avatar}
             alt={author.username}
-            width={24}
-            height={24}
-            priority
           />
         </Link>
 
