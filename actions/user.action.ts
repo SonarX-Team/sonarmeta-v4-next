@@ -17,6 +17,7 @@ export async function getCurrentUser() {
   const token = cookies().get(COOKIE_NAME);
 
   if (!token) return { status: 401, message: "Access denied. No token provided", user: null };
+  if (!token.value) return { status: 401, message: "Access denied. No token provided", user: null };
 
   try {
     const secret = process.env.JWT_SECRET || "";
@@ -65,11 +66,11 @@ export async function signInUser(formData: FormData) {
     await connectToDB();
 
     let user = await User.findOne({ phone });
-    if (!user) return { errName: "phone", errMsg: "未注册或无效的手机号" };
+    if (!user) return { errName: "phone", errMsg: "Invalid phone number" };
 
     // 解密哈希密码并和客户端密码比对
     const isValidPassword = await bcryptjs.compare(password, user.password);
-    if (!isValidPassword) return { errName: "password", errMsg: "密码不匹配该手机号" };
+    if (!isValidPassword) return { errName: "password", errMsg: "Password and phone do not match" };
 
     // 生成JWT
     const secret = process.env.JWT_SECRET || "";

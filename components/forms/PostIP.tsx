@@ -63,6 +63,8 @@ export default function PostIP({ userId }: { userId: string }) {
       images: imageUrls,
     });
 
+    console.log(res, res.ValidationErrors);
+
     // 处理校验信息失败
     if (res.ValidationErrors) {
       if (res.ValidationErrors.title) setTitleErr(res.ValidationErrors.title._errors[0]);

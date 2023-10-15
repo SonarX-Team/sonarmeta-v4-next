@@ -15,7 +15,7 @@ export default async function page({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full max-w-4xl mt-12 px-6">
-      <h1 className="head-text text-left mb-10">Edit IP info (comming soon)</h1>
+      <h1 className="head-text text-left mb-10">Edit IP info (coming soon)</h1>
       <EditIP
         IPId={String(IPRes._id)}
         userId={user.id}
