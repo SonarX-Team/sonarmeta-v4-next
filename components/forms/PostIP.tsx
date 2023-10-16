@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAccount, useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 
 import { deleteMulti, uploadFile } from "@/lib/alioss";
 import { createIP } from "@/actions/ip.action";
@@ -13,8 +14,15 @@ import AvatarInput from "../ui/AvatarInput";
 import ImagesInput from "../ui/ImagesInput";
 import CoverInput from "../ui/coverInput";
 
+import { ADMIN_ADDRESS, MAIN_CONTRACT } from "@/constants";
+
+import mainContract from "@/contracts/SonarMeta.sol/SonarMeta.json";
+
 export default function PostIP({ userId }: { userId: string }) {
   const router = useRouter();
+
+  const { address: userAddress } = useAccount();
+  const { chain } = useNetwork();
 
   const [avatarErr, setAvatarErr] = useState<string>("");
   const [coverErr, setCoverErr] = useState<string>("");
@@ -25,6 +33,27 @@ export default function PostIP({ userId }: { userId: string }) {
   const [imagesErr, setImagesErr] = useState<string>("");
 
   const imagesAdded = useRef<File[]>([]);
+  const avatarUrlRef = useRef<string>("");
+
+  // 准备调用合约
+  const { config } = usePrepareContractWrite({
+    address: MAIN_CONTRACT,
+    abi: mainContract.abi,
+    functionName: "createNewIP",
+    // account: ADMIN_ADDRESS,
+    chainId: 5,
+    args: [avatarUrlRef.current, userAddress, chain.id],
+  });
+
+  const { data, write } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
+  useEffect(() => {
+    console.log(data);
+  }, [isSuccess]);
 
   async function createIPAction(formData: FormData) {
     setAvatarErr("");
@@ -47,6 +76,9 @@ export default function PostIP({ userId }: { userId: string }) {
     // 处理头像和封面
     const avatarRes = await uploadFile(`ips/${timeStamp}/avatar.png`, avatarFile);
     const coverRes = await uploadFile(`ips/${timeStamp}/cover.png`, coverFile);
+
+    // 保存头像的地址用于和IP token链接
+    avatarUrlRef.current = avatarRes.url;
 
     // 处理图册
     const imageUrls: string[] = [];
@@ -83,9 +115,13 @@ export default function PostIP({ userId }: { userId: string }) {
       if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarRes.url]);
       if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
       if (imagesAdded.current.length > 0) await deleteMulti(imageUrls);
+      avatarUrlRef.current = "";
 
       return;
     }
+
+    // 调用合约
+    write?.();
 
     // 更新成功后
     if (res.status !== 201 || res.message !== "Created") return;
@@ -142,7 +178,12 @@ export default function PostIP({ userId }: { userId: string }) {
       />
 
       <div className="h-[50px]">
-        <AppButton text="Create" pendingText="Creating..." type="submit" />
+        <AppButton
+          text={write ? "Create" : "Cannot create"}
+          pendingText={isLoading ? "Calling contract..." : "Creating..."}
+          disabled={!write}
+          type="submit"
+        />
       </div>
     </form>
   );

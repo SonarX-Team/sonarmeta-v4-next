@@ -36,3 +36,7 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 
 // AliOSS常量
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
+
+// ETH常量
+export const MAIN_CONTRACT = "0xE285Dc425c41d128285D9440bd034549341126F5";
+export const ADMIN_ADDRESS = "0xCfb4a9cf76d8977513137c5d302931681E45f632";

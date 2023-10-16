@@ -3,11 +3,11 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum, avalanche, bsc, bscTestnet } from "wagmi/chains";
+import { mainnet, sepolia, goerli, polygon, optimism, arbitrum, avalanche, bsc, bscTestnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, avalanche, bsc, bscTestnet],
+  [mainnet, polygon, bsc, avalanche, optimism, arbitrum, sepolia, goerli, bscTestnet],
   [publicProvider()]
 );
 
@@ -41,4 +41,3 @@ export default function RainbowKit({ children }: { children: React.ReactNode }) 
     </WagmiConfig>
   );
 }
-
