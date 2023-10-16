@@ -1,11 +1,11 @@
-这是“声呐探索（杭州）科技有限公司”产品声呐元的官方网站工程，由Next.js框架实现。
+本工程由Next.js框架实现。
 
 ## 如何安装
 ```bash
 $ git clone ...
 $ yarn install
 
-根目录下添加.env.local文件
+根目录下添加.env.local文件和所有需要的相关环境变量
 
 $ yarn build
 $ yarn start (pm2 start yarn)
@@ -34,11 +34,11 @@ $ yarn start
 - 继承自Next.js的SSR前端技术
 - 继承自Next.js的Server Action后端技术
 - 使用Ali OSS的对象存储，深圳节点
-- 使用MongoDB和Mongoose的DBMS
+- 使用MongoDB和Mongoose的DBMS，MongoDB Atlas
 - 部署在腾讯云轻量应用型服务器上海节点上
 - IP地址：[101.43.33.37](http://101.43.33.37)
-- 域名：sonarmeta.com
-- 网站地址：[https://www.sonarmeta.com](https://www.sonarmeta.com)
+- 域名：en.sonarmeta.com
+- 网站地址：[https://en.sonarmeta.com](https://en.sonarmeta.com)
 
 
 ## Next.js官方文档
