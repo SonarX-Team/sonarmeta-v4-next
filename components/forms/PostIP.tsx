@@ -36,24 +36,24 @@ export default function PostIP({ userId }: { userId: string }) {
   const avatarUrlRef = useRef<string>("");
 
   // 准备调用合约
-  const { config } = usePrepareContractWrite({
-    address: MAIN_CONTRACT,
-    abi: mainContract.abi,
-    functionName: "createNewIP",
-    account: ADMIN_ADDRESS,
-    chainId: 5,
-    args: [avatarUrlRef.current, userAddress, chain.id],
-  });
+  // const { config } = usePrepareContractWrite({
+  //   address: MAIN_CONTRACT,
+  //   abi: mainContract.abi,
+  //   functionName: "createNewIP",
+  //   account: ADMIN_ADDRESS,
+  //   chainId: 5,
+  //   args: [avatarUrlRef.current, userAddress, chain.id],
+  // });
 
-  const { data, write } = useContractWrite(config);
+  // const { data, write } = useContractWrite(config);
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  });
+  // const { isLoading, isSuccess } = useWaitForTransaction({
+  //   hash: data?.hash,
+  // });
 
-  useEffect(() => {
-    console.log(data);
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [isSuccess]);
 
   async function createIPAction(formData: FormData) {
     setAvatarErr("");
@@ -121,7 +121,7 @@ export default function PostIP({ userId }: { userId: string }) {
     }
 
     // 调用合约
-    write?.();
+    // write?.();
 
     // 更新成功后
     if (res.status !== 201 || res.message !== "Created") return;
@@ -179,10 +179,12 @@ export default function PostIP({ userId }: { userId: string }) {
 
       <div className="h-[50px]">
         <AppButton
-          text={write ? "Create" : "Cannot create"}
-          otherPendingStatus={isLoading}
-          pendingText={isLoading ? "Writing contract..." : "Creating..."}
-          disabled={!write}
+          text="Create"
+          // text={write ? "Create" : "Cannot create"}
+          // otherPendingStatus={isLoading}
+          // pendingText={isLoading ? "Writing contract..." : "Creating..."}
+          pendingText="Creating"
+          // disabled={!write}
           type="submit"
         />
       </div>
