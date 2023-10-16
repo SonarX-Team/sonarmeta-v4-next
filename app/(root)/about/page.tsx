@@ -52,7 +52,7 @@ export default function page() {
       <ul className="list-disc text-slate-400">
         <li>
           Each creation of IP will be an ERC-721 token. If it is already an artwork on the Web3 level, it can be
-          directly integrated. If it is a work on a Web2 platform, we will link the token's URL to that specific work.
+          directly integrated. If it is a work on a Web2 platform, we will link the token&apos;s URL to that specific work.
         </li>
         <li>ERC-6551 create an account responsible for hosting on-chain actions of an IP creation.</li>
         <li>A ERC-4907 token represents a certain type of IP authorization.</li>
@@ -81,9 +81,9 @@ export default function page() {
         contract, authorization and nurturing automatically commence.
       </p>
       <p className="text-slate-400">
-        IP derivative works by unions can be published on existing Web2 content platforms, thereby increasing the IP's
+        IP derivative works by unions can be published on existing Web2 content platforms, thereby increasing the IP&apos;s
         influence. All earnings generated on Web2 content platforms are distributed among union members by the union
-        contract. As an IP's influence grows, its authorization value, or the NFT's value, increases. Unions have the
+        contract. As an IP&apos;s influence grows, its authorization value, or the NFT&apos;s value, increases. Unions have the
         option to sell the NFTs and cease nurturing or continue to hold the NFTs to receive dividends for a certain
         period after IP monetization.
       </p>
