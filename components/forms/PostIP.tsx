@@ -40,7 +40,7 @@ export default function PostIP({ userId }: { userId: string }) {
     address: MAIN_CONTRACT,
     abi: mainContract.abi,
     functionName: "createNewIP",
-    // account: ADMIN_ADDRESS,
+    account: ADMIN_ADDRESS,
     chainId: 5,
     args: [avatarUrlRef.current, userAddress, chain.id],
   });
@@ -180,7 +180,8 @@ export default function PostIP({ userId }: { userId: string }) {
       <div className="h-[50px]">
         <AppButton
           text={write ? "Create" : "Cannot create"}
-          pendingText={isLoading ? "Calling contract..." : "Creating..."}
+          otherPendingStatus={isLoading}
+          pendingText={isLoading ? "Writing contract..." : "Creating..."}
           disabled={!write}
           type="submit"
         />

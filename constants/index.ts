@@ -1,4 +1,4 @@
-import { faHome, faPlus, faUser, faHandshakeAngle, faHammer } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faPlus, faUser, faHandshakeAngle, faHammer, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 // 导航栏链接常量
@@ -28,6 +28,11 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
     route: "/space",
     label: "Profile space",
   },
+  {
+    icon: faInfoCircle,
+    route: "/about",
+    label: "About us",
+  },
 ];
 
 // Auth常量
@@ -38,5 +43,5 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
 // ETH常量
-export const MAIN_CONTRACT = "0xE285Dc425c41d128285D9440bd034549341126F5";
+export const MAIN_CONTRACT = "0x2e058108786957bf209C641B3292D2b2629aECD2";
 export const ADMIN_ADDRESS = "0xCfb4a9cf76d8977513137c5d302931681E45f632";
