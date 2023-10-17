@@ -24,7 +24,7 @@ export default async function page() {
     <div className="basis-full p-10">
       <div className="mb-8">
         <h1 className="head-text">One step away from starting...</h1>
-        <p className="mt-3 text-base-regular text-zinc-400">
+        <p className="mt-3 text-base-regular text-zinc-700">
           Please provide some of your user information to continue using SonarMeta.~
         </p>
       </div>

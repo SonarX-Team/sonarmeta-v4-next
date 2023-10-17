@@ -1,17 +1,17 @@
-import { faHome, faPlus, faUser, faHandshakeAngle, faHammer, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faDove, faPlus, faHandshakeAngle, faHammer, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 // 导航栏链接常量
-export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = [
+export const navLinks: { icon: IconProp; route: string; label: string }[] = [
   {
-    icon: faHome,
-    route: "/",
-    label: "Home",
+    icon: faDove,
+    route: "/ips",
+    label: "IPs",
   },
   {
     icon: faHandshakeAngle,
     route: "/unions",
-    label: "IP unions",
+    label: "Unions",
   },
   {
     icon: faPlus,
@@ -22,11 +22,6 @@ export const sidebarLinks: { icon: IconProp; route: string; label: string }[] = 
     icon: faHammer,
     route: "/create-union",
     label: "Create union",
-  },
-  {
-    icon: faUser,
-    route: "/space",
-    label: "Profile space",
   },
   {
     icon: faInfoCircle,

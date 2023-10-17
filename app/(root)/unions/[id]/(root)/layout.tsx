@@ -32,8 +32,8 @@ export default async function layout({ children, params }: { children: React.Rea
   ];
   const basicCard: JSX.Element[] = basicInfo.map((info, index) => (
     <div key={index}>
-      <h2 className="text-zinc-200 text-heading4-medium mb-1">{info.count}</h2>
-      <p className="flex leading-none text-zinc-400 text-small-regular">
+      <h2 className="text-zinc-800 text-heading4-medium mb-1">{info.count}</h2>
+      <p className="flex leading-none text-slate-500 text-small-regular">
         <FontAwesomeIcon className="w-[14px] h-[14px] mr-1" icon={info.icon} />
         <span>{info.title}</span>
       </p>
@@ -44,7 +44,7 @@ export default async function layout({ children, params }: { children: React.Rea
     <div className="relative w-full">
       <div className="relative w-full h-[240px] overflow-hidden z-0">
         <img
-          className="absolute w-[1600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           src={unionRes.cover}
           alt="IP-cover"
         />
@@ -52,23 +52,23 @@ export default async function layout({ children, params }: { children: React.Rea
 
       <div className="relative max-w-4xl mx-auto z-10 -mt-16 px-6">
         <img
-          className="w-[140px] h-[140px] bg-violet-900 hover:bg-violet-800 duration-200 rounded-full"
+          className="w-[140px] h-[140px] bg-violet-300 hover:bg-violet-200 duration-200 rounded-full"
           src={unionRes.avatar}
           alt="union-avatar"
         />
 
         <div className="sm:flex justify-between item-start mt-8">
           <div className="sm:mb-0 mb-8">
-            <h1 className="text-heading2-semibold text-zinc-50 mb-1">{unionRes.title}</h1>
+            <h1 className="text-heading2-semibold mb-1">{unionRes.title}</h1>
 
             <div className="flex items-center text-small-regular">
-              <p className="text-gray-1">{formatDateString(unionRes.createdAt)}</p>
+              <p className="text-zinc-500">{formatDateString(unionRes.createdAt)}</p>
 
-              <p className="text-gray-1 mx-1">by</p>
+              <p className="text-zinc-500 mx-1">by</p>
 
               <Link
                 href={`/space/${unionRes.creator._id}`}
-                className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
+                className="flex items-center text-violet-700 hover:text-violet-600 duration-200"
               >
                 <p>{unionRes.creator.username}</p>
                 <img

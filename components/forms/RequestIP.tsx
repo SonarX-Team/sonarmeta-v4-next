@@ -58,8 +58,8 @@ export default function RequestIP({
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="fixed inset-0 bg-black opacity-70"></div>
 
-          <div className="relative z-10 bg-dark-2 rounded-xl w-[400px] p-6">
-            <h2 className="text-body-bold text-light-1 mb-4">Select a union</h2>
+          <div className="relative z-10 bg-light-1 rounded-xl w-[400px] p-6">
+            <h2 className="text-body-bold text-dark-1 mb-4">Select a union</h2>
 
             {unions.length > 0 && (
               <>
@@ -68,20 +68,20 @@ export default function RequestIP({
                     <div
                       key={index}
                       onClick={() => handleClick(union._id)}
-                      className={`flex items-center bg-zinc-800 hover:bg-zinc-700 duration-200 border-2 ${
+                      className={`flex items-center bg-zinc-300 hover:bg-zinc-200 duration-200 border-2 ${
                         unionSelected === union._id
                           ? "border-sky-300 hover:border-zinc-200"
                           : "border-zinc-900 hover:border-zinc-800"
                       } rounded-xl cursor-pointer gap-4 px-4 py-2`}
                     >
                       <img className="w-[48px] h-[48px] rounded-full" src={union.avatar} alt="user-avatar" />
-                      <h1 className="flex-1 text-body-bold text-light-2">{union.title}</h1>
+                      <h1 className="flex-1 text-body-bold text-dark-2">{union.title}</h1>
                     </div>
                   ))}
                 </div>
 
                 <form action={requestAction}>
-                  <p className="text-small-regular text-red-400 mb-2">{unionErr}</p>
+                  <p className="text-small-regular text-red-600 mb-2">{unionErr}</p>
                   <AppButton text="Confirm" pendingText="Proceeding..." type="submit" />
                 </form>
               </>

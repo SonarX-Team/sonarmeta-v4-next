@@ -49,7 +49,7 @@ export default function SignIn() {
         />
       </div>
 
-      <hr className="border-1 border-zinc-600 mt-8 mb-2" />
+      <hr className="border-zinc-300 mt-8 mb-2" />
 
       <div className="mb-8">
         <input
@@ -59,11 +59,11 @@ export default function SignIn() {
           checked={isChecked}
           onChange={(e) => setIsChecked(e.target.checked)}
         />
-        <label htmlFor="confirm" className="text-small-regular text-zinc-400 ml-2">
+        <label htmlFor="confirm" className="text-small-regular text-zinc-700 ml-2">
           I agree to the
           <Link
             href="https://deck.sonarmeta.com"
-            className="text-sky-400 hover:text-sky-300 duration-200 ml-1"
+            className="text-violet-700 hover:text-violet-600 duration-200 ml-1"
             target="_blank"
           >
             Terms of Service

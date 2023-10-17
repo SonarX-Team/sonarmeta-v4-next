@@ -51,23 +51,23 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col justify-start gap-8">
       <div>
-        <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
+        <h3 className="flex leading-none text-body-bold text-dark-1 mb-6">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faDove} />
           Nurturing applies
         </h3>
 
-        <div className="min-h-[200px] max-h-[800px] bg-dark-2 rounded-xl px-6 py-3 overflow-y-auto">
+        <div className="min-h-[200px] max-h-[800px] bg-light-1 rounded-xl px-6 py-3 overflow-y-auto">
           {IPRequests.length > 0 ? (
             IPRequests.map((request, index) => (
               <div key={index} className="flex justify-between items-center gap-3">
                 <div className="sm:flex items-center gap-3">
-                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-light-1 text-small-semibold leading-none rounded-full p-2">
+                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-dark-1 text-small-semibold leading-none rounded-full p-2">
                     {index + 1}
                   </p>
 
                   <Link
                     href={`/unions/${request.unionId}`}
-                    className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
+                    className="flex items-center text-violet-700 hover:text-violet-600 duration-200"
                   >
                     <p>{request.IPTitle}</p>
                     <img
@@ -77,11 +77,11 @@ export default async function page({ params }: { params: { id: string } }) {
                     />
                   </Link>
 
-                  <p className="text-small-regular text-zinc-200 leading-none">wants to nurture</p>
+                  <p className="text-small-regular text-zinc-800 leading-none">wants to nurture</p>
 
                   <Link
                     href={`/ips/${request.IPId}`}
-                    className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
+                    className="flex items-center text-violet-700 hover:text-violet-600 duration-200"
                   >
                     <p>{request.unionTitle}</p>
                     <img
@@ -102,23 +102,23 @@ export default async function page({ params }: { params: { id: string } }) {
       </div>
 
       <div>
-        <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
+        <h3 className="flex leading-none text-body-bold text-dark-1 mb-6">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faHandshakeAngle} />
           Union applies
         </h3>
 
-        <div className="min-h-[200px] max-h-[800px] bg-dark-2 rounded-xl px-6 py-3 overflow-y-auto">
+        <div className="min-h-[200px] max-h-[800px] bg-light-1 rounded-xl px-6 py-3 overflow-y-auto">
           {unionRequests.length > 0 ? (
             unionRequests.map((request, index) => (
               <div key={index} className="flex justify-between items-center gap-3">
                 <div className="sm:flex items-center gap-3">
-                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-light-1 text-small-semibold leading-none rounded-full p-2">
+                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-dark-1 text-small-semibold leading-none rounded-full p-2">
                     {index + 1}
                   </p>
 
                   <Link
                     href={`/space/${request.memberId}`}
-                    className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
+                    className="flex items-center text-violet-700 hover:text-violet-600 duration-200"
                   >
                     <p>{request.memberName}</p>
                     <img
@@ -128,11 +128,11 @@ export default async function page({ params }: { params: { id: string } }) {
                     />
                   </Link>
 
-                  <p className="text-small-regular text-zinc-200 leading-none">wants to join</p>
+                  <p className="text-small-regular text-zinc-800 leading-none">wants to join</p>
 
                   <Link
                     href={`/space/${request.unionId}`}
-                    className="flex items-center text-sky-400 hover:text-sky-300 duration-200"
+                    className="flex items-center text-violet-700 hover:text-violet-600 duration-200"
                   >
                     <p>{request.unionTitle}</p>
                     <img

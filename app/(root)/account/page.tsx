@@ -20,7 +20,7 @@ export default async function page() {
   };
 
   return (
-    <div className="w-full max-w-4xl mt-12 px-6">
+    <div className="w-full max-w-4xl mt-8 px-6">
       <h1 className="head-text text-left mb-10">Edit account</h1>
       <EditAccount {...userData} />
     </div>

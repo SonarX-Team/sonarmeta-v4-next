@@ -39,11 +39,11 @@ export default function IPsPicker({ label, ips, getIPs, required, errMsg }: Prop
   return (
     <div>
       <div className="flex justify-between items-center text-small-regular mb-2">
-        <label className="font-bold text-zinc-200">
-          {label} {required && <span className="text-red-400">*</span>}
+        <label className="font-bold text-zinc-800">
+          {label} {required && <span className="text-red-600">*</span>}
         </label>
 
-        {errMsg && <label className="text-red-400">{errMsg}</label>}
+        {errMsg && <label className="text-red-600">{errMsg}</label>}
       </div>
 
       {ips.length > 0 && (
@@ -52,14 +52,14 @@ export default function IPsPicker({ label, ips, getIPs, required, errMsg }: Prop
             <div
               key={index}
               onClick={() => handleClick(ip._id)}
-              className={`flex items-center bg-zinc-900 hover:bg-zinc-800 duration-200 border-2 ${
+              className={`flex items-center bg-light-1 shadow-sm hover:shadow-md duration-200 border-2 ${
                 pickedIPs.includes(ip._id)
-                  ? "border-sky-300 hover:border-zinc-200"
-                  : "border-zinc-900 hover:border-zinc-800"
+                  ? "border-violet-700"
+                  : "border-light-1"
               } rounded-xl cursor-pointer gap-4 px-4 py-2`}
             >
               <img className="w-[48px] h-[48px] rounded-full" src={ip.avatar} alt="user-avatar" />
-              <h1 className="flex-1 text-body-bold text-light-2">{ip.title}</h1>
+              <h1 className="flex-1 text-body-bold text-dark-2">{ip.title}</h1>
             </div>
           ))}
         </div>

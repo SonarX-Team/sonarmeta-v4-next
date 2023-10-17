@@ -13,13 +13,13 @@ export default async function page({ params }: { params: { id: string } }) {
     <>
       {IPRes.officialLink && (
         <div className="mt-8">
-          <h3 className="flex leading-none text-base-regular text-zinc-400 mb-2">
+          <h3 className="flex leading-none text-base-regular text-zinc-700 mb-2">
             <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faLink} />
             Official link
           </h3>
 
           <Link
-            className="text-small-regular text-sky-400 hover:text-sky-300 duration-200"
+            className="text-small-regular text-violet-700 hover:text-violet-600 duration-200"
             href={IPRes.officialLink}
             target="_blank"
           >
@@ -29,7 +29,7 @@ export default async function page({ params }: { params: { id: string } }) {
       )}
 
       <div className="mt-8">
-        <h3 className="flex leading-none text-base-regular text-zinc-400 mb-3">
+        <h3 className="flex leading-none text-base-regular text-zinc-700 mb-3">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faImages} />
           IP image collection
         </h3>
@@ -38,7 +38,7 @@ export default async function page({ params }: { params: { id: string } }) {
           {IPRes.images.map((image, index) => (
             <div
               key={index}
-              className="flex justify-center items-center bg-zinc-800 rounded-lg min-w-[150px] h-[200px]"
+              className="flex justify-center items-center bg-zinc-200 rounded-lg min-w-[150px] h-[200px]"
             >
               <img className="w-[150px] rounded-lg" src={image} alt="ip-image" />
             </div>
@@ -47,12 +47,12 @@ export default async function page({ params }: { params: { id: string } }) {
       </div>
 
       <div className="mt-8">
-        <h3 className="flex leading-none text-base-regular text-zinc-400 mb-4">
+        <h3 className="flex leading-none text-base-regular text-zinc-700 mb-4">
           <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faBook} />
           IP story
         </h3>
 
-        <p className="text-small-regular text-zinc-300 whitespace-pre-line">{IPRes.description}</p>
+        <p className="text-small-regular text-zinc-700 whitespace-pre-line">{IPRes.description}</p>
       </div>
     </>
   );

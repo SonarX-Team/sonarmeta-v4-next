@@ -57,11 +57,11 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultVa
   return (
     <div>
       <div className="flex justify-between items-center text-small-regular mb-2">
-        <label className="font-bold text-zinc-200">
-          Image collection <span className="text-red-400">*</span>
+        <label className="font-bold text-zinc-800">
+          Image collection <span className="text-red-600">*</span>
         </label>
 
-        {errMsg && <label className="text-red-400 err-message">{errMsg}</label>}
+        {errMsg && <label className="text-red-600 err-message">{errMsg}</label>}
       </div>
 
       <div className="grid lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 grid-cols-2 gap-4 text-small-regular">
@@ -76,23 +76,23 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultVa
             onChange={AddImage}
           />
           <label
-            className="flex flex-col justify-center items-center h-[160px] border-2 border-dashed border-zinc-400 text-zinc-400 bg-white/10 hover:bg-zinc-400/10 duration-200 rounded-lg cursor-pointer"
+            className="flex flex-col justify-center items-center h-[160px] border-2 border-dashed border-zinc-400 text-zinc-700 bg-slate-300/30 hover:bg-slate-400/20 duration-200 rounded-lg cursor-pointer"
             htmlFor="imagesInput"
           >
-            <FontAwesomeIcon className="w-[24px] h-[24px] text-light-2 mb-2" icon={faCloudArrowUp} />
-            <p className="text-zinc-400 text-center mx-3">Add images</p>
+            <FontAwesomeIcon className="w-[24px] h-[24px] text-dark-2 mb-2" icon={faCloudArrowUp} />
+            <p className="text-zinc-700 text-center mx-3">Add images</p>
           </label>
         </div>
 
         {urls.map((url, index) => (
-          <div className="flex justify-center items-center relative bg-zinc-800 rounded-lg h-[160px]" key={index}>
+          <div className="flex justify-center items-center relative bg-zinc-200 rounded-lg h-[160px]" key={index}>
             <img className="w-[120px] rounded-lg" src={url} alt="ip-image" />
             <button
               className="flex justify-center items-center absolute top-0 right-0 translate-x-1/3 -translate-y-1/3"
               type="button"
               onClick={() => removeImage(index)}
             >
-              <FontAwesomeIcon className="w-[24px] h-[24px] text-red-400 mb-2" icon={faCircleXmark} />
+              <FontAwesomeIcon className="w-[24px] h-[24px] text-red-500 mb-2" icon={faCircleXmark} />
             </button>
           </div>
         ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { mainnet, sepolia, goerli, polygon, optimism, arbitrum, avalanche, bsc, bscTestnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
@@ -28,7 +28,7 @@ export default function RainbowKit({ children }: { children: React.ReactNode }) 
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
         chains={chains}
-        theme={darkTheme({
+        theme={lightTheme({
           accentColor: "#7b3fe4",
           accentColorForeground: "white",
           borderRadius: "medium",

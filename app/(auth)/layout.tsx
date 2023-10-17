@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="flex justify-center items-center relative h-screen bg-[url('/auth-bg.jpeg')] bg-cover bg-no-repeat">
           <div className="absolute w-full h-full bg-zinc-900/75 z-10" />
 
-          <main className="flex relative w-[768px] bg-dark-2 rounded-2xl z-20 md:m-0 mx-3">{children}</main>
+          <main className="flex relative w-[768px] bg-light-1 rounded-2xl z-20 md:m-0 mx-3">{children}</main>
         </div>
       </body>
     </html>

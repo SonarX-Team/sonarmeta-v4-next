@@ -10,12 +10,12 @@ export default async function page({ params }: { params: { id: string } }) {
 
   return (
     <div className="mt-8">
-      <h3 className="flex leading-none text-base-regular text-zinc-400 mb-4">
+      <h3 className="flex leading-none text-base-regular text-zinc-700 mb-4">
         <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faFeatherPointed} />
         Recruitment
       </h3>
 
-      <p className="text-small-regular text-zinc-300 whitespace-pre-line">{unionRes.recruitment}</p>
+      <p className="text-small-regular text-zinc-700 whitespace-pre-line">{unionRes.recruitment}</p>
     </div>
   );
 }

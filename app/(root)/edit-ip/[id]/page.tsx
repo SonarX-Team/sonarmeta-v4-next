@@ -14,7 +14,7 @@ export default async function page({ params }: { params: { id: string } }) {
   if (!IPRes || String(IPRes.author._id) !== user.id) redirect("/notfound");
 
   return (
-    <div className="w-full max-w-4xl mt-12 px-6">
+    <div className="w-full max-w-4xl mt-8 px-6">
       <h1 className="head-text text-left mb-10">Edit IP info (coming soon)</h1>
       <EditIP
         IPId={String(IPRes._id)}

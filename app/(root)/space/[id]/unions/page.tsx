@@ -14,7 +14,7 @@ export default async function page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <h3 className="flex leading-none text-body-bold text-light-1 mb-6">
+      <h3 className="flex leading-none text-body-bold text-dark-1 mb-6">
         <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faHandshakeAngle} />
         Unions joined
       </h3>

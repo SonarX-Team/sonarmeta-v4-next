@@ -7,7 +7,7 @@ export default async function page() {
   const { unions } = await fetchUnions({ pageNumber: 1, pageSize: 20 });
 
   return (
-    <div className="w-full max-w-4xl mt-12 px-6">
+    <div className="w-full max-w-4xl mt-8 px-6">
       <h1 className="head-text text-left mb-10">Choose a union and start creating</h1>
 
       {unions.length > 0 ? (

@@ -29,27 +29,27 @@ export default async function layout({ children, params }: { children: React.Rea
   const res = await fetchUser({ userId: params.id, isBasic: false });
 
   return (
-    <div className="sm:flex w-full max-w-6xl mt-12 px-6">
+    <div className="sm:flex w-full max-w-7xl mt-8 px-8">
       <div className="flex flex-col justify-start gap-8 basis-1/4">
         <div className="flex flex-col justify-start gap-3">
           <img
-            className="w-[270px] h-[270px] bg-violet-900 hover:bg-violet-800 duration-200 border-2 border-zinc-400 rounded-full"
+            className="w-[270px] h-[270px] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
             src={res.avatar}
             alt="user-avatar"
           />
 
-          <h1 className="text-heading2-semibold text-zinc-50">{res.username}</h1>
-          <p className="text-small-regular text-zinc-300 whitespace-pre-line">{res.bio}</p>
+          <h1 className="text-heading2-semibold text-dark-1">{res.username}</h1>
+          <p className="text-small-regular text-zinc-700 whitespace-pre-line">{res.bio}</p>
         </div>
 
         <div className="flex flex-col justify-start gap-4">
-          <div className="flex items-center gap-2 text-zinc-400">
-            <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faEnvelope} />
-            <p className="text-small-regular text-zinc-300 leading-none">{res.email}</p>
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon className="w-[14px] h-[14px] text-slate-500" icon={faEnvelope} />
+            <p className="text-small-regular text-zinc-700 leading-none">{res.email}</p>
           </div>
-          <div className="flex items-center gap-2 text-zinc-400">
-            <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faWallet} />
-            <p className="text-small-regular text-zinc-300 leading-none">
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon className="w-[14px] h-[14px] text-slate-500" icon={faWallet} />
+            <p className="text-small-regular text-zinc-700 leading-none">
               {res.walletAddresses ? res.walletAddresses : "No wallet connected"}
             </p>
           </div>
@@ -58,14 +58,14 @@ export default async function layout({ children, params }: { children: React.Rea
         <div className="flex flex-col justify-start gap-3">
           {user?.id === params.id && (
             <Link
-              className="bg-violet-300 hover:bg-violet-200 duration-200 text-small-regular text-center rounded-md px-3 py-2"
+              className="bg-violet-200 hover:bg-violet-200/70 duration-200 text-small-regular text-center rounded-md px-3 py-2"
               href="/account"
             >
               Edit account
             </Link>
           )}
           <button
-            className="bg-orange-500 hover:bg-orange-400 duration-200 disabled:bg-zinc-800 disabled:text-zinc-400 text-small-regular text-center rounded-md px-3 py-2"
+            className="bg-orange-500 hover:bg-orange-400 duration-200 disabled:bg-zinc-400 disabled:text-zinc-200 text-small-regular text-center rounded-md px-3 py-2"
             disabled={!user || user.id === params.id}
           >
             + Follow
@@ -73,27 +73,27 @@ export default async function layout({ children, params }: { children: React.Rea
         </div>
 
         <div className="flex flex-col justify-start gap-4">
-          <div className="flex items-center gap-2 text-zinc-400">
+          <div className="flex items-center gap-2 text-zinc-700">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faDove} />
-            <p className="text-small-semibold text-light-1 leading-none">{res.IPs.length}</p>
+            <p className="text-small-semibold text-dark-1 leading-none">{res.IPs.length}</p>
             <p className="text-small-regular">IPs created</p>
           </div>
-          <div className="flex items-center gap-2 text-zinc-400">
+          <div className="flex items-center gap-2 text-zinc-700">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faHandshakeAngle} />
-            <p className="text-small-semibold text-light-1 leading-none">{res.unions.length}</p>
+            <p className="text-small-semibold text-dark-1 leading-none">{res.unions.length}</p>
             <p className="text-small-regular">Unions joined</p>
           </div>
-          <div className="flex items-center gap-2 text-zinc-400">
+          <div className="flex items-center gap-2 text-zinc-700">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faWandMagicSparkles} />
-            <p className="text-small-semibold text-light-1 leading-none">{res.adaptations.length}</p>
+            <p className="text-small-semibold text-dark-1 leading-none">{res.adaptations.length}</p>
             <p className="text-small-regular">Adaptations contributed</p>
           </div>
-          <div className="flex items-center gap-2 text-zinc-400">
+          <div className="flex items-center gap-2 text-zinc-700">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faBell} />
-            <p className="text-small-semibold text-light-1 leading-none">0</p>
+            <p className="text-small-semibold text-dark-1 leading-none">0</p>
             <p className="text-small-regular">Followers</p>
             <p className="text-small-regular">·</p>
-            <p className="text-small-semibold text-light-1 leading-none">0</p>
+            <p className="text-small-semibold text-dark-1 leading-none">0</p>
             <p className="text-small-regular">Follows</p>
           </div>
         </div>

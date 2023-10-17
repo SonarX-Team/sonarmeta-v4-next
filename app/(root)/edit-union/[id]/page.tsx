@@ -14,7 +14,7 @@ export default async function page({ params }: { params: { id: string } }) {
   if (!unionRes || String(unionRes.creator._id) !== user.id) redirect("/notfound");
 
   return (
-    <div className="w-full max-w-4xl mt-12 px-6">
+    <div className="w-full max-w-4xl mt-8 px-6">
       <h1 className="head-text text-left mb-10">Edit union info (coming soon)</h1>
       <EditUnion
         unionId={String(unionRes._id)}

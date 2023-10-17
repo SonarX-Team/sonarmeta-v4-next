@@ -6,7 +6,6 @@ import RainbowKit from "@/components/wallet/RainbowKit";
 
 import Topbar from "@/components/shared/Topbar";
 import Bottombar from "@/components/shared/Bottombar";
-import LeftSidebar from "@/components/shared/LeftSidebar";
 import RightSidebar from "@/components/shared/RightSidebar";
 
 import { getCurrentUser } from "@/actions/user.action";
@@ -34,11 +33,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Topbar {...userInfo} />
 
           <main className="flex flex-row">
-            <LeftSidebar loginStatus={user ? true : false} />
-
+            <RightSidebar loginStatus={user ? true : false} />
             <section className="main-container">{children}</section>
-
-            <RightSidebar />
           </main>
 
           <Bottombar />

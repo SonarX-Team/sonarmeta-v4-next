@@ -14,14 +14,14 @@ export default function page() {
 
           <div className="basis-1/2">
             <div className="flex flex-col justify-center items-start h-full gap-8">
-              <h1 className="text-[42px] text-light-1">404 OMG...</h1>
+              <h1 className="text-[42px] text-dark-1">404 OMG...</h1>
 
-              <p className="text-[18px] text-light-2">
+              <p className="text-[18px] text-dark-2">
                 What you are looking for is not in the metaverse, but in the universe.Please make sure you have the
                 access.
               </p>
 
-              <Link className="bg-violet-700 hover:bg-violet-600 duration-200 text-light-2 rounded-lg p-3" href="/">
+              <Link className="bg-violet-700 hover:bg-violet-600 duration-200 text-dark-2 rounded-lg p-3" href="/">
                 Back to homepage &#8629;
               </Link>
             </div>

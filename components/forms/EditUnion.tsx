@@ -42,7 +42,7 @@ export default function EditUnion({
         </div>
       </form>
 
-      <hr className="border-bottom-[1px] border-zinc-600" />
+      <hr className="border-bottom-[1px] border-zinc-300" />
 
       <form action="" className="sm:flex justify-between items-center">
         <CoverInput name="cover" defaultValue={cover} required={true} errMsg={coverErr} />
@@ -53,7 +53,7 @@ export default function EditUnion({
         </div>
       </form>
 
-      <hr className="border-bottom-[1px] border-zinc-600" />
+      <hr className="border-bottom-[1px] border-zinc-300" />
 
       <form action="" className="">
         <AppInput
@@ -72,10 +72,10 @@ export default function EditUnion({
         </div>
       </form>
 
-      <hr className="border-bottom-[1px] border-zinc-600" />
+      <hr className="border-bottom-[1px] border-zinc-300" />
 
       <form action="">
-        <h1 className="text-body-bold text-light-1 mb-3">Basic info</h1>
+        <h1 className="text-body-bold text-dark-1 mb-3">Basic info</h1>
 
         <div className="flex flex-col justify-start gap-6">
           <AppTextarea

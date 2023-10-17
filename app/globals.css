@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "titillium";
+  src: url("/TitilliumWeb.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +16,7 @@
 }
 
 body {
-  background-color: #202428;
+  background-color: #F1F1F2;
 }
 
 *::-webkit-scrollbar {
@@ -33,27 +38,28 @@ body {
 }
 
 .btn-press {
-  box-shadow: 3px 6px 0px 0px #767879;
+  box-shadow: 3px 6px 0px 0px #868889;
 }
 .btn-press:hover {
-  box-shadow: 2px 4px 0px 0px #767879;
+  box-shadow: 2px 4px 0px 0px #868889;
   margin-top: 4px;
 }
 .btn-press:active {
-  box-shadow: 2px 4px 0px 0px #767879;
+  box-shadow: 2px 4px 0px 0px #868889;
   margin-top: 8px;
 }
 
 .text-shadow {
-  text-shadow: 2px 3px 0px #767879;
+  text-shadow: 2px 3px 0px #868889;
 }
 
-input, textarea {
-  font-size: 14px
+input,
+textarea {
+  font-size: 14px;
 }
 input::placeholder,
 textarea::placeholder {
-  color: #999;
+  color: #aaa;
   font-size: 14px;
 }
 
@@ -73,17 +79,17 @@ textarea::placeholder {
 @layer components {
   /* main */
   .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 py-[75px];
+    @apply flex min-h-screen flex-1 flex-col items-center bg-light-2 py-[60px];
   }
 
   /* Head Text */
   .head-text {
-    @apply text-heading2-bold text-light-1;
+    @apply text-heading2-bold text-dark-1;
   }
 
   /* Activity */
   .activity-card {
-    @apply flex items-center gap-2 rounded-md bg-dark-2 px-7 py-4;
+    @apply flex items-center gap-2 rounded-md bg-light-1 px-7 py-4;
   }
 
   /* No Result */
@@ -97,12 +103,12 @@ textarea::placeholder {
   }
 
   .community-card_btn {
-    @apply rounded-lg bg-primary-500 px-5 py-1.5 text-small-regular !text-light-1 !important;
+    @apply rounded-lg bg-primary-500 px-5 py-1.5 text-small-regular !text-dark-1 !important;
   }
 
   /* thread card  */
   .thread-card_bar {
-    @apply relative mt-2 w-0.5 grow rounded-full bg-neutral-800;
+    @apply relative mt-2 w-0.5 grow rounded-full bg-neutral-300;
   }
 
   /* User card */
@@ -115,7 +121,7 @@ textarea::placeholder {
   }
 
   .user-card_btn {
-    @apply h-auto min-w-[74px] rounded-lg bg-primary-500 text-[12px] text-light-1 !important;
+    @apply h-auto min-w-[74px] rounded-lg bg-primary-500 text-[12px] text-dark-1 !important;
   }
 
   .searchbar {
@@ -127,35 +133,19 @@ textarea::placeholder {
   }
 
   .topbar {
-    @apply fixed top-0 z-30 flex w-full h-[75px] items-center justify-between bg-dark-2 px-6 py-3;
+    @apply fixed top-0 z-30 flex w-full h-[60px] items-center justify-between bg-light-1 shadow-sm px-6 py-3;
   }
 
-  .bottombar {
-    @apply fixed bottom-0 z-10 w-full rounded-t-3xl bg-glassmorphism p-4 backdrop-blur-lg xs:px-7 md:hidden;
+  .rightsidebar {
+    @apply fixed right-0 top-0 z-20 flex h-screen w-[300px] flex-col justify-between overflow-auto bg-light-1 shadow-sm pb-5 pt-20 transform transition-transform duration-300 ease-in-out;
   }
 
-  .bottombar_container {
-    @apply flex items-center justify-between gap-3 xs:gap-5;
-  }
-
-  .bottombar_link {
-    @apply relative flex flex-col items-center gap-2 rounded-lg p-2 sm:flex-1 sm:px-2 sm:py-2.5;
-  }
-
-  .leftsidebar {
-    @apply sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r border-r-dark-4 bg-dark-2 pb-5 pt-28 max-md:hidden;
-  }
-
-  .leftsidebar_link {
+  .rightsidebar_link {
     @apply relative flex justify-start items-center gap-4 rounded-lg p-4;
   }
 
   .pagination {
     @apply mt-10 flex w-full items-center justify-center gap-5;
-  }
-
-  .rightsidebar {
-    @apply sticky right-0 top-0 z-20 flex h-screen w-fit flex-col justify-between gap-12 overflow-auto border-l border-l-dark-4 bg-dark-2 px-10 pb-6 pt-28 max-xl:hidden;
   }
 }
 
@@ -195,7 +185,7 @@ textarea::placeholder {
 
 /* Tab */
 .tab {
-  @apply flex min-h-[50px] flex-1 items-center gap-3 bg-dark-2 text-light-2 data-[state=active]:bg-[#0e0e12] data-[state=active]:text-light-2 !important;
+  @apply flex min-h-[50px] flex-1 items-center gap-3 bg-light-1 text-dark-2 data-[state=active]:bg-[#0e0e12] data-[state=active]:text-dark-2 !important;
 }
 
 .no-focus {
@@ -212,7 +202,7 @@ textarea::placeholder {
 }
 
 .account-form_input {
-  @apply border border-dark-4 bg-dark-3 text-light-1 !important;
+  @apply border border-dark-4 bg-dark-3 text-dark-1 !important;
 }
 
 /* Comment Form */
@@ -221,5 +211,5 @@ textarea::placeholder {
 }
 
 .comment-form_btn {
-  @apply rounded-3xl bg-primary-500 px-8 py-2 !text-small-regular text-light-1 max-xs:w-full !important;
+  @apply rounded-3xl bg-primary-500 px-8 py-2 !text-small-regular text-dark-1 max-xs:w-full !important;
 }
