@@ -20,16 +20,16 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <h3 className="text-base-semibold mb-1">Explore</h3>
 
-              <Link href="/ips" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/ips" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Nurture IPs
               </Link>
-              <Link href="/ips" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/ips" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Join unions
               </Link>
-              <Link href="/ips" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/ips" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Create IP
               </Link>
-              <Link href="/ips" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/ips" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Create union
               </Link>
             </div>
@@ -37,19 +37,19 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <h3 className="text-base-semibold mb-1">Product</h3>
 
-              <Link href="/about" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/about" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 About SonarMeta
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Documentation
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Pitch deck
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Whitepaper
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Join our team
               </Link>
             </div>
@@ -57,10 +57,10 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <h3 className="text-base-semibold mb-1">Security</h3>
 
-              <Link href="/about" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/about" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Privacy policy
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Terms of service
               </Link>
             </div>
@@ -68,22 +68,22 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <h3 className="text-base-semibold mb-1">Community</h3>
 
-              <Link href="/about" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/about" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Twitter
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Discord
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 YouTube
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 TikTok
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 WeChat
               </Link>
-              <Link href="/" className="text-small-regular text-violet-700 hover:text-violet-600 duration-100">
+              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
                 Bilibili
               </Link>
             </div>
