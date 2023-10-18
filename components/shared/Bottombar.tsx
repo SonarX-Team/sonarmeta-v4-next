@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <div className="bg-slate-50">
       <div className="container mx-auto pt-16 pb-12">
-        <div className="lg:flex gap-12">
+        <div className="lg:flex">
           <div className="lg:basis-1/3 lg:mb-0 mb-6">
             <div className="flex justify-center items-end mb-3">
               <img className="lg:w-[30%] w-[120px]" src="/user.png" alt="Bat Star" />
@@ -16,7 +16,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="flex sm:justify-start justify-center items-start sm:gap-20 gap-8 lg:basis-2/3">
+          <div className="flex flex-wrap justify-center items-start sm:gap-20 gap-12 lg:basis-2/3">
             <div className="flex flex-col gap-3">
               <h3 className="text-base-semibold mb-1">Explore</h3>
 

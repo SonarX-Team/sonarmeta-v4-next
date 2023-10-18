@@ -90,10 +90,10 @@ export default function IPEntryCard({
         </div>
       </div>
 
-      <div className="flex items-center text-subtle-medium mt-5">
+      <div className="sm:flex items-center text-subtle-medium mt-5">
         <p className="text-zinc-500">{formatDateString(createdAt)}</p>
 
-        <p className="text-zinc-500 mx-1">-</p>
+        <p className="text-zinc-500 mx-1 max-sm:hidden">-</p>
 
         <Link
           href={`/space/${author._id}`}
@@ -103,7 +103,7 @@ export default function IPEntryCard({
           <img className="w-[24px] h-[24px] ml-1 rounded-full object-cover" src={author.avatar} alt={author.username} />
         </Link>
 
-        <p className="text-zinc-500 mx-1">-</p>
+        <p className="text-zinc-500 mx-1 max-sm:hidden">-</p>
 
         <Link className="text-violet-700 hover:text-violet-600 duration-200" href={officialLink} target="_blank">
           {officialLink}
