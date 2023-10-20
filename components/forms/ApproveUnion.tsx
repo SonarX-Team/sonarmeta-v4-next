@@ -27,7 +27,7 @@ export default function ApproveUnion({
     address: MAIN_CONTRACT,
     abi: mainContract.abi,
     functionName: "addMemberToUnion",
-    chainId: 5,
+    chainId: 534351,
     args: [0, userAddress, 10] as any,
   });
 

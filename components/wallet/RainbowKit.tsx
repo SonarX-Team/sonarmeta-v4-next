@@ -3,11 +3,11 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, sepolia, goerli, polygon, optimism, arbitrum, avalanche, bsc, bscTestnet } from "wagmi/chains";
+import { mainnet, sepolia, goerli, polygon, bsc, avalanche, scroll, scrollSepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, bsc, avalanche, optimism, arbitrum, sepolia, goerli, bscTestnet],
+  [mainnet, scroll, polygon, bsc, avalanche, sepolia, goerli, scrollSepolia],
   [publicProvider()]
 );
 

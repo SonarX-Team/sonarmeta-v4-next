@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
+import { useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 
 import { deleteMulti, uploadFile } from "@/lib/alioss";
 import { createUnion } from "@/actions/union.action";
@@ -33,7 +33,7 @@ export default function PostUnion({ userId }: { userId: string }) {
     address: MAIN_CONTRACT,
     abi: mainContract.abi,
     functionName: "createNewUnion",
-    chainId: 5,
+    chainId: 534351,
   });
 
   const { data, write } = useContractWrite(config);

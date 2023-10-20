@@ -42,7 +42,7 @@ export default function PostIP({ userId }: { userId: string }) {
     address: MAIN_CONTRACT,
     abi: mainContract.abi,
     functionName: "createNewIP",
-    chainId: 5,
+    chainId: 534351,
     args: [avatarUrlRef.current, userAddress, chain?.id],
   });
 

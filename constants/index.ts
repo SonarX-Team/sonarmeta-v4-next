@@ -62,7 +62,7 @@ export const Guides = [
   {
     title: "Now back to work",
     description:
-      "Once authorized, you can continue creating in your accustomed way, and we will automatically calculate the real-time node value",
+      "Once authorized, you can continue creating in your accustomed way, and we will automatically calculate the real-time node value.",
     icon: faHammer,
   },
 ];
@@ -75,5 +75,6 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
 // ETH常量
-export const MAIN_CONTRACT = "0xCf152cfc200B497F2F62087c42cD5Cd0e4567C04";
+// export const MAIN_CONTRACT = "0xCf152cfc200B497F2F62087c42cD5Cd0e4567C04"; // Goerli
+export const MAIN_CONTRACT = "0xF1138617b6AAC5ad0ea9f874d8adB82c4417CCA2"; // Scroll Sepolia
 export const ADMIN_ADDRESS = "0xCfb4a9cf76d8977513137c5d302931681E45f632";

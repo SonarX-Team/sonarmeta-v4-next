@@ -19,8 +19,8 @@ export default function ApproveIP({ adminId, IPId, unionId }: { adminId: string;
     address: MAIN_CONTRACT,
     abi: mainContract.abi,
     functionName: "grantToUnion",
-    chainId: 5,
-    args: ["IPNFT1", 0, 0, 1000000] as any,
+    chainId: 534351,
+    args: [userAddress, 0, 0, 1000000] as any,
   });
 
   const { data, write } = useContractWrite(config);
