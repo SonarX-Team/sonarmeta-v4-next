@@ -78,8 +78,8 @@ export default async function Home() {
             <h1 className="head-text mb-3">Value snowballing</h1>
             <p className="text-body-normal text-zinc-700 leading-8">
               When the traffic of a work, especially a derivative work, increases, it will bring influence to its IP,
-              thus increasing the value of the authorizations it holds, in turn, increasing the network's value. As the
-              network grows, it attracts more people to join, then forming a closed loop of value growth.
+              thus increasing the value of the authorizations it holds, in turn, increasing the network&apos;s value. As
+              the network grows, it attracts more people to join, then forming a closed loop of value growth.
             </p>
           </div>
           <div className="basis-1/2">
@@ -96,7 +96,7 @@ export default async function Home() {
           <div className="basis-1/2">
             <h1 className="head-text mb-3">Relationship changer</h1>
             <p className="text-body-normal text-zinc-700 leading-8">
-              We aim to shift the creator community's dynamics from mere social connections to shareholder
+              We aim to shift the creator community&apos;s dynamics from mere social connections to shareholder
               relationships. The stakeholder capitalism presented by DAO is our reason for utilizing blockchain,
               establishing an incentive-compatible co-creation ecosystem where individual and collective values align.
               This enables people to grow together with their beloved IPs and find a sense of belonging.
