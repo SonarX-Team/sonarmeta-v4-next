@@ -242,7 +242,7 @@ export async function joinUnion({
     user.unions.push(unionId);
     user.save();
 
-    revalidatePath(path);
+    // revalidatePath(path);
 
     return { status: 200, message: "Joined" };
   } catch (error: any) {

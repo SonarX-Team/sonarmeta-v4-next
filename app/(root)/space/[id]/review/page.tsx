@@ -61,7 +61,7 @@ export default async function page({ params }: { params: { id: string } }) {
             IPRequests.map((request, index) => (
               <div key={index} className="flex justify-between items-center gap-3">
                 <div className="sm:flex items-center gap-3">
-                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-dark-1 text-small-semibold leading-none rounded-full p-2">
+                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-200 text-dark-1 text-small-semibold leading-none rounded-full p-2">
                     {index + 1}
                   </p>
 
@@ -112,7 +112,7 @@ export default async function page({ params }: { params: { id: string } }) {
             unionRequests.map((request, index) => (
               <div key={index} className="flex justify-between items-center gap-3">
                 <div className="sm:flex items-center gap-3">
-                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-600 text-dark-1 text-small-semibold leading-none rounded-full p-2">
+                  <p className="flex justify-center items-center w-[24px] h-[24px] bg-violet-200 text-dark-1 text-small-semibold leading-none rounded-full p-2">
                     {index + 1}
                   </p>
 

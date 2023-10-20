@@ -26,7 +26,11 @@ export default function RequestUnion({
 
   async function requestAction() {
     if (!userId) return router.push("/sign-in");
-    await requestUnion({ userId, unionId, path });
+
+    const { status, message } = await requestUnion({ userId, unionId, path });
+
+    if (status === 400 || status === 401) return alert(message);
+    if (status === 200 && message === "Requested") alert("Applied successfully");
   }
 
   return (

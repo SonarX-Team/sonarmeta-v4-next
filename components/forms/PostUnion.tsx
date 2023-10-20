@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 
 import { deleteMulti, uploadFile } from "@/lib/alioss";
 import { createUnion } from "@/actions/union.action";
@@ -12,6 +13,10 @@ import AppTextarea from "../ui/AppTextarea";
 import AvatarInput from "../ui/AvatarInput";
 import CoverInput from "../ui/coverInput";
 
+import { MAIN_CONTRACT } from "@/constants";
+
+import mainContract from "@/contracts/SonarMeta.sol/SonarMeta.json";
+
 export default function PostUnion({ userId }: { userId: string }) {
   const router = useRouter();
 
@@ -20,6 +25,29 @@ export default function PostUnion({ userId }: { userId: string }) {
   const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");
   const [recruitmentErr, setRecruitmentErr] = useState<string>("");
+
+  // todo 不连钱包提醒不能使用
+
+  // 准备调用合约
+  const { config } = usePrepareContractWrite({
+    address: MAIN_CONTRACT,
+    abi: mainContract.abi,
+    functionName: "createNewUnion",
+    chainId: 5,
+  });
+
+  const { data, write } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      alert(`Union created! The tx hash is: ${data?.hash}`);
+      router.push("/unions");
+    }
+  }, [isSuccess]);
 
   async function createUnionAction(formData: FormData) {
     setAvatarErr("");
@@ -55,9 +83,12 @@ export default function PostUnion({ userId }: { userId: string }) {
       return;
     }
 
+    // 调用合约
+    write?.();
+
     // 更新成功后
     if (res.status !== 201 || res.message !== "Created") return;
-    router.push("/unions");
+    // router.push("/unions");
   }
 
   return (
@@ -97,7 +128,13 @@ export default function PostUnion({ userId }: { userId: string }) {
       />
 
       <div className="h-[50px]">
-        <AppButton text="Create" pendingText="Creating..." type="submit" />
+        <AppButton
+          text={write ? "Create" : "Cannot create"}
+          otherPendingStatus={isLoading}
+          pendingText={isLoading ? "Deploying contract..." : "Creating..."}
+          disabled={!write}
+          type="submit"
+        />
       </div>
     </form>
   );

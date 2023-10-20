@@ -122,9 +122,9 @@ export async function createUser(formData: FormData) {
     await connectToDB();
 
     let user = await User.findOne({ phone });
-    if (user) return { errName: "phone", errMsg: "此手机号已经被注册了" };
+    if (user) return { errName: "phone", errMsg: "Phone has been already used" };
 
-    if (password !== passwordAgain) return { errName: "passwordAgain", errMsg: "两次密码输入的不一致" };
+    if (password !== passwordAgain) return { errName: "passwordAgain", errMsg: "Password does not match" };
 
     // 对密码进行哈希加密
     const salt = await bcryptjs.genSalt(10);
@@ -132,7 +132,7 @@ export async function createUser(formData: FormData) {
 
     user = new User({
       phone,
-      username: `声呐元用户-${Date.now()}`,
+      username: `SonarMeta user-${Date.now()}`,
       password: hashedPassword,
     });
     await user.save();
@@ -170,7 +170,7 @@ export async function updateUser({
 
     let user = await User.findOne({ username });
 
-    if (user && String(user._id) !== userId) return { errName: "username", errMsg: "此用户名已经被使用了" };
+    if (user && String(user._id) !== userId) return { errName: "username", errMsg: "Username has been already used" };
 
     await User.findByIdAndUpdate(userId, {
       username,
