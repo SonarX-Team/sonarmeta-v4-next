@@ -2,19 +2,15 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const ConnectBtnRow = () => {
+export const ConnectBtnRow = ({ signed }: { signed: boolean }) => {
   return (
     <ConnectButton.Custom>
-      {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
-        // Note: If your app doesn't use authentication, you
-        // can remove all 'authenticationStatus' checks
-        const ready = mounted && authenticationStatus !== "loading";
-        const connected =
-          ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
+      {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {
+        const connected = mounted && account && chain && signed;
 
         return (
           <div
-            {...(!ready && {
+            {...(!mounted && {
               "aria-hidden": true,
               style: {
                 opacity: 0,

@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useDisconnect } from "wagmi";
 
 import { navLinks } from "@/constants";
 import { signOutUser } from "@/actions/user.action";
@@ -12,11 +13,12 @@ import { ConnectBtnCol } from "../wallet/ConnectBtnCol";
 
 export default function RightSidebar({ loginStatus }: { loginStatus: boolean }) {
   const pathname = usePathname();
-  const router = useRouter();
+
+  const { disconnect } = useDisconnect();
 
   async function handleSignOut() {
-    const res = await signOutUser();
-    if (res.message === "Signed out") router.replace("/sign-in");
+    disconnect(); // 先断开连接
+    await signOutUser();
   }
 
   return (
@@ -42,7 +44,7 @@ export default function RightSidebar({ loginStatus }: { loginStatus: boolean }) 
         </div>
 
         <div className="flex flex-col w-full gap-4">
-          <ConnectBtnCol />
+          <ConnectBtnCol signed={loginStatus} />
 
           {loginStatus && (
             <button className="rightsidebar_link hover:bg-zinc-100 duration-100" type="button" onClick={handleSignOut}>

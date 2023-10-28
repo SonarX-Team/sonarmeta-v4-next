@@ -1,34 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGear, faSignOut, faUser, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 
 import { ConnectBtnRow } from "../wallet/ConnectBtnRow";
 import { navLinks } from "@/constants";
-import { signOutUser } from "@/actions/user.action";
+import { requestMessage, signOutUser, verifySignature } from "@/actions/user.action";
 
-export default function Topbar({
-  userId,
-  phone,
-  username,
-  avatar,
-}: {
-  userId: string;
-  phone: string;
-  username: string;
-  avatar: string;
-}) {
-  const router = useRouter();
-
+export default function Topbar({ userId, username, avatar }: { userId: string; username: string; avatar: string }) {
   const [sidebarStatus, setSidebarStatus] = useState<boolean>(false);
   const [userLinkFlag, setUserLinkFlag] = useState<boolean>(false);
 
+  const { address, isConnected } = useAccount();
+  const { signMessageAsync } = useSignMessage();
+  const { disconnect } = useDisconnect();
+
+  // 对于连接钱包以后，还没登录的用户进行签名
+  useEffect(() => {
+    async function handleSignIn() {
+      if (!address) return; // 回避typescript报错
+
+      try {
+        // 获取需要签名的信息
+        const { message } = await requestMessage({ address });
+
+        // 如果没有发起签名就发起
+        const signature = await signMessageAsync({ message });
+
+        // 验证签名
+        const { status } = await verifySignature({ address, message, signature });
+
+        if (status === 200) alert("登录成功");
+        else disconnect();
+      } catch (error) {
+        disconnect();
+        alert("您拒绝了签名所以登录失败");
+      }
+    }
+
+    if (!userId && isConnected) handleSignIn();
+  }, [userId, isConnected]);
+
   async function handleSignOut() {
-    const res = await signOutUser();
-    if (res.message === "Signed out") router.replace("/sign-in");
+    disconnect(); // 先断开连接
+    await signOutUser();
   }
 
   return (
@@ -50,7 +68,7 @@ export default function Topbar({
       </div>
 
       <div className="flex items-center text-small-regular gap-2 leading-none">
-        <ConnectBtnRow />
+        <ConnectBtnRow signed={userId ? true : false} />
 
         <button
           className="md:hidden flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
@@ -64,7 +82,7 @@ export default function Topbar({
           <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faBars} />
         </button>
 
-        {userId && username && avatar && (
+        {userId && username && (
           <div className="relative">
             <button
               className="flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
@@ -73,7 +91,11 @@ export default function Topbar({
               type="button"
               onClick={() => setUserLinkFlag(true)}
             >
-              <img src={avatar} alt="user-avatar" className="w-[30px] h-[30px] rounded-full" />
+              {avatar ? (
+                <img src={avatar} alt="user-avatar" className="w-[30px] h-[30px] rounded-full" />
+              ) : (
+                <img src="/user.png" alt="user-avatar" className="w-[30px] h-[30px] rounded-full" />
+              )}
             </button>
 
             {userLinkFlag && (
@@ -83,13 +105,19 @@ export default function Topbar({
                 onMouseLeave={() => setUserLinkFlag(false)}
               >
                 <div className="flex items-center px-6 py-2 gap-2">
-                  <div className="w-[42px] h-[42px]">
-                    <img className="rounded-full" src={avatar} alt="avatar" />
-                  </div>
+                  {avatar ? (
+                    <img className="w-[42px] h-[42px] bg-violet-100 rounded-full" src={avatar} alt="avatar" />
+                  ) : (
+                    <img className="w-[42px] h-[42px] bg-violet-100 rounded-full" src="/user.png" alt="avatar" />
+                  )}
 
                   <div>
-                    <h3 className="text-body-bold">{username}</h3>
-                    <p className="text-sm text-zinc-500">{phone}</p>
+                    <h3 className="text-body-bold line-clamp-1">{username}</h3>
+                    {address && (
+                      <p className="text-sm text-zinc-500">
+                        {`${address.substring(0, 4)}...${address.substring(address.length - 4)}`.toUpperCase()}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -124,15 +152,6 @@ export default function Topbar({
               </div>
             )}
           </div>
-        )}
-
-        {(!userId || !username || !avatar) && (
-          <Link
-            className="flex justify-center items-center h-[42px] bg-violet-200 hover:bg-violet-200/70 duration-200 text-zinc-800 rounded-md px-4"
-            href="/sign-in"
-          >
-            Sign in
-          </Link>
         )}
       </div>
     </nav>

@@ -13,7 +13,7 @@ import { updateUser } from "@/actions/user.action";
 import { deleteMulti, uploadFile } from "@/lib/alioss";
 import { UserBasicType } from "@/types/UserTypes";
 
-export default function EditAccount({ _id, phone, username, email, bio, avatar }: UserBasicType) {
+export default function EditAccount({ _id, address, username, email, bio, avatar }: UserBasicType) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -34,7 +34,7 @@ export default function EditAccount({ _id, phone, username, email, bio, avatar }
       avatarUrl = result.url;
     }
 
-    const res = await updateUser({ userId: _id, phone, formData, pathname, avatar: avatarUrl });
+    const res = await updateUser({ userId: _id, address, formData, pathname, avatar: avatarUrl });
 
     // 处理校验信息失败
     if (res.ValidationErrors) {

@@ -1,4 +1,4 @@
-import "../globals.css";
+import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -21,10 +21,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { user } = await getCurrentUser();
 
   const userInfo = {
+    address: user ? user.address : "",
     userId: user ? user.id : "",
-    phone: user ? user.phone : "",
     username: user ? user.username : "",
     avatar: user ? user.avatar : "",
+    bio: user ? user.bio : "",
   };
 
   return (

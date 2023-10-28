@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  phone: {
+  address: {
     type: String,
-    minlength: 5,
-    maxlength: 16,
     required: true,
     unique: true,
   },
@@ -13,14 +11,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
   email: String,
   avatar: String,
   bio: String,
-  walletAddresses: String,
   // 这个用户关注的别人
   follows: [
     {

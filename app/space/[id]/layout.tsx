@@ -32,25 +32,37 @@ export default async function layout({ children, params }: { children: React.Rea
     <div className="sm:flex w-full max-w-7xl mt-8 px-8">
       <div className="flex flex-col justify-start gap-8 basis-1/4">
         <div className="flex flex-col justify-start gap-3">
-          <img
-            className="w-[270px] h-[270px] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
-            src={res.avatar}
-            alt="user-avatar"
-          />
+          {res.avatar ? (
+            <img
+              className="w-[270px] h-[270px] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
+              src={res.avatar}
+              alt="user-avatar"
+            />
+          ) : (
+            <img
+              className="w-[270px] h-[270px] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
+              src="/user.png"
+              alt="user-avatar"
+            />
+          )}
 
           <h1 className="text-heading2-semibold text-dark-1">{res.username}</h1>
-          <p className="text-small-regular text-zinc-700 whitespace-pre-line">{res.bio}</p>
+          <p className="text-base-regular text-zinc-700 whitespace-pre-line">{res.bio}</p>
         </div>
 
         <div className="flex flex-col justify-start gap-4">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon className="w-[14px] h-[14px] text-slate-500" icon={faEnvelope} />
-            <p className="text-small-regular text-zinc-700 leading-none">{res.email}</p>
+            <p className="text-small-regular text-zinc-700 leading-none">
+              {res.email ? res.email : "No email provided"}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <FontAwesomeIcon className="w-[14px] h-[14px] text-slate-500" icon={faWallet} />
             <p className="text-small-regular text-zinc-700 leading-none">
-              {res.walletAddresses ? res.walletAddresses : "No wallet connected"}
+              {res.address
+                ? `${res.address.substring(0, 4)}...${res.address.substring(res.address.length - 4)}`.toUpperCase()
+                : "No wallet connected"}
             </p>
           </div>
         </div>

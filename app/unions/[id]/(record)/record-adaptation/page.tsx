@@ -10,7 +10,6 @@ import { BasicIPsType } from "@/types/IPTypes";
 
 export default async function page({ params }: { params: { id: string } }) {
   const { user } = await getCurrentUser();
-  if (!user) redirect("/sign-in");
 
   // 按当前页面工会获取与其签约的IP列表
   const { IPs } = await fetchIPs({ pageNumber: 1, pageSize: 20, unionId: params.id });
@@ -24,7 +23,13 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <div className="w-full max-w-4xl mt-8 px-6">
       <h1 className="head-text text-left mb-10">Create a new adaptation</h1>
-      <PostAdaptation userId={user.id} unionId={params.id} IPs={basicIPs} />
+      {user ? (
+        <PostAdaptation userId={user.id} unionId={params.id} IPs={basicIPs} />
+      ) : (
+        <p className="mt-3 text-base-regular text-zinc-400">
+          Please find "Connect Wallet" button on the topbar and connect it to continue use SonarMeta.
+        </p>
+      )}
     </div>
   );
 }

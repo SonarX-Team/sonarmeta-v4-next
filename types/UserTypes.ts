@@ -1,9 +1,9 @@
 export type UserBasicType = {
   _id: string;
-  phone: string;
+  address: `0x${string}`;
   username: string;
   email: string;
   bio: string;
   avatar: string;
   onboarded: boolean;
-}
+};
