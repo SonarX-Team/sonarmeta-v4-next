@@ -27,7 +27,7 @@ export default async function page({ params }: { params: { id: string } }) {
         <PostAdaptation userId={user.id} unionId={params.id} IPs={basicIPs} />
       ) : (
         <p className="mt-3 text-base-regular text-zinc-400">
-          Please find "Connect Wallet" button on the topbar and connect it to continue use SonarMeta.
+          Please find &quot;Connect Wallet&quot; button on the topbar and connect it to continue use SonarMeta.
         </p>
       )}
     </div>

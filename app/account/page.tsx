@@ -9,7 +9,7 @@ export default async function page() {
       <div className="w-full max-w-4xl mt-8 px-6">
         <h1 className="head-text text-left mb-10">Edit account</h1>
         <p className="mt-3 text-base-regular text-zinc-400">
-          Please find "Connect Wallet" button on the topbar and connect it to continue use SonarMeta.
+          Please find &quot;Connect Wallet&quot; button on the topbar and connect it to continue use SonarMeta.
         </p>
       </div>
     );
