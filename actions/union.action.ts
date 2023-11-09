@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongoose";
 import _ from "lodash";
 
-import Union from "@/models/union.model";
+import Union from "@/models/ipdao.model";
 import User from "@/models/user.model";
 
 import { connectToDB } from "@/lib/mongoose";

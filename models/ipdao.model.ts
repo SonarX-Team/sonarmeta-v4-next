@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const IPSchema = new mongoose.Schema({
+const ipdaoSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -9,7 +9,8 @@ const IPSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  agreement: {
+  // 招募说明
+  recruitment: {
     type: String,
     required: true,
   },
@@ -21,39 +22,31 @@ const IPSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  officialLink: String,
-  images: [String], // 这个IP的预览图片
-  author: {
+  // 这个IPDAO的成立者
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
   // 关注者列表
   subscribers: [
-    { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "User", 
-    }
-  ],
-  // 已经向这个IP发出孵化请求的工会列表（待审核列表）
-  inclinedUnions: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "IP",
+      ref: "User",
     },
   ],
-  // 和这个IP签署了协议的工会
-  unions: [
+  // 已经向这IPDAO发出加入请求的用户列表（待审核列表）
+  inclinedMembers: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Union",
+      ref: "User",
     },
   ],
-  // 围绕这个IP做的二创
-  adaptations: [
+  // 这IPDAO拥有的成员
+  members: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Adaptation",
+      ref: "User",
     },
   ],
   createdAt: {
@@ -62,6 +55,6 @@ const IPSchema = new mongoose.Schema({
   },
 });
 
-const IP = mongoose.models.IP || mongoose.model("IP", IPSchema);
+const IPDAO = mongoose.models.IPDAO || mongoose.model("IPDAO", ipdaoSchema);
 
-export default IP;
+export default IPDAO;

@@ -1,41 +1,27 @@
-import {
-  faDove,
-  faPlus,
-  faHandshakeAngle,
-  faHammer,
-  faInfoCircle,
-  faWallet,
-  faUsersGear,
-  faSnowflake,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faStore, faHammer, faInfoCircle, faWallet, faUsersGear } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 // 导航栏链接常量
 export const navLinks: { icon: IconProp; route: string; label: string }[] = [
   {
-    icon: faDove,
-    route: "/ips",
-    label: "IPs",
+    icon: faUsersGear,
+    route: "/ip-daos",
+    label: "IP DAOs",
   },
   {
-    icon: faHandshakeAngle,
-    route: "/unions",
-    label: "Unions",
+    icon: faStore,
+    route: "/marketplace",
+    label: "Marketplace",
   },
   {
     icon: faPlus,
-    route: "/create-ip",
-    label: "Create IP",
-  },
-  {
-    icon: faHammer,
-    route: "/create-union",
-    label: "Create union",
+    route: "/create",
+    label: "Create",
   },
   {
     icon: faInfoCircle,
-    route: "/about",
-    label: "About us",
+    route: "https://sonarx666.feishu.cn/docx/XyLndXhftoXz1GxkCYAcOIdrn1U?from=from_copylink",
+    label: "About",
   },
 ];
 
@@ -48,22 +34,22 @@ export const Guides = [
     icon: faWallet,
   },
   {
-    title: "Create your IP",
+    title: "Create/Join IP DAOs",
     description:
-      "Upload the information about the IP you own, so that other unions can view it and submit nurturing requests to you.",
-    icon: faDove,
-  },
-  {
-    title: "Find your union",
-    description:
-      "If you are a creator, please find a suitable union or establish one yourself to start contributing to other IPs.",
+      "An IP DAO is the owner of co-creations, which authorizes derivatives, and distributes profit among its members.",
     icon: faUsersGear,
   },
   {
-    title: "Now back to work",
+    title: "Bind and submit",
     description:
-      "Once authorized, you can continue creating in your accustomed way, and we will automatically calculate the real-time node value.",
+      "Mint a co-creation NFT and bind an account to it so that members within the IP DAO can submit their component NFTs to it.",
     icon: faHammer,
+  },
+  {
+    title: "Authorize on the marketplace",
+    description:
+      "Mint authorization NFTs to a co-creation token-bound account and use that account to list them on the marketplace to connect others.",
+    icon: faStore,
   },
 ];
 
@@ -77,4 +63,11 @@ export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 // ETH常量
 // export const MAIN_CONTRACT = "0xCf152cfc200B497F2F62087c42cD5Cd0e4567C04"; // Goerli
 export const MAIN_CONTRACT = "0xF1138617b6AAC5ad0ea9f874d8adB82c4417CCA2"; // Scroll Sepolia
+export const MARKETPLACE_CONTRACT = "0xF1138617b6AAC5ad0ea9f874d8adB82c4417CCA2";
 export const ADMIN_ADDRESS = "0xCfb4a9cf76d8977513137c5d302931681E45f632";
+
+// CCTP Testnet Contract Addresses
+export const ETH_TOKEN_MESSENGER_CONTRACT_ADDRESS = "0xd0c3da58f55358142b8d3e06c1c30c5c6114efe8";
+export const USDC_ETH_CONTRACT_ADDRESS = "0x07865c6e87b9f70255377e024ace6630c1eaa37f";
+export const ETH_MESSAGE_CONTRACT_ADDRESS = "0x1a9695e9dbdb443f4b20e3e4ce87c8d963fda34f";
+export const AVAX_MESSAGE_TRANSMITTER_CONTRACT_ADDRESS = "0xa9fb1b3009dcb79e2fe346c16a604b8fa8ae0a79";

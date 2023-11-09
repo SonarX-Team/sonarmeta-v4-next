@@ -2,9 +2,9 @@
 
 import _ from "lodash";
 
-import Adaptation from "@/models/adaptation.model";
-import IP from "@/models/ip.model";
-import Union from "@/models/union.model";
+import Adaptation from "@/models/authorization.model";
+import IP from "@/models/creation.model";
+import Union from "@/models/ipdao.model";
 import User from "@/models/user.model";
 
 import { connectToDB } from "@/lib/mongoose";

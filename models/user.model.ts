@@ -11,9 +11,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  email: String,
-  avatar: String,
   bio: String,
+  avatar: String,
+  email: String,
+  telegram: String,
+  twitter: String,
+  discord: String,
   // 这个用户关注的别人
   follows: [
     {
@@ -26,27 +29,6 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    },
-  ],
-  // 这个用户创建的IP
-  IPs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "IP",
-    },
-  ],
-  // 这个用户加入的工会
-  unions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Union",
-    },
-  ],
-  // 这个用户参与创建的二创
-  adaptations: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Adaptation",
     },
   ],
   onboarded: {

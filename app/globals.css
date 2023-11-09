@@ -16,7 +16,7 @@
 }
 
 body {
-  background-color: #f1f1f2;
+  background-color: #f6f6f7;
 }
 
 *::-webkit-scrollbar {
@@ -79,7 +79,7 @@ textarea::placeholder {
 @layer components {
   /* main */
   .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center bg-light-2 py-[60px];
+    @apply bg-light-2 pt-[60px];
   }
 
   /* Head Text */

@@ -21,8 +21,8 @@ const AppInput: React.FC<Props> = ({ name, label, defaultValue, placeholder, req
       </div>
 
       <div
-        className={`flex ${disabled ? "bg-zinc-700/90" : "bg-slate-300/30 hover:bg-slate-400/20"} ${
-          errMsg ? "border-[1px] border-red-600" : "border-none"
+        className={`flex ${disabled ? "bg-zinc-700/90" : "bg-transparent"} ${
+          errMsg ? "border-[1px] border-red-600" : "border-zinc-300 hover:border-zinc-500"
         } rounded-md duration-200`}
       >
         <input

@@ -33,11 +33,14 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
         // 验证签名
         const { status } = await verifySignature({ address, message, signature });
 
-        if (status === 200) alert("登录成功");
-        else disconnect();
+        if (status === 200) alert("Sign in successfully.");
+        else {
+          disconnect();
+          alert("Failed to sign in");
+        }
       } catch (error) {
         disconnect();
-        alert("您拒绝了签名所以登录失败");
+        alert("You rejected the request in your wallet.");
       }
     }
 
@@ -71,7 +74,7 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
         <ConnectBtnRow signed={userId ? true : false} />
 
         <button
-          className="md:hidden flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
+          className="lg:hidden flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
           type="button"
           onClick={() => {
             const sidebar = document.getElementById("rightSidebar");

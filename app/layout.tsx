@@ -34,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <RainbowKit>
           <Topbar {...userInfo} />
 
-          <main className="flex flex-row">
+          <main>
             <RightSidebar loginStatus={user ? true : false} />
             <section className="main-container">{children}</section>
           </main>

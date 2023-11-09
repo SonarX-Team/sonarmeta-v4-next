@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { sign, verify } from "jsonwebtoken";
 import _ from "lodash";
-import { verifyMessage } from "viem";
+import { verifyMessage } from "viem/utils";
 
 import User from "@/models/user.model";
 import { connectToDB } from "@/lib/mongoose";
