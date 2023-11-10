@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useAccount, useNetwork } from "wagmi";
 import { prepareWriteContract, writeContract, waitForTransaction, readContract } from "@wagmi/core";
 import { decodeAbiParameters, keccak256, toBytes } from "viem";
@@ -24,6 +25,9 @@ export default function BuyItem({ price, tokenId, amount }: { price: number; tok
   const { address } = useAccount();
   const { chain } = useNetwork();
 
+  const [messageBytes, setMessageBytes] = useState<string>("");
+  const [attestationSignature, setAttestationSignature] = useState<string>("");
+
   const AVAX_DESTINATION_DOMAIN = 1;
 
   async function cctpAction() {
@@ -39,7 +43,7 @@ export default function BuyItem({ price, tokenId, amount }: { price: number; tok
       })
     );
     const approveTxReceipt = await waitForTransaction({ hash: approveTx.hash });
-    console.log("ApproveTxReceipt: ", approveTxReceipt);
+    console.log("Successfully with ApproveTx and Receipt: ", approveTxReceipt);
 
     // STEP 2: Burn USDC
     const destinationAddressInBytes32 = await readContract({
@@ -50,6 +54,8 @@ export default function BuyItem({ price, tokenId, amount }: { price: number; tok
       // @ts-ignore
       args: [address],
     });
+
+    console.log("Destination address in bytes32 is: ", destinationAddressInBytes32);
 
     const burnTx = await writeContract(
       await prepareWriteContract({
@@ -62,20 +68,26 @@ export default function BuyItem({ price, tokenId, amount }: { price: number; tok
       })
     );
     const burnTxReceipt = await waitForTransaction({ hash: burnTx.hash });
-    console.log("BurnTxReceipt: ", burnTxReceipt);
+    console.log("Successfully with BurnTx and Receipt: ", burnTxReceipt);
 
     // STEP 3: Retrieve message bytes from logs
     const eventTopic = keccak256(toBytes("MessageSent(bytes)"));
-    // @ts-ignore
+    console.log("event topic is: ", eventTopic);
     const log = burnTxReceipt.logs.find((l: any) => l.topics[0] === eventTopic);
+    console.log("log data is: ", log?.data);
+
     // @ts-ignore
-    const messageBytes = decodeAbiParameters(["bytes"], log.data)[0];
+    const messageBytes = decodeAbiParameters([{ name: "bytes", type: "bytes" }], log.data)[0];
     const messageHash = keccak256(toBytes(messageBytes));
 
     console.log(`MessageBytes: ${messageBytes}`);
     console.log(`MessageHash: ${messageHash}`);
 
+    setMessageBytes(messageBytes);
+
     // STEP 4: Fetch attestation signature
+    console.log("Now start while loop, please wait a moment...");
+
     let attestationResponse = { status: "pending", attestation: "" };
     while (attestationResponse.status != "complete") {
       const response = await fetch(`https://iris-api-sandbox.circle.com/attestations/${messageHash}`);
@@ -86,10 +98,15 @@ export default function BuyItem({ price, tokenId, amount }: { price: number; tok
     const attestationSignature = attestationResponse.attestation;
     console.log(`Signature: ${attestationSignature}`);
 
+    setAttestationSignature(attestationSignature);
+
     alert("Now you can switch network to Avalanch Fuji to receive and purchase.");
   }
 
   async function receiveAction() {
+    console.log(messageBytes);
+    console.log(attestationSignature);
+
     // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
     const receiveTx = await writeContract(
       await prepareWriteContract({
@@ -134,9 +151,6 @@ export default function BuyItem({ price, tokenId, amount }: { price: number; tok
         <hr className="w-full" />
       </div>
 
-      <p className="text-small-regular text-zinc-500">
-        You can also use Circle CCTP to purchase the authorization with USDC on another blockchain.
-      </p>
       <form action={cctpAction} className="h-[50px]">
         <AppButton text="Bridge" pendingText="Transfering..." type="submit" />
       </form>

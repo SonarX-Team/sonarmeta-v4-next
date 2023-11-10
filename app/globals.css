@@ -79,7 +79,7 @@ textarea::placeholder {
 @layer components {
   /* main */
   .main-container {
-    @apply bg-light-2 pt-[60px];
+    @apply min-h-screen bg-light-2 pt-[60px];
   }
 
   /* Head Text */

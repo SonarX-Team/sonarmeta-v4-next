@@ -15,7 +15,7 @@ export const navLinks: { icon: IconProp; route: string; label: string }[] = [
   },
   {
     icon: faPlus,
-    route: "/create",
+    route: "/create/creation",
     label: "Create",
   },
   {

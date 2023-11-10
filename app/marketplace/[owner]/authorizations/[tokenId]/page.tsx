@@ -98,7 +98,7 @@ export default function page({ params }: { params: { owner: string; tokenId: str
             <TitleCard title="Settlement calculator">
               <div className="flex flex-col gap-8">
                 <div className="flex items-end gap-2">
-                  <div className="text-heading3-bold leading-none">0 ETH</div>
+                  <div className="text-heading3-bold leading-none">0.1 USDC</div>
                   <p className="text-zinc-500 leading-none">in total</p>
                 </div>
 
