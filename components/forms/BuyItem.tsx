@@ -11,7 +11,7 @@ import tokenMessengerAbi from "@/contracts/cctp/TokenMessenger.json";
 import messageAbi from "@/contracts/cctp/Message.json";
 import usdcAbi from "@/contracts/cctp/Usdc.json";
 import messageTransmitterAbi from "@/contracts/cctp/MessageTransmitter.json";
-import marketplaceAbi from "@/contracts/sonarmeta/marketplace.json";
+import marketplaceAbi from "@/contracts/sonarmeta/Marketplace.json";
 
 import {
   AVAX_MESSAGE_TRANSMITTER_CONTRACT_ADDRESS,
