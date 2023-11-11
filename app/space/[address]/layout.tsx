@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faDove,
-  faEnvelope,
-  faHandshakeAngle,
-  faWallet,
-  faWandMagicSparkles,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBell, faDove, faEnvelope, faHandshakeAngle, faWallet } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchUser, getCurrentUser } from "@/actions/user.action";
 import CategoryTab from "@/components/shared/CategoryTab";
@@ -26,17 +19,17 @@ export default async function layout({
   let tabRoutes: string[] = [];
 
   if (user && user.address === params.address) {
-    tabNames = ["Overview", "IPs", "Unions", "Adaptations", "Reviews"];
-    tabRoutes = ["", "/ips", "/unions", "/adaptations", "/review"];
+    tabNames = ["Overview", "Creations", "IP DAOs", "Approvals"];
+    tabRoutes = ["", "/creations", "/ip-daos", "/approvals"];
   } else {
-    tabNames = ["Overview", "IPs", "Unions", "Adaptations"];
-    tabRoutes = ["", "/ips", "/unions", "/adaptations"];
+    tabNames = ["Overview", "Creations", "IP DAOs"];
+    tabRoutes = ["", "/creations", "/ip-daos"];
   }
 
   const res = await fetchUser({ address: params.address, isBasic: false });
 
   return (
-    <div className="sm:flex w-full max-w-7xl mt-8 px-8">
+    <div className="sm:flex max-w-7xl mx-auto mt-8 px-8">
       <div className="flex flex-col justify-start gap-8 basis-1/4">
         <div className="flex flex-col justify-start gap-3">
           {res.avatar ? (
@@ -92,31 +85,26 @@ export default async function layout({
         <div className="flex flex-col justify-start gap-4">
           <div className="flex items-center gap-2 text-zinc-700">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faDove} />
-            <p className="text-small-semibold text-dark-1 leading-none">{res.IPs.length}</p>
-            <p className="text-small-regular">IPs created</p>
+            <p className="text-small-semibold text-dark-1 leading-none">{7}</p>
+            <p className="text-small-regular">Creations created</p>
           </div>
           <div className="flex items-center gap-2 text-zinc-700">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faHandshakeAngle} />
-            <p className="text-small-semibold text-dark-1 leading-none">{res.unions.length}</p>
-            <p className="text-small-regular">Unions joined</p>
-          </div>
-          <div className="flex items-center gap-2 text-zinc-700">
-            <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faWandMagicSparkles} />
-            <p className="text-small-semibold text-dark-1 leading-none">{res.adaptations.length}</p>
-            <p className="text-small-regular">Adaptations contributed</p>
+            <p className="text-small-semibold text-dark-1 leading-none">{0}</p>
+            <p className="text-small-regular">IP DAOs joined</p>
           </div>
           <div className="flex items-center gap-2 text-zinc-700">
             <FontAwesomeIcon className="w-[14px] h-[14px]" icon={faBell} />
-            <p className="text-small-semibold text-dark-1 leading-none">0</p>
+            <p className="text-small-semibold text-dark-1 leading-none">{res.followers.length}</p>
             <p className="text-small-regular">Followers</p>
             <p className="text-small-regular">·</p>
-            <p className="text-small-semibold text-dark-1 leading-none">0</p>
+            <p className="text-small-semibold text-dark-1 leading-none">{res.follows.length}</p>
             <p className="text-small-regular">Follows</p>
           </div>
         </div>
       </div>
 
-      <div className="basis-3/4 sm:pl-10 sm:mt-0 mt-6">
+      <div className="basis-3/4 flex flex-col gap-8 sm:pl-10 sm:mt-0 mt-6">
         <CategoryTab tabs={tabNames} routes={tabRoutes} root={`/space/${params.address}`} />
 
         {children}

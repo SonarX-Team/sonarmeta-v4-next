@@ -18,7 +18,7 @@ export default function CreationPicker({ label, creations, getCreation, required
 
   useEffect(() => {
     getCreation(pickedCreation);
-  }, [pickedCreation]);
+  }, [pickedCreation, getCreation]);
 
   return (
     <div>
@@ -48,7 +48,7 @@ export default function CreationPicker({ label, creations, getCreation, required
       )}
       {creations.length === 0 && (
         <div className="flex justify-center items-center">
-          <SadPlaceholder size={300} text="No IP available" />
+          <SadPlaceholder size={300} text="No creations available, please mint some first" />
         </div>
       )}
     </div>

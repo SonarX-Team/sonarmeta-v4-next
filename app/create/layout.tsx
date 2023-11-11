@@ -7,7 +7,7 @@ export default async function layout({ children }: { children: React.ReactNode }
 
       <CategoryTab
         tabs={["Creation", "Token-bound account", "IP DAO"]}
-        routes={["/creation", "/tba", "/ipdao"]}
+        routes={["/creation", "/tba", "/ip-dao"]}
         root="/create"
       />
 

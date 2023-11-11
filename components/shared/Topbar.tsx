@@ -56,7 +56,7 @@ export default function Topbar({
     }
 
     if (!address && isConnected) handleSignIn();
-  }, [address, isConnected]);
+  }, [address, isConnected, disconnect, signAddr, signMessageAsync]);
 
   async function handleSignOut() {
     disconnect(); // 先断开连接

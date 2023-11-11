@@ -55,7 +55,7 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
     }
 
     if (isError) alert(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, mintTx?.hash, error?.message, router]);
 
   async function createAction(formData: FormData) {
     setAvatarErr("");

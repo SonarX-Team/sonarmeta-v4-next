@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
@@ -36,19 +36,36 @@ export default function CreateTBA({ address }: { address: `0x${string}` }) {
     hash: txHash,
   });
 
+  const walletClient: WalletClient = createWalletClient({
+    account: address,
+    chain: goerli,
+    // @ts-ignore
+    transport: window.ethereum ? custom(window.ethereum) : http(),
+  });
+
+  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chainId: goerli.id }), [walletClient]);
+
   // Mounted fetch
   useEffect(() => {
     async function getCreations() {
+      // @ts-ignore
       if (!tokenIds || tokenIds.length === 0) return;
 
+      // @ts-ignore
       const ids: number[] = tokenIds.map((tokenId) => Number(tokenId));
 
       const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
-      setCreations(creations);
+
+      const cs = creations?.map((creation) => {
+        creation._id = "";
+        return creation;
+      });
+
+      setCreations(cs);
     }
 
     getCreations();
-  }, []);
+  }, [tokenIds]);
 
   // TBA wather
   useEffect(() => {
@@ -68,7 +85,7 @@ export default function CreateTBA({ address }: { address: `0x${string}` }) {
     }
 
     watchTba();
-  }, [pickedTokenId]);
+  }, [pickedTokenId, tokenboundClient]);
 
   // Create TBA tx watcher
   useEffect(() => {
@@ -78,18 +95,9 @@ export default function CreateTBA({ address }: { address: `0x${string}` }) {
       );
       location.reload();
     }
-    
+
     if (isError) alert(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError]);
-
-  const walletClient: WalletClient = createWalletClient({
-    account: address,
-    chain: goerli,
-    // @ts-ignore
-    transport: window.ethereum ? custom(window.ethereum) : http(),
-  });
-
-  const tokenboundClient = new TokenboundClient({ walletClient, chainId: goerli.id });
+  }, [isSuccess, isError, currentTba, error?.message, pickedTokenId, txHash]);
 
   async function createAction() {
     if (currentTbaDeployed) return;

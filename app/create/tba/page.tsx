@@ -1,4 +1,3 @@
-import { fetchCreations } from "@/actions/creation.action";
 import { getCurrentUser } from "@/actions/user.action";
 
 import CreateTBA from "@/components/forms/CreateTBA";
