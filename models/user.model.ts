@@ -31,10 +31,6 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  onboarded: {
-    type: Boolean,
-    default: false,
-  },
   joinedAt: {
     type: Date,
     default: Date.now,

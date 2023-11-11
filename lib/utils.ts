@@ -22,3 +22,7 @@ export function formatDateString(dateString: string) {
 
   return `${time} - ${formattedDate}`;
 }
+
+export function hiddenAddress(address: `0x${string}`) {
+  return `${address.substring(0, 4)}...${address.substring(address.length - 4)}`.toUpperCase();
+}

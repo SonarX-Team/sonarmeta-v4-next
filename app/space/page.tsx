@@ -5,5 +5,5 @@ export default async function page() {
   const { user } = await getCurrentUser();
 
   if (!user) redirect("/sign-in");
-  else redirect(`/space/${user.id}`);
+  else redirect(`/space/${user.address}`);
 }

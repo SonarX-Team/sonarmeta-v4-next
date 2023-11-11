@@ -1,8 +1,21 @@
-import { faPlus, faStore, faHammer, faInfoCircle, faWallet, faUsersGear } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faStore,
+  faHammer,
+  faInfoCircle,
+  faWallet,
+  faUsersGear,
+  faDove,
+} from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 // 导航栏链接常量
 export const navLinks: { icon: IconProp; route: string; label: string }[] = [
+  {
+    icon: faDove,
+    route: "/creations",
+    label: "Creations",
+  },
   {
     icon: faUsersGear,
     route: "/ip-daos",
@@ -61,10 +74,11 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
 // ETH常量
-// export const MAIN_CONTRACT = "0xCf152cfc200B497F2F62087c42cD5Cd0e4567C04"; // Goerli
-export const MAIN_CONTRACT = "0xF1138617b6AAC5ad0ea9f874d8adB82c4417CCA2"; // Scroll Sepolia
-export const MARKETPLACE_CONTRACT = "0xF1138617b6AAC5ad0ea9f874d8adB82c4417CCA2";
-export const ADMIN_ADDRESS = "0xCfb4a9cf76d8977513137c5d302931681E45f632";
+
+// Goerli
+export const MAIN_CONTRACT = "0x6b7edeae035f8e1dc456554ee42b1133cce85505";
+export const MARKETPLACE_CONTRACT = "0x6cbcdd9b5cc5e2ba4bde76d4549768fce5f491a6";
+export const CREATION_CONTRACT = "0x6c914b8f26efcad9ac40ff93e4e10218af21c786";
 
 // CCTP Testnet Contract Addresses
 export const ETH_TOKEN_MESSENGER_CONTRACT_ADDRESS = "0xd0c3da58f55358142b8d3e06c1c30c5c6114efe8";

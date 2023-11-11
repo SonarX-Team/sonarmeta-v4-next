@@ -9,29 +9,40 @@ import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { ConnectBtnRow } from "../wallet/ConnectBtnRow";
 import { navLinks } from "@/constants";
 import { requestMessage, signOutUser, verifySignature } from "@/actions/user.action";
+import { hiddenAddress } from "@/lib/utils";
 
-export default function Topbar({ userId, username, avatar }: { userId: string; username: string; avatar: string }) {
+export default function Topbar({
+  address,
+  username,
+  avatar,
+}: {
+  address: `0x${string}`;
+  username: string;
+  avatar: string;
+}) {
   const [sidebarStatus, setSidebarStatus] = useState<boolean>(false);
   const [userLinkFlag, setUserLinkFlag] = useState<boolean>(false);
 
-  const { address, isConnected } = useAccount();
+  const { address: signAddr, isConnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
 
   // 对于连接钱包以后，还没登录的用户进行签名
   useEffect(() => {
     async function handleSignIn() {
-      if (!address) return; // 回避typescript报错
+      if (!signAddr) return; // 回避typescript报错
 
       try {
         // 获取需要签名的信息
-        const { message } = await requestMessage({ address });
+        const { message } = await requestMessage({ address: signAddr });
 
-        // 如果没有发起签名就发起
+        if (message === "") return alert("Something went wrong with server");
+
+        // 发起签名
         const signature = await signMessageAsync({ message });
 
         // 验证签名
-        const { status } = await verifySignature({ address, message, signature });
+        const { status } = await verifySignature({ address: signAddr, message, signature });
 
         if (status === 200) alert("Sign in successfully.");
         else {
@@ -44,8 +55,8 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
       }
     }
 
-    if (!userId && isConnected) handleSignIn();
-  }, [userId, isConnected]);
+    if (!address && isConnected) handleSignIn();
+  }, [address, isConnected]);
 
   async function handleSignOut() {
     disconnect(); // 先断开连接
@@ -71,7 +82,7 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
       </div>
 
       <div className="flex items-center text-small-regular gap-2 leading-none">
-        <ConnectBtnRow signed={userId ? true : false} />
+        <ConnectBtnRow signed={address ? true : false} />
 
         <button
           className="lg:hidden flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
@@ -85,7 +96,7 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
           <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faBars} />
         </button>
 
-        {userId && username && (
+        {address && username && (
           <div className="relative">
             <button
               className="flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
@@ -116,11 +127,7 @@ export default function Topbar({ userId, username, avatar }: { userId: string; u
 
                   <div>
                     <h3 className="text-body-bold line-clamp-1">{username}</h3>
-                    {address && (
-                      <p className="text-sm text-zinc-500">
-                        {`${address.substring(0, 4)}...${address.substring(address.length - 4)}`.toUpperCase()}
-                      </p>
-                    )}
+                    {address && <p className="text-sm text-zinc-500">{hiddenAddress(address)}</p>}
                   </div>
                 </div>
 

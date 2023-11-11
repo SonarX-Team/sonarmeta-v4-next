@@ -11,7 +11,7 @@ import tokenMessengerAbi from "@/contracts/cctp/TokenMessenger.json";
 import messageAbi from "@/contracts/cctp/Message.json";
 import usdcAbi from "@/contracts/cctp/Usdc.json";
 import messageTransmitterAbi from "@/contracts/cctp/MessageTransmitter.json";
-import marketplaceAbi from "@/contracts/Marketplace.sol/Marketplace.json";
+import marketplaceAbi from "@/contracts/sonarmeta/marketplace.json";
 
 import {
   AVAX_MESSAGE_TRANSMITTER_CONTRACT_ADDRESS,
@@ -128,7 +128,7 @@ export default function BuyItem({ price, tokenId, amount }: { price: number; tok
     const buyTx = await writeContract(
       await prepareWriteContract({
         address: MARKETPLACE_CONTRACT,
-        abi: marketplaceAbi.abi,
+        abi: marketplaceAbi,
         functionName: "buyItem",
         chainId: chain?.id,
         // @ts-ignore

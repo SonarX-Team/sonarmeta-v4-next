@@ -9,6 +9,10 @@ const creationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  tokenId: {
+    type: Number,
+    required: true,
+  },
   // 授权协议
   agreement: {
     type: String,
@@ -22,20 +26,13 @@ const creationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  officialLink: String,
+  externalLink: String,
   images: [String], // 这个作品的预览图片
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
-
-
 
 const Creation = mongoose.models.Creation || mongoose.model("Creation", creationSchema);
 

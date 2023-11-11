@@ -12,7 +12,7 @@ type Props = {
 const AppInput: React.FC<Props> = ({ name, label, defaultValue, placeholder, required, disabled, errMsg, type }) => {
   return (
     <div>
-      <div className="flex justify-between items-center text-small-regular mb-2">
+      <div className="flex justify-between items-center mb-2">
         <label className="font-bold text-zinc-800">
           {label} {required && <span className="text-red-600">*</span>}
         </label>

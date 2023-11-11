@@ -10,7 +10,7 @@ import User from "@/models/user.model";
 import { connectToDB } from "@/lib/mongoose";
 import { UpdateUserValidation } from "@/validations/user.validation";
 import { COOKIE_NAME, EXPIRE_AGE } from "@/constants";
-import { UserBasicType } from "@/types/UserTypes";
+import { UserBasicType } from "@/types/user.type";
 
 // 获取当前登录用户信息 - GET
 export async function getCurrentUser() {
@@ -26,46 +26,40 @@ export async function getCurrentUser() {
     return {
       status: 200,
       message: "ok",
-      user: _.pick(decoded, ["address", "id", "username", "avatar", "bio"]) as {
-        address: string;
-        id: string;
+      user: _.pick(decoded, ["address", "username", "avatar", "bio"]) as {
+        address: `0x${string}`;
         username: string;
         avatar: string;
         bio: string;
       },
     };
   } catch (error: any) {
-    throw new Error(`Failed to get the current user: ${error.message}`);
+    return { status: 500, errMsg: `Failed to get the current user: ${error.message}` };
   }
 }
 
 // 获取用户信息 - GET
-export async function fetchUser({ userId, isBasic }: { userId: string; isBasic: boolean }) {
+export async function fetchUser({ address, isBasic }: { address: `0x${string}`; isBasic: boolean }) {
   try {
     await connectToDB();
 
-    const user = await User.findById(userId);
+    const user = await User.findOne({ address });
 
-    if (isBasic)
-      return _.pick(user, ["_id", "address", "username", "email", "bio", "avatar", "onboarded"]) as UserBasicType;
+    if (isBasic) return _.pick(user, ["address", "username", "email", "bio", "avatar"]) as UserBasicType;
     else return user;
   } catch (error: any) {
-    throw new Error(`Failed to fetch user: ${error.message}`);
+    return { status: 500, errMsg: `Failed to fetch user: ${error.message}` };
   }
 }
 
 // 更新用户的个人信息 - PATCH
 export async function updateUser({
-  userId,
   address,
   formData,
-  pathname,
   avatar,
 }: {
-  userId: string;
   address: `0x${string}`;
   formData: FormData;
-  pathname: string;
   avatar: string;
 }) {
   const username = String(formData.get("username"));
@@ -81,19 +75,21 @@ export async function updateUser({
 
     let user = await User.findOne({ username });
 
-    if (user && String(user._id) !== userId) return { errName: "username", errMsg: "Username has been already used" };
+    if (user && String(user.address) !== address)
+      return { errName: "username", errMsg: "Username has been already used" };
 
-    await User.findByIdAndUpdate(userId, {
-      username,
-      email,
-      bio,
-      avatar,
-      onboarded: true,
-    });
+    await User.findOneAndUpdate(
+      { address },
+      {
+        username,
+        email,
+        bio,
+        avatar,
+      }
+    );
 
     const tokenData = {
       address,
-      id: userId,
       username,
       avatar,
       bio,
@@ -114,11 +110,11 @@ export async function updateUser({
       path: "/",
     });
 
-    if (pathname === "/account") revalidatePath(pathname);
+    revalidatePath("/account");
 
     return { status: 200, message: "Updated" };
   } catch (error: any) {
-    throw new Error(`Failed to update user: ${error.message}`);
+    return { status: 500, errMsg: `Failed to update user: ${error.message}` };
   }
 }
 
@@ -136,7 +132,7 @@ export async function requestMessage({ address }: { address: `0x${string}` }) {
 
     return { message };
   } catch (error: any) {
-    throw new Error(`Failed to generate message: ${error.message}`);
+    return { status: 500, errMsg: `Failed to generate message: ${error.message}`, message: "" };
   }
 }
 
@@ -171,7 +167,6 @@ export async function verifySignature({
 
     const tokenData = {
       address,
-      id: user ? user._id : "",
       username: user ? user.username : `SonarMeta user-${Date.now()}`,
       avatar: user ? user.avatar : "",
       bio: user ? user.bio : "This guy has nothing to say...",
@@ -194,7 +189,7 @@ export async function verifySignature({
 
     return { status: 200, message: "Authenticated" };
   } catch (error: any) {
-    throw new Error(`Failed to verify message: ${error.message}`);
+    return { status: 500, errMsg: `Failed to verify message: ${error.message}` };
   }
 }
 

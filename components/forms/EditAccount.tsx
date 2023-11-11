@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
 
 import AvatarInput from "../ui/AvatarInput";
 import AppInput from "../ui/AppInput";
@@ -11,12 +9,9 @@ import AppTextarea from "../ui/AppTextarea";
 
 import { updateUser } from "@/actions/user.action";
 import { deleteMulti, uploadFile } from "@/lib/alioss";
-import { UserBasicType } from "@/types/UserTypes";
+import { UserBasicType } from "@/types/user.type";
 
-export default function EditAccount({ _id, address, username, email, bio, avatar }: UserBasicType) {
-  const router = useRouter();
-  const pathname = usePathname();
-
+export default function EditAccount({ address, username, email, bio, avatar }: UserBasicType) {
   const [usernameErr, setUsernameErr] = useState<string>("");
   const [emailErr, setEmailErr] = useState<string>("");
   const [bioErr, setBioErr] = useState<string>("");
@@ -30,11 +25,11 @@ export default function EditAccount({ _id, address, username, email, bio, avatar
     let avatarUrl = avatar;
     const avatarFile = formData.get("avatar") as File;
     if (avatarFile && avatarFile.size > 0) {
-      const result = await uploadFile(`users/${_id}-${String(formData.get("username"))}/avatar.png`, avatarFile);
+      const result = await uploadFile(`users/${address}/avatar.png`, avatarFile);
       avatarUrl = result.url;
     }
 
-    const res = await updateUser({ userId: _id, address, formData, pathname, avatar: avatarUrl });
+    const res = await updateUser({ address, formData, avatar: avatarUrl });
 
     // 处理校验信息失败
     if (res.ValidationErrors) {
@@ -53,11 +48,14 @@ export default function EditAccount({ _id, address, username, email, bio, avatar
       return setUsernameErr(res.errMsg);
     }
 
-    // 更新成功后
-    if (res.status !== 200 || res.message !== "Updated") return;
+    if (res.status === 500) {
+      // 回滚：删掉上传了的图片
+      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
+      return;
+    }
 
-    if (pathname === "/onboarding") router.push("/");
-    else router.back();
+    // 更新成功后
+    if (res.status === 200 && res.message === "Updated") alert("Save successfully");
   }
 
   return (

@@ -25,7 +25,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
   };
 
   return (
-    <div className="flex items-center text-small-regular gap-4">
+    <div className="flex items-center gap-4">
       <div>
         <input
           id="coverInput"
@@ -54,11 +54,11 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
         </label>
       </div>
 
-      <div className="text-small-regular">
+      <div>
         <label htmlFor="coverInput" className="text-violet-700 hover:text-violet-600 duration-200 cursor-pointer">
           Select your cover image {required && <span className="text-red-600">*</span>}
         </label>
-        {errMsg && <p className="text-red-600 mt-1">{errMsg}</p>}
+        {errMsg && <p className="text-small-regular text-red-600 mt-1">{errMsg}</p>}
       </div>
     </div>
   );

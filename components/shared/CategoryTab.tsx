@@ -14,7 +14,7 @@ const CategoryTab: React.FC<Props> = ({ tabs, routes, root, }) => {
   const currentRoute = pathname.replace(root, "");
 
   return (
-    <div className="flex items-center gap-9 overflow-x-auto border-b-[1px] border-zinc-300 mb-6">
+    <div className="flex items-center gap-9 overflow-x-auto border-b-[1px] border-zinc-300">
       {tabs.map((tab, index) => (
         <Link
           href={`${root}${routes[index]}`}

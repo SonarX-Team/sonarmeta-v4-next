@@ -15,16 +15,14 @@ export default async function page() {
     );
   }
 
-  const userInfo = await fetchUser({ userId: user.id, isBasic: true });
+  const userInfo = await fetchUser({ address: user.address, isBasic: true });
 
   const userData = {
-    _id: String(userInfo._id),
     address: userInfo.address,
     username: userInfo.username,
     email: userInfo.email ? userInfo.email : "",
     bio: userInfo.bio ? userInfo.bio : "",
     avatar: userInfo.avatar ? userInfo.avatar : "",
-    onboarded: userInfo.onboarded,
   };
 
   return (

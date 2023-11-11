@@ -9,7 +9,7 @@ export default function page() {
           <h1 className="head-text text-left">Browse marketplace</h1>
 
           <p className="text-body-normal text-zinc-700">
-            Obtain authorizations through more than 50k creations on the marketplace.
+            Obtain authorization tokens through more than 50k issuers on the marketplace.
           </p>
 
           <SearchInput />
