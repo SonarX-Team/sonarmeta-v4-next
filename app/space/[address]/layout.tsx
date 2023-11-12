@@ -29,7 +29,7 @@ export default async function layout({
   const res = await fetchUser({ address: params.address, isBasic: false });
 
   return (
-    <div className="sm:flex max-w-7xl mx-auto mt-8 px-8">
+    <div className="sm:flex max-w-7xl mx-auto p-8">
       <div className="flex flex-col justify-start gap-8 basis-1/4">
         <div className="flex flex-col justify-start gap-3">
           {res.avatar ? (

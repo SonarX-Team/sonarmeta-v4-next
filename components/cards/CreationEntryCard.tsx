@@ -48,9 +48,9 @@ export default function CreationEntryCard({
           <div className="flex flex-col items-center">
             <Link
               href={`/creations/${CREATION_CONTRACT}/${tokenId}`}
-              className="relative w-[81px] h-[81px] border-2 rounded-full bg-violet-300 hover:bg-violet-200 duration-200"
+              className="relative w-[81px] aspect-[1] border-2 rounded-xl bg-violet-300 hover:bg-violet-200 duration-200"
             >
-              <img src={avatar} alt="user_community_image" className="cursor-pointer rounded-full" />
+              <img src={avatar} alt="user_community_image" className="cursor-pointer rounded-xl" />
             </Link>
 
             <div className="thread-card_bar" />

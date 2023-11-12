@@ -48,7 +48,7 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     }
 
     if (isError) alert(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError, createTx?.hash, error?.message, router]);
+  }, [isSuccess, isError, createTx?.hash, error?.message, router, address, config.result]);
 
   async function createAction(formData: FormData) {
     setAvatarErr("");

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { TokenboundClient } from "@tokenbound/sdk";
-import { useContractRead, useWaitForTransaction } from "wagmi";
+import { useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
 import { goerli } from "viem/chains";
 
@@ -11,55 +11,34 @@ import CreationPicker from "../ui/CreationPicker";
 import AppButton from "../ui/AppButton";
 
 import { CREATION_CONTRACT } from "@/constants";
-import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
-import { fetchCreations } from "@/actions/creation.action";
 import { creationsType } from "@/types/creation.type";
 import { formatDateString, hiddenAddress } from "@/lib/utils";
 
-export default function CreateTBA({ address }: { address: `0x${string}` }) {
-  const [creations, setCreations] = useState<creationsType[]>();
+export default function CreateTBA({ address, creations }: { address: `0x${string}`; creations: creationsType[] }) {
   const [currentTba, setCurrentTba] = useState<`0x${string}`>("0x");
   const [currentTbaDeployed, setCurrentTbaDeployed] = useState<boolean>(false);
-  const [txHash, setTxHash] = useState<`0x${string}`>();
-
   const [pickedTokenId, setPickedTokenId] = useState<number>(0);
+  const [txHash, setTxHash] = useState<`0x${string}`>();
+  const [walletClient, setWalletClient] = useState<WalletClient>();
 
-  const { data: tokenIds } = useContractRead({
-    address: CREATION_CONTRACT,
-    abi: creationContractAbi,
-    functionName: "getTokenIds",
-    // @ts-ignore
-    args: [address],
-  });
+  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chainId: goerli.id }), [walletClient]);
 
   const { isSuccess, isLoading, isError, error } = useWaitForTransaction({
     hash: txHash,
   });
 
-  const walletClient: WalletClient = createWalletClient({
-    account: address,
-    chain: goerli,
-    // @ts-ignore
-    transport: window.ethereum ? custom(window.ethereum) : http(),
-  });
-
-  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chainId: goerli.id }), [walletClient]);
-
-  // Mounted fetch
+  // onMounted, when window object is available
   useEffect(() => {
-    async function getCreations() {
+    if (!window) return;
+
+    const wc: WalletClient = createWalletClient({
+      account: address,
+      chain: goerli,
       // @ts-ignore
-      if (!tokenIds || tokenIds.length === 0) return;
-
-      // @ts-ignore
-      const ids: number[] = tokenIds.map((tokenId) => Number(tokenId));
-
-      const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
-      setCreations(creations);
-    }
-
-    getCreations();
-  }, [tokenIds]);
+      transport: window.ethereum ? custom(window.ethereum) : http(),
+    });
+    setWalletClient(wc);
+  }, [address]);
 
   // TBA wather
   useEffect(() => {
@@ -109,7 +88,7 @@ export default function CreateTBA({ address }: { address: `0x${string}` }) {
     <form action={createAction} className="flex flex-col justify-start gap-8">
       <CreationPicker
         label="Select a creation"
-        creations={creations ? creations : []}
+        creations={creations}
         getCreation={(tokenId) => setPickedTokenId(tokenId)}
         required={true}
       />

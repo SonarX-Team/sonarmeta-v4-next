@@ -51,7 +51,16 @@ export async function fetchIpDaos({
 
     const ipDaos: ipDaosType[] = [];
     for (let i = 0; i < res.length; i++) {
-      const ipDao = _.pick(res[i], ["address", "title", "avatar", "owner", "inclinedMembers", "members", "createdAt"]);
+      const ipDao = _.pick(res[i], [
+        "address",
+        "title",
+        "description",
+        "avatar",
+        "cover",
+        "owner",
+        "members",
+        "createdAt",
+      ]);
       ipDaos.push(ipDao);
     }
 

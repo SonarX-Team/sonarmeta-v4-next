@@ -1,13 +1,10 @@
 export type ipDaosType = {
   address: `0x${string}`;
   title: string;
+  description: string;
   avatar: string;
+  cover: string;
   owner: string; // 这里还是_id
-  inclinedMembers: {
-    address: `0x${string}`;
-    username: string;
-    avatar: string;
-  }[];
   members: string[]; // 这里还是_id
   createdAt: string;
 };

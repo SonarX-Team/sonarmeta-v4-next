@@ -21,7 +21,7 @@ export default async function page() {
       <div className="max-w-7xl mx-auto px-6 py-12">
         <section className="flex flex-col gap-10">
           {creations && creations.length > 0 ? (
-            creations.map((Creation, index) => <CreationEntryCard key={index} {...Creation} />)
+            creations.map((creation, index) => <CreationEntryCard key={index} {...creation} />)
           ) : (
             <SadPlaceholder size={300} text="No data source found" />
           )}

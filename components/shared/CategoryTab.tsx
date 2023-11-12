@@ -9,7 +9,7 @@ type Props = {
   root: string;
 };
 
-const CategoryTab: React.FC<Props> = ({ tabs, routes, root, }) => {
+const CategoryTab: React.FC<Props> = ({ tabs, routes, root }) => {
   const pathname = usePathname();
   const currentRoute = pathname.replace(root, "");
 
@@ -19,8 +19,10 @@ const CategoryTab: React.FC<Props> = ({ tabs, routes, root, }) => {
         <Link
           href={`${root}${routes[index]}`}
           className={`text-lg border-b-2 ${
-            routes[index] === currentRoute ? "border-violet-700 text-violet-700" : "border-transparent text-zinc-700"
-          } hover:text-violet-600 duration-200 mb-0 sm:px-3 px-1 py-1`}
+            routes[index] === currentRoute
+              ? "border-violet-700 hover:border-violet-700 text-violet-700"
+              : "border-transparent text-zinc-700"
+          } hover:text-violet-600 hover:border-zinc-500 duration-200 whitespace-nowrap mb-0 md:px-3 px-1 py-1`}
           key={tab}
         >
           {tab}

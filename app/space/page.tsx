@@ -4,6 +4,6 @@ import { redirect } from "next/navigation";
 export default async function page() {
   const { user } = await getCurrentUser();
 
-  if (!user) redirect("/sign-in");
+  if (!user) redirect("/notfound");
   else redirect(`/space/${user.address}`);
 }
