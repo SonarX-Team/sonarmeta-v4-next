@@ -55,13 +55,7 @@ export default function CreateTBA({ address }: { address: `0x${string}` }) {
       const ids: number[] = tokenIds.map((tokenId) => Number(tokenId));
 
       const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
-
-      const cs = creations?.map((creation) => {
-        creation._id = "";
-        return creation;
-      });
-
-      setCreations(cs);
+      setCreations(creations);
     }
 
     getCreations();

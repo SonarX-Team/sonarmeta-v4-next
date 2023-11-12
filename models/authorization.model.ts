@@ -17,7 +17,7 @@ const authorizationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  issuer: {
+  minter: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Creation",
   },

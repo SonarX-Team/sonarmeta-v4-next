@@ -118,6 +118,19 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "ipDaoAddr",
+        "type": "address"
+      }
+    ],
+    "name": "IpDaoDeployed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "previousOwner",
         "type": "address"
       },
@@ -141,7 +154,7 @@
         "type": "address"
       }
     ],
-    "name": "TBASigned",
+    "name": "TbaSigned",
     "type": "event"
   },
   {
@@ -256,6 +269,68 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_ipDaoAddr",
+        "type": "address"
+      }
+    ],
+    "name": "isIpDaoTracked",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_stakeholderAddr",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_tbaAddr",
+        "type": "address"
+      }
+    ],
+    "name": "isStakeholder",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_tbaAddr",
+        "type": "address"
+      }
+    ],
+    "name": "isTbaSigned",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

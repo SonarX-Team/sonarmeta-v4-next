@@ -31,6 +31,13 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  // 这个用户加入的IP DAO
+  ipDaos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "IpDao",
+    },
+  ],
   joinedAt: {
     type: Date,
     default: Date.now,

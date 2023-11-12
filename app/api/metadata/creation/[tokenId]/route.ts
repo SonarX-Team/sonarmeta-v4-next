@@ -10,6 +10,12 @@ export async function GET(request: Request, { params }: { params: { tokenId: str
 
     const res = await Creation.findOne({ tokenId: params.tokenId });
 
+    if (!res)
+      return NextResponse.json(
+        { error: `The given creation with tokenID #${params.tokenId} is not found` },
+        { status: 404 }
+      );
+
     const metadata: creationMetadataType = {
       name: res.title,
       description: res.description,
@@ -19,6 +25,6 @@ export async function GET(request: Request, { params }: { params: { tokenId: str
 
     return NextResponse.json(metadata);
   } catch (error: any) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: `Internal Server Error with ${error.message}` }, { status: 500 });
   }
 }

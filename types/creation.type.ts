@@ -1,5 +1,4 @@
 export type creationsType = {
-  _id: string;
   title: string;
   description: string;
   tokenId: number;

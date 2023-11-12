@@ -34,13 +34,13 @@ export default async function layout({
         <div className="flex flex-col justify-start gap-3">
           {res.avatar ? (
             <img
-              className="w-[270px] h-[270px] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
+              className="w-[270px] aspect-[1] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
               src={res.avatar}
               alt="user-avatar"
             />
           ) : (
             <img
-              className="w-[270px] h-[270px] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
+              className="w-[270px] aspect-[1] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-zinc-400 rounded-full"
               src="/user.png"
               alt="user-avatar"
             />

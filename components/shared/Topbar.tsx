@@ -55,7 +55,7 @@ export default function Topbar({
       }
     }
 
-    if (!address && isConnected) handleSignIn();
+    if (address === "0x" && isConnected) handleSignIn();
   }, [address, isConnected, disconnect, signAddr, signMessageAsync]);
 
   async function handleSignOut() {

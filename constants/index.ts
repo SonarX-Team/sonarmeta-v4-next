@@ -76,9 +76,9 @@ export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 // ETH常量
 
 // Goerli
-export const MAIN_CONTRACT = "0x6b7edeae035f8e1dc456554ee42b1133cce85505";
-export const MARKETPLACE_CONTRACT = "0x6cbcdd9b5cc5e2ba4bde76d4549768fce5f491a6";
-export const CREATION_CONTRACT = "0x6c914b8f26efcad9ac40ff93e4e10218af21c786";
+export const MAIN_CONTRACT = "0x746ff97588f3e0d8df2e09333d68368f509db35a";
+export const MARKETPLACE_CONTRACT = "0x61a3f47f7d7a55565a82807ead6b3ffd951d19bf";
+export const CREATION_CONTRACT = "0x863e23f54300acc6ab271eb40f46a699d69668be";
 
 // CCTP Testnet Contract Addresses
 export const ETH_TOKEN_MESSENGER_CONTRACT_ADDRESS = "0xd0c3da58f55358142b8d3e06c1c30c5c6114efe8";

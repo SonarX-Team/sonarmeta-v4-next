@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
-const ipdaoSchema = new mongoose.Schema({
+const ipDaoSchema = new mongoose.Schema({
+  address: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -22,8 +27,7 @@ const ipdaoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // 这个IPDAO的成立者
-  creator: {
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -35,14 +39,14 @@ const ipdaoSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  // 已经向这IPDAO发出加入请求的用户列表（待审核列表）
+  // 已经向这IP DAO发出加入请求的用户列表（待审核列表）
   inclinedMembers: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
-  // 这IPDAO拥有的成员
+  // 这IP DAO拥有的成员
   members: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -55,6 +59,6 @@ const ipdaoSchema = new mongoose.Schema({
   },
 });
 
-const IPDAO = mongoose.models.IPDAO || mongoose.model("IPDAO", ipdaoSchema);
+const IpDao = mongoose.models.IpDao || mongoose.model("IpDao", ipDaoSchema);
 
-export default IPDAO;
+export default IpDao;

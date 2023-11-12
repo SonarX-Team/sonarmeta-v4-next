@@ -93,7 +93,6 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
     const externalLink = String(formData.get("externalLink"));
 
     const res = await createCreation({
-      address,
       title,
       description,
       tokenId: Number(config.result),
@@ -186,9 +185,9 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
 
       <div className="h-[50px]">
         <AppButton
-          text={write ? "Create" : "Cannot create"}
+          text={write ? "Create and mint" : "Cannot create"}
           otherPendingStatus={isLoading}
-          pendingText={isLoading ? "Writing contract..." : "Creating..."}
+          pendingText={isLoading ? "Minting your creation NFT..." : "Creating..."}
           disabled={!write}
           type="submit"
         />
