@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { TokenboundClient } from "@tokenbound/sdk";
-import { useNetwork } from "wagmi";
-import { http, createWalletClient, WalletClient, custom, createPublicClient } from "viem";
+import { useContractRead, useNetwork } from "wagmi";
+import { http, createWalletClient, WalletClient, custom } from "viem";
 import { goerli } from "viem/chains";
 
 import TitleCard from "../cards/TitleCard";
@@ -15,9 +15,17 @@ import { hiddenAddress } from "@/lib/utils";
 export default function TBACard({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
   const [tbaAddr, setTbaAddr] = useState<`0x${string}`>("0x");
   const [tbaDeployed, setTbaDeployed] = useState<boolean>(false);
-  const [creationsOfTba, setCreationsOfTba] = useState<bigint[]>([]);
 
   const { chain } = useNetwork();
+
+  const { data: creationsOfTba } = useContractRead({
+    address: CREATION_CONTRACT,
+    abi: creationContractAbi,
+    chainId: chain?.id,
+    functionName: "getTokenIds",
+    // @ts-ignore
+    args: [tbaAddr],
+  }) as { data: bigint[] };
 
   // onMounted, when window object is available
   useEffect(() => {
@@ -49,30 +57,6 @@ export default function TBACard({ address, tokenId }: { address: `0x${string}`; 
     checkDeployed(tokenboundClient, tba);
   }, [address, tokenId]);
 
-  // Watcher for tbaAddr to get creations of it
-  useEffect(() => {
-    async function getCreationsByTba() {
-      if (tbaAddr === "0x") return;
-
-      const publicClient = createPublicClient({
-        chain: goerli,
-        transport: http(),
-      });
-
-      // @ts-ignore
-      const data: bigint[] = await publicClient.readContract({
-        address: CREATION_CONTRACT,
-        abi: creationContractAbi,
-        functionName: "getTokenIds",
-        args: [tbaAddr],
-      });
-
-      setCreationsOfTba(data);
-    }
-
-    getCreationsByTba();
-  }, [tbaAddr, chain?.id]);
-
   return (
     <TitleCard title="Token-bound account">
       <div className="flex flex-col gap-3">
@@ -92,7 +76,7 @@ export default function TBACard({ address, tokenId }: { address: `0x${string}`; 
         </div>
 
         <div>
-          <p className="text-zinc-500">Creations that this TBA owns {creationsOfTba?.length}</p>
+          <p className="text-zinc-500">Components that this TBA owns {creationsOfTba?.length}</p>
           {creationsOfTba?.map((creation, index) => (
             <div className="flex flex-wrap gap-4 items-center" key={index}>
               #{Number(creation)}

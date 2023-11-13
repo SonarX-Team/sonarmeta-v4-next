@@ -62,24 +62,19 @@ export async function fetchCreation({ tokenId }: { tokenId: string }) {
 
 // 创建新Creation - POST
 export async function createCreation({
-  title,
-  description,
   tokenId,
-  agreement,
-  externalLink,
+  formData,
   avatar,
-  cover,
-  images,
 }: {
-  title: string;
-  description: string;
   tokenId: number;
-  agreement: string;
-  externalLink: string;
+  formData: FormData;
   avatar: string;
-  cover: string;
-  images: string[];
 }) {
+  const title = String(formData.get("title"));
+  const description = String(formData.get("description"));
+  const agreement = String(formData.get("agreement"));
+  const externalLink = String(formData.get("externalLink"));
+
   // 对客户端传来的数据做校验
   const { isValid, errors } = creationValidation({ title, description, agreement, externalLink });
   if (!isValid) return { ValidationErrors: errors };
@@ -94,8 +89,6 @@ export async function createCreation({
       agreement,
       externalLink,
       avatar,
-      cover,
-      images,
     });
     await creation.save();
 

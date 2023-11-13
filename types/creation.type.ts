@@ -14,9 +14,7 @@ export type creationType = {
   tokenId: number;
   agreement: string;
   avatar: string;
-  cover: string;
   externalLink: string;
-  images: string[];
   createdAt: string;
 };
 

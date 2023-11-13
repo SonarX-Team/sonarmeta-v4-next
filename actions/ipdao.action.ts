@@ -100,23 +100,27 @@ export async function fetchIpDao({ address }: { address: string }) {
 // 创建新IP DAO - POST
 export async function createIpDao({
   address,
+  title,
+  description,
+  recruitment,
+  externalLink,
   owner,
-  formData,
   avatar,
   cover,
+  images,
 }: {
   address: `0x${string}`;
   owner: `0x${string}`;
-  formData: FormData;
+  title: string;
+  description: string;
+  recruitment: string;
+  externalLink: string;
   avatar: string;
   cover: string;
+  images: string[];
 }) {
-  const title = String(formData.get("title"));
-  const description = String(formData.get("description"));
-  const recruitment = String(formData.get("recruitment"));
-
   // 对客户端传来的数据做校验
-  const { isValid, errors } = ipDaoValidation({ title, description, recruitment });
+  const { isValid, errors } = ipDaoValidation({ title, description, recruitment, externalLink });
   if (!isValid) return { ValidationErrors: errors };
 
   try {
@@ -129,8 +133,10 @@ export async function createIpDao({
       title,
       description,
       recruitment,
+      externalLink,
       avatar,
       cover,
+      images,
       owner: user._id,
       members: [user._id],
     });

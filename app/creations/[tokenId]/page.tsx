@@ -14,7 +14,7 @@ import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { hiddenAddress } from "@/lib/utils";
 
-export default async function page({ params }: { params: { address: `0x${string}`; tokenId: number } }) {
+export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
 
   const { res } = await fetchCreation({ tokenId: params.tokenId.toString() });
@@ -50,7 +50,7 @@ export default async function page({ params }: { params: { address: `0x${string}
     <div className="py-12">
       <div className="md:flex max-w-6xl mx-auto px-6 gap-8">
         <div className="flex-1 flex flex-col gap-8">
-          <div className="lg:mx-6">
+          <div>
             <img className="rounded-xl" src={res?.avatar} alt="nft-image" />
           </div>
 

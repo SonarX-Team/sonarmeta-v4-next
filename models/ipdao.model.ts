@@ -27,6 +27,8 @@ const ipDaoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  images: [String], // 这个IP DAO的图片介绍
+  externalLink: String,
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

@@ -22,6 +22,8 @@ export type ipDaoType = {
   recruitment: string;
   avatar: string;
   cover: string;
+  externalLink: string;
+  images: string[];
   owner: {
     address: `0x${string}`;
     username: string;

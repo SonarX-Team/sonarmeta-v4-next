@@ -24,5 +24,16 @@ export function formatDateString(dateString: string) {
 }
 
 export function hiddenAddress(address: `0x${string}`) {
-  return `${address.substring(0, 4)}...${address.substring(address.length - 4)}`.toUpperCase();
+  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`.toLowerCase();
 }
+
+export const urlValidator = (value: string) => {
+  try {
+    if (!value) return true;
+
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+};

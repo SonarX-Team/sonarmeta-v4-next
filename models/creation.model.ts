@@ -22,12 +22,7 @@ const creationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cover: {
-    type: String,
-    required: true,
-  },
   externalLink: String,
-  images: [String], // 这个作品的预览图片
   createdAt: {
     type: Date,
     default: Date.now,

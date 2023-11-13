@@ -1,15 +1,6 @@
 import * as z from "zod";
 
-const urlValidator = (value: string) => {
-  try {
-    if (!value) return true;
-
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-};
+import { urlValidator } from "@/lib/utils";
 
 // 创建or更新Creation的校验
 export const creationValidation = (creation: {
