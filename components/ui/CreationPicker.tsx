@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import SadPlaceholder from "../shared/SadPlaceholder";
 import { creationsType } from "@/types/creation.type";
 
 type Props = {

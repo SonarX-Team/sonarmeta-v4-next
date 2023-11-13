@@ -48,7 +48,7 @@ export async function fetchCreations({
 }
 
 // 获取Creation - RETRIEVE
-export async function fetchCreationBy({ tokenId }: { tokenId: string }) {
+export async function fetchCreation({ tokenId }: { tokenId: string }) {
   try {
     await connectToDB();
 

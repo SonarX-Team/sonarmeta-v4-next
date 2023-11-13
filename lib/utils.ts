@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 export function formatDateString(dateString: string) {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
-    month: "short",
-    day: "numeric",
+    month: "2-digit", // 两位数字表示月份
+    day: "2-digit", // 两位数字表示日期
   };
 
   const date = new Date(dateString);

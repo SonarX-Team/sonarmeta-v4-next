@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function page() {
   return (
-    <div className="max-w-[768px] px-12 py-20">
+    <div className="max-w-[768px] mx-auto px-12 py-20">
       <div className="md:flex gap-10">
         <div className="basis-1/2">
           <img className="md:w-full w-1/2" src="/notfound.png" alt="notfound" />

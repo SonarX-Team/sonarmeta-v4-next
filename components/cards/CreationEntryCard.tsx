@@ -10,7 +10,7 @@ import {
   faWandMagicSparkles,
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContractRead } from "wagmi";
+import { useContractRead, useNetwork } from "wagmi";
 
 import { formatDateString } from "@/lib/utils";
 import { creationsType } from "@/types/creation.type";
@@ -28,10 +28,13 @@ export default function CreationEntryCard({
 }: creationsType & { editMode?: boolean }) {
   const [owner, setOwner] = useState<`0x${string}`>("0x");
 
+  const { chain } = useNetwork();
+
   const { data, isSuccess } = useContractRead({
     address: CREATION_CONTRACT,
     abi: creationContractAbi,
     functionName: "ownerOf",
+    chainId: chain?.id,
     // @ts-ignore
     args: [tokenId],
   });
