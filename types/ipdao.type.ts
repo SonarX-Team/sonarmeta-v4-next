@@ -5,6 +5,7 @@ export type ipDaosType = {
   avatar: string;
   cover: string;
   owner: string; // 这里还是_id
+  subscribers: string[];
   members: string[]; // 这里还是_id
   createdAt: string;
 };
@@ -29,6 +30,7 @@ export type ipDaoType = {
     username: string;
     avatar: string;
   };
+  subscribers: string[];
   inclinedMembers: string[];
   members: {
     address: `0x${string}`;

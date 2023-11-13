@@ -101,7 +101,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
           </TitleCard>
 
           <TitleCard title="Details">
-            <div className="grid grid-cols-4 gap-8">{detailCard}</div>
+            <div className="grid sm:grid-cols-4 grid-cols-2 gap-8">{detailCard}</div>
           </TitleCard>
         </div>
 

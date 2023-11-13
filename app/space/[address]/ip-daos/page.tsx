@@ -1,13 +1,10 @@
 import { fetchIpDaos } from "@/actions/ipdao.action";
-import { getCurrentUser } from "@/actions/user.action";
 
 import IpDaoEntryCard from "@/components/cards/IpDaoEntryCard";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
-export default async function page() {
-  const { user } = await getCurrentUser();
-
-  const { ipDaos } = await fetchIpDaos({ pageNumber: 1, pageSize: 20, owner: user?.address });
+export default async function page({ params }: { params: { address: `0x${string}` } }) {
+  const { ipDaos } = await fetchIpDaos({ pageNumber: 1, pageSize: 20, owner: params.address });
 
   return (
     <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-4">

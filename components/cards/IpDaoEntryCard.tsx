@@ -1,11 +1,20 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
 import { ipDaosType } from "@/types/ipdao.type";
 
-export default function IpDaoEntryCard({ address, title, description, avatar, cover, members, createdAt }: ipDaosType) {
+export default function IpDaoEntryCard({
+  address,
+  title,
+  description,
+  avatar,
+  cover,
+  members,
+  subscribers,
+  createdAt,
+}: ipDaosType) {
   return (
     <Link
       href={`/ip-daos/${address}`}
@@ -23,12 +32,16 @@ export default function IpDaoEntryCard({ address, title, description, avatar, co
         />
       </div>
 
-      <div className="flex-1 px-4 mb-6">
+      <div className="flex-1 px-4 mb-2">
         <h1 className="text-body-bold">{title}</h1>
         <p className="line-clamp-3 whitespace-pre-line text-small-regular text-zinc-700">{description}</p>
       </div>
 
-      <div className="flex justify-between items-end px-4 pb-4">
+      <div className="px-4 mb-6">
+        <p className="text-subtle-medium text-zinc-500">{formatDateString(createdAt)}</p>
+      </div>
+
+      <div className="flex items-end gap-4 px-4 pb-4">
         <div className="flex items-center gap-1">
           <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faPeopleGroup} />
           <p className="text-small-regular text-zinc-700 leading-none">
@@ -36,7 +49,12 @@ export default function IpDaoEntryCard({ address, title, description, avatar, co
           </p>
         </div>
 
-        <p className="text-subtle-medium text-zinc-500 leading-none">{formatDateString(createdAt)}</p>
+        <div className="flex items-center gap-1">
+          <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faBell} />
+          <p className="text-small-regular text-zinc-700 leading-none">
+            {subscribers.length} {subscribers.length > 1 ? "subscribers" : "subscriber"}
+          </p>
+        </div>
       </div>
     </Link>
   );

@@ -19,7 +19,7 @@ export default async function page() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <section className="flex flex-col gap-10">
+        <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
           {creations && creations.length > 0 ? (
             creations.map((creation, index) => <CreationEntryCard key={index} {...creation} />)
           ) : (

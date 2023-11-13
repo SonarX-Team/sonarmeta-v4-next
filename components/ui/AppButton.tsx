@@ -1,4 +1,5 @@
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
+// @ts-ignore
+import { useFormStatus } from "react-dom";
 
 type Props = {
   text: string;

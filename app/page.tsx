@@ -36,11 +36,7 @@ export default async function Home() {
         </div>
 
         <div className="relative w-full min-h-[240px] overflow-hidden z-0">
-          <img
-            className="absolute min-w-[800px] -top-[100%] animate-spin-12"
-            src="/planet.png"
-            alt="planet"
-          />
+          <img className="absolute min-w-[800px] -top-[100%] animate-spin-12" src="/planet.png" alt="planet" />
           <img className="absolute w-[175px] top-[20%] right-[10%] animate-bounce" src="/happy.png" alt="happy" />
         </div>
       </div>

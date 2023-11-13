@@ -12,8 +12,12 @@ export default async function page({ params }: { params: { address: `0x${string}
   // 基本信息卡
   const basicInfo = [
     {
-      count: res && res.members.length ? res.members.length : 1,
+      count: res && res.members.length > 1 ? res.members.length : 1,
       title: res && res.members.length > 1 ? "Members" : "Member",
+    },
+    {
+      count: res && res.subscribers.length > 0 ? res.subscribers.length : 0,
+      title: res && res.subscribers.length > 1 ? "Subscribers" : "Subscriber",
     },
     { count: 48936, title: "Node value" },
   ];

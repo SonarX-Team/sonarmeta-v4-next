@@ -58,6 +58,7 @@ export async function fetchIpDaos({
         "avatar",
         "cover",
         "owner",
+        "subscribers",
         "members",
         "createdAt",
       ]);
