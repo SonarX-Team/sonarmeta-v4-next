@@ -18,7 +18,7 @@ const CategoryTab: React.FC<Props> = ({ tabs, routes, root }) => {
       {tabs.map((tab, index) => (
         <Link
           href={`${root}${routes[index]}`}
-          className={`text-lg border-b-2 ${
+          className={`sm:text-body-normal border-b-2 ${
             routes[index] === currentRoute
               ? "border-violet-700 hover:border-violet-700 text-violet-700"
               : "border-transparent text-zinc-700"

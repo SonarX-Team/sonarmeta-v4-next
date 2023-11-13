@@ -1,16 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-import RainbowKit from "@/components/wallet/RainbowKit";
 
 import Topbar from "@/components/shared/Topbar";
 import Bottombar from "@/components/shared/Bottombar";
 import RightSidebar from "@/components/shared/RightSidebar";
+import RainbowKit from "@/components/wallet/RainbowKit";
 
 import { getCurrentUser } from "@/actions/user.action";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "SonarMeta - On-chain IP authorization and value captured network",
@@ -29,7 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <RainbowKit>
           <Topbar {...userInfo} />
 

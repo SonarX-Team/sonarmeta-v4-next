@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFeatherPointed, faImages } from "@fortawesome/free-solid-svg-icons";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 
-import NftEntryCard from "@/components/cards/NftEntryCard";
 import { fetchIpDao } from "@/actions/ipdao.action";
+import CategoryTab from "@/components/shared/CategoryTab";
 import { hiddenAddress } from "@/lib/utils";
 
 export default async function page({ params }: { params: { address: `0x${string}` } }) {
@@ -47,7 +48,7 @@ export default async function page({ params }: { params: { address: `0x${string}
           />
         </div>
 
-        <div className="flex flex-col gap-6 max-w-7xl mx-auto px-6 mt-3 pb-12">
+        <div className="flex flex-col gap-6 max-w-7xl mx-auto px-6 mt-3 pb-8">
           <h1 className="head-text">{res?.title}</h1>
 
           <div className="flex items-center gap-2 text-small-regular">
@@ -78,42 +79,39 @@ export default async function page({ params }: { params: { address: `0x${string}
 
           <div className="flex items-center sm:gap-16 gap-8">{basicCard}</div>
         </div>
+
+        <div className="max-w-7xl mx-auto px-6">
+          <CategoryTab
+            tabs={["Overview", "Creations", "Members"]}
+            routes={["/", "/creations", "/members"]}
+            root="/create"
+          />
+        </div>
       </div>
 
-      <div className="py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
-            <NftEntryCard
-              url={`/marketplace/${params.address}/authorizations/${0}`}
-              title="Design Bear"
-              avatar="/nft-cards/nft-1.jpg"
-              price="1.33"
-              nodeValue="120"
-              holderId="1"
-              holder="AwonderIP"
-              holderAvatar="/user.png"
-            />
-            <NftEntryCard
-              url={`/marketplace/${params.address}/authorizations/${0}`}
-              title="Design Bear"
-              avatar="/nft-cards/nft-2.png"
-              price="1.33"
-              nodeValue="120"
-              holderId="2"
-              holder="AwonderIP"
-              holderAvatar="/user.png"
-            />
-            <NftEntryCard
-              url={`/marketplace/${params.address}/authorizations/${0}`}
-              title="Design Bear"
-              avatar="/nft-cards/nft-3.png"
-              price="1.33"
-              nodeValue="120"
-              holderId="3"
-              holder="AwonderIP"
-              holderAvatar="/user.png"
-            />
-          </section>
+      <div className="flex flex-col gap-8 max-w-7xl mx-auto px-6 py-12">
+        <div>
+          <h3 className="flex leading-none text-body-bold mb-4">
+            <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faFeatherPointed} />
+            Recruitment
+          </h3>
+
+          <p className="sm:w-1/2">{res?.description}</p>
+        </div>
+
+        <div>
+          <h3 className="flex leading-none text-body-bold mb-4">
+            <FontAwesomeIcon className="w-[16px] h-[16px] mr-2" icon={faImages} />
+            Image collection
+          </h3>
+
+          <div className="flex flex-wrap overflow-y-auto h-[200px] gap-4">
+            {res?.images.map((image, index) => (
+              <div className="flex justify-center items-center bg-zinc-200 rounded-lg min-w-[150px] h-[200px]">
+                <img key={index} className="rounded-lg" src={image} alt="ip-image" width={150} height={200} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
