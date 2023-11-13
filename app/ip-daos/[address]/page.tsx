@@ -107,8 +107,11 @@ export default async function page({ params }: { params: { address: `0x${string}
 
           <div className="flex flex-wrap overflow-y-auto h-[200px] gap-4">
             {res?.images.map((image, index) => (
-              <div className="flex justify-center items-center bg-zinc-200 rounded-lg min-w-[150px] h-[200px]">
-                <img key={index} className="rounded-lg" src={image} alt="ip-image" width={150} height={200} />
+              <div
+                key={index}
+                className="flex justify-center items-center bg-zinc-200 rounded-lg min-w-[150px] h-[200px]"
+              >
+                <img className="rounded-lg" src={image} alt="ip-image" width={150} height={200} />
               </div>
             ))}
           </div>
