@@ -1,6 +1,7 @@
 {
   "name": "sonarmeta-v4-next",
-  "version": "0.1.0",
+  "version": "4.2.2",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",

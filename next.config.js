@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverActions: {
-    allowedOrigins: ["https://www.sonarmeta.com", "https://en.sonarmeta.com", "http://localhost"],
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["https://www.sonarmeta.com", "https://en.sonarmeta.com", "http://localhost"],
+    },
   },
   images: {
     remotePatterns: [

@@ -32,6 +32,8 @@ export default function Topbar({
     async function handleSignIn() {
       if (!signAddr) return; // 回避typescript报错
 
+      alert("You will be prompted to sign a message to authenticate, please check your wallet.");
+
       try {
         // 获取需要签名的信息
         const { message } = await requestMessage({ address: signAddr });
@@ -55,7 +57,7 @@ export default function Topbar({
       }
     }
 
-    if (address === "0x" && isConnected) handleSignIn();
+    if (address !== signAddr && isConnected) handleSignIn();
   }, [address, isConnected, disconnect, signAddr, signMessageAsync]);
 
   async function handleSignOut() {
