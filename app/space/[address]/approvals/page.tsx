@@ -84,7 +84,7 @@ export default async function page({ params }: { params: { address: `0x${string}
                 </Link>
               </div>
 
-              <AddMember adminAddr={user.address} userAddr={application.memberAddr} ipDaoAddr={application.ipDaoAddr} />
+              <AddMember ownerAddr={user.address} userAddr={application.memberAddr} ipDaoAddr={application.ipDaoAddr} />
             </div>
           ))
         ) : (

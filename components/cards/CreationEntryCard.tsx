@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 
 import { formatDateString } from "@/lib/utils";
 import { creationsType } from "@/types/creation.type";
-import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 
 export default function CreationEntryCard({ tokenId, title, description, avatar, createdAt }: creationsType) {
   return (

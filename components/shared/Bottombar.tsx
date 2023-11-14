@@ -79,31 +79,31 @@ export default function Footer() {
               <h3 className="text-base-semibold mb-1">Community</h3>
 
               <Link
-                href="/https://twitter.com/SonarMeta"
+                href="https://twitter.com/SonarMeta"
                 target="_blank"
                 className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100"
               >
                 Twitter
               </Link>
               <Link
-                href="/https://discord.gg/6Gvpx9jSK2"
+                href="https://discord.gg/6Gvpx9jSK2"
                 target="_blank"
                 className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100"
               >
                 Discord
               </Link>
               <Link
-                href="/"
+                href="https://t.me/sonarmeta"
                 target="_blank"
                 className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100"
               >
                 Telegram
               </Link>
-              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
+              <Link
+                href="https://www.youtube.com/@archimesonsxu9243"
+                className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100"
+              >
                 YouTube
-              </Link>
-              <Link href="/" className="text-small-regular text-zinc-500 hover:text-violet-600 duration-100">
-                TikTok
               </Link>
             </div>
           </div>

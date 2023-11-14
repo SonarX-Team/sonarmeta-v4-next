@@ -14,7 +14,7 @@ export type inclinedIpDaosType = {
   address: `0x${string}`;
   title: string;
   avatar: string;
-  inclinedMembers: { address: `0x${string}`; username: string; avatar: string }[]; // 这里还是_id
+  inclinedMembers: { address: `0x${string}`; username: string; avatar: string }[];
 };
 
 export type BasicIpDaosType = {

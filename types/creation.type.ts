@@ -7,6 +7,13 @@ export type creationsType = {
   createdAt: string;
 };
 
+export type inclinedComponentsType = {
+  tokenId: number;
+  title: string;
+  avatar: string;
+  inclinedComponents: { tokenId: number; title: string; avatar: string }[];
+};
+
 export type creationType = {
   _id: string;
   title: string;

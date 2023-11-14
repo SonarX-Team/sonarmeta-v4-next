@@ -6,15 +6,14 @@ import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransa
 
 import { addMember } from "@/actions/ipdao.action";
 import AppButton from "../ui/AppButton";
-import { hiddenAddress } from "@/lib/utils";
 import ipDaoContractAbi from "@/contracts/sonarmeta/IpDao.json";
 
 export default function AddMember({
-  adminAddr,
+  ownerAddr,
   userAddr,
   ipDaoAddr,
 }: {
-  adminAddr: `0x${string}`;
+  ownerAddr: `0x${string}`;
   userAddr: `0x${string}`;
   ipDaoAddr: `0x${string}`;
 }) {
@@ -43,11 +42,12 @@ export default function AddMember({
   }, [isSuccess, isError, mintTx?.hash, error?.message]);
 
   async function addAction() {
-    const { status, message } = await addMember({ userAddr, adminAddr, ipDaoAddr, path });
+    const { status, message } = await addMember({ userAddr, ownerAddr, ipDaoAddr, path });
 
     write?.();
 
-    if (status === 200 && message === "Added") return;
+    if (status === 200 && message === "Added")
+      alert("You will be prompted to confirm the tx, please check your wallet");
   }
 
   return (

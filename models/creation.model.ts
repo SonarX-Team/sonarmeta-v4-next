@@ -23,6 +23,13 @@ const creationSchema = new mongoose.Schema({
     required: true,
   },
   externalLink: String,
+  // 向该Creation的TBA发出授权申请的列表（待审核列表）
+  inclinedComponents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Creation",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

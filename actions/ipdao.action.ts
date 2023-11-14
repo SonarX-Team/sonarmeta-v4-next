@@ -8,9 +8,7 @@ import IpDao from "@/models/ipdao.model";
 import User from "@/models/user.model";
 
 import { connectToDB } from "@/lib/mongoose";
-
 import { ipDaoValidation } from "@/validations/ipdao.validation";
-
 import { inclinedIpDaosType, ipDaosType, ipDaoType } from "@/types/ipdao.type";
 
 // 获取IP DAOs - GET
@@ -176,6 +174,7 @@ export async function subscribeIpDao({
     const ipDao = await IpDao.findOne({ address: ipDaoAddr });
     const user = await User.findOne({ address: userAddr });
 
+    // 根据当前关注状态来决定关注还是取消关注
     if (ipDao.subscribers.some((memberId: ObjectId) => String(memberId) === String(user._id)))
       ipDao.subscribers = ipDao.subscribers.filter((memberId: ObjectId) => String(memberId) !== String(user._id));
     else ipDao.subscribers.push(user._id);
@@ -227,12 +226,12 @@ export async function applyIpDao({
 
 // 准许用户加入IP DAO - PATCH
 export async function addMember({
-  adminAddr,
+  ownerAddr,
   userAddr,
   ipDaoAddr,
   path,
 }: {
-  adminAddr: `0x${string}`;
+  ownerAddr: `0x${string}`;
   userAddr: `0x${string}`;
   ipDaoAddr: `0x${string}`;
   path: string;
@@ -242,7 +241,7 @@ export async function addMember({
 
     const ipDao = await IpDao.findOne({ address: ipDaoAddr });
     const user = await User.findOne({ address: userAddr });
-    const admin = await User.findOne({ address: adminAddr });
+    const admin = await User.findOne({ address: ownerAddr });
 
     // 看当前操作者是否有权限
     if (String(ipDao.owner) !== String(admin._id)) return { status: 401, errMsg: "No accesss to this IP DAO" };

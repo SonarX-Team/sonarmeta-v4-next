@@ -1,9 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { ObjectId } from "mongoose";
 import _ from "lodash";
 
 import Creation from "@/models/creation.model";
+import User from "@/models/user.model";
+
 import { connectToDB } from "@/lib/mongoose";
 import { creationValidation } from "@/validations/creation.validation";
 import { creationType, creationsType } from "@/types/creation.type";
@@ -97,5 +100,37 @@ export async function createCreation({
     return { status: 201, message: "Created" };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to create creation: ${error.message}` };
+  }
+}
+
+// 申请Creation TBA的授权
+export async function applyAuthorization({
+  adminTokenId,
+  inclinedTokenId,
+  path,
+}: {
+  adminTokenId: number;
+  inclinedTokenId: number;
+  path: string;
+}) {
+  try {
+    await connectToDB();
+
+    const adminToken = await Creation.findOne({ tokenId: adminTokenId });
+    const inclinedToken = await Creation.findOne({ tokenId: inclinedTokenId });
+
+    // 看这个token是不是已经在列表中了
+    if (adminToken.inclinedComponents.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id)))
+      return { status: 400, errMsg: "Already applied" };
+
+    // 更新被申请的Creation
+    adminToken.inclinedComponents.push(inclinedToken._id);
+    adminToken.save();
+
+    revalidatePath(path);
+
+    return { status: 200, message: "Applied" };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to apply Creation: ${error.message}` };
   }
 }

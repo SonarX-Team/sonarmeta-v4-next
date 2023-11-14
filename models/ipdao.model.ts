@@ -41,14 +41,14 @@ const ipDaoSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  // 已经向这IP DAO发出加入请求的用户列表（待审核列表）
+  // 向该IP DAO发出加入请求的用户列表（待审核列表）
   inclinedMembers: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
-  // 这IP DAO拥有的成员
+  // 该IP DAO拥有的成员
   members: [
     {
       type: mongoose.Schema.Types.ObjectId,

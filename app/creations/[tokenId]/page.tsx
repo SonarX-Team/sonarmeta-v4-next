@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createPublicClient, http } from "viem";
 import { goerli } from "viem/chains";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { fetchCreation } from "@/actions/creation.action";
 import { getCurrentUser } from "@/actions/user.action";
@@ -8,11 +9,13 @@ import { getCurrentUser } from "@/actions/user.action";
 import TitleCard from "@/components/cards/TitleCard";
 import TBACard from "@/components/cards/TBACard";
 import ServerButton from "@/components/ui/ServerButton";
+import ApplyAuthorization from "@/components/forms/ApplyAuthorization";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { hiddenAddress } from "@/lib/utils";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
@@ -107,20 +110,22 @@ export default async function page({ params }: { params: { tokenId: number } }) 
 
         <div className="relative min-w-[360px]">
           <div className="md:fixed max-md:hidden w-[360px] flex flex-col gap-6">
-            <h3 className="text-body-bold leading-none">SonarMeta Creation Network Node</h3>
+            <h3 className="flex items-center gap-2 text-body-bold leading-none">
+              SonarMeta Creation Network Node
+              <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faCircleCheck} />
+            </h3>
 
             <h1 className="head-text leading-none">
               {res?.title} #{params.tokenId}
             </h1>
 
-            <TitleCard title="Agreement">
-              <p>{res?.agreement}</p>
-            </TitleCard>
+            <TitleCard title="Authorization agreement">
+              <div className="flex flex-col gap-6">
+                <p>{res?.agreement}</p>
 
-            <div className="flex items-center gap-4 h-[50px]">
-              <ServerButton text="Apply" />
-              <ServerButton text="Submit" />
-            </div>
+                <ApplyAuthorization adminTokenId={params.tokenId} userAddr={user?.address} />
+              </div>
+            </TitleCard>
           </div>
         </div>
       </div>

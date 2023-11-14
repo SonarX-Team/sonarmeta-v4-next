@@ -39,7 +39,7 @@ export default function CreationPicker({ label, creations, getCreation, required
             } rounded-xl cursor-pointer gap-4 px-4 py-2`}
           >
             <img className="w-[48px] h-[48px] rounded-full" src={creation.avatar} alt="user-avatar" />
-            <h1 className="flex-1 text-body-bold text-dark-2">{creation.title}</h1>
+            <h1 className="flex-1 text-dark-2 line-clamp-2">{creation.title}</h1>
           </div>
         ))}
       </div>

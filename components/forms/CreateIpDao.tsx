@@ -131,7 +131,8 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     write?.();
 
     // 更新成功后
-    if (res.status !== 201 || res.message !== "Created") return;
+    if (res.status === 201 && res.message === "Created")
+      alert("You will be prompted to confirm the tx, please check your wallet");
   }
 
   return (

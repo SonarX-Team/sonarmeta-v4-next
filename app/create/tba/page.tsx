@@ -12,6 +12,13 @@ import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 export default async function page() {
   const { user } = await getCurrentUser();
 
+  if (!user)
+    return (
+      <p className="mt-3 text-base-regular text-zinc-400">
+        Please find &quot;Connect Wallet&quot; button on the topbar and connect it to continue use SonarMeta.
+      </p>
+    );
+
   const publicClient = createPublicClient({
     chain: goerli,
     transport: http(),
@@ -29,11 +36,5 @@ export default async function page() {
 
   const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
 
-  return user ? (
-    <CreateTBA address={user.address} creations={creations ? creations : []} />
-  ) : (
-    <p className="mt-3 text-base-regular text-zinc-400">
-      Please find &quot;Connect Wallet&quot; button on the topbar and connect it to continue use SonarMeta.
-    </p>
-  );
+  return <CreateTBA address={user.address} creations={creations ? creations : []} />;
 }
