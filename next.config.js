@@ -2,7 +2,8 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      allowedOrigins: ["https://www.sonarmeta.com", "https://en.sonarmeta.com", "http://localhost"],
+      allowedForwardedHosts: ["www.sonarmeta.com", "en.sonarmeta.com", "localhost"],
+      allowedOrigins: ["www.sonarmeta.com", "en.sonarmeta.com", "localhost"],
     },
   },
   images: {
