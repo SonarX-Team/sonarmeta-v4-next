@@ -26,7 +26,7 @@ export default function IpDaoEntryCard({
         </div>
 
         <img
-          className="relative -mt-8 ml-4 w-[48px] aspect-[1] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-light-1 rounded-xl shadow-md z-10"
+          className="relative -mt-8 ml-4 w-[56px] aspect-[1] bg-violet-300 hover:bg-violet-200 duration-200 border-2 border-light-1 rounded-full shadow-md z-10"
           src={avatar}
           alt="ipdao-avatar"
         />

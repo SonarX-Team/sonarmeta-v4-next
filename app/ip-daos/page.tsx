@@ -3,8 +3,10 @@ import { fetchIpDaos } from "@/actions/ipdao.action";
 import IpDaoEntryCard from "@/components/cards/IpDaoEntryCard";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
+import { ipDaosType } from "@/types/ipdao.type";
+
 export default async function page() {
-  const { ipDaos } = await fetchIpDaos({ pageNumber: 1, pageSize: 20 });
+  const { ipDaos } = (await fetchIpDaos({ pageNumber: 1, pageSize: 20 })) as { ipDaos: ipDaosType[] };
 
   return (
     <>
@@ -17,13 +19,15 @@ export default async function page() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
-          {ipDaos && ipDaos.length > 0 ? (
-            ipDaos.map((ipDao, index) => <IpDaoEntryCard key={index} {...ipDao} />)
-          ) : (
-            <SadPlaceholder size={300} text="No data source found" />
-          )}
-        </section>
+        {ipDaos && ipDaos.length > 0 ? (
+          <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
+            {ipDaos.map((ipDao, index) => (
+              <IpDaoEntryCard key={index} {...ipDao} />
+            ))}
+          </section>
+        ) : (
+          <SadPlaceholder size={300} text="No data source found" />
+        )}
       </div>
     </>
   );

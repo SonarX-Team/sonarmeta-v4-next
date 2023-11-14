@@ -188,7 +188,7 @@
   },
   {
     "inputs": [],
-    "name": "createIpDao",
+    "name": "deployIpDao",
     "outputs": [
       {
         "internalType": "address",

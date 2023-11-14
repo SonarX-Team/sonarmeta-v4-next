@@ -5,9 +5,16 @@ export type ipDaosType = {
   avatar: string;
   cover: string;
   owner: string; // 这里还是_id
-  subscribers: string[];
+  subscribers: string[]; // 这里还是_id
   members: string[]; // 这里还是_id
   createdAt: string;
+};
+
+export type inclinedIpDaosType = {
+  address: `0x${string}`;
+  title: string;
+  avatar: string;
+  inclinedMembers: { address: `0x${string}`; username: string; avatar: string }[]; // 这里还是_id
 };
 
 export type BasicIpDaosType = {
@@ -30,8 +37,8 @@ export type ipDaoType = {
     username: string;
     avatar: string;
   };
-  subscribers: string[];
-  inclinedMembers: string[];
+  subscribers: string[]; // 这里还是_id
+  inclinedMembers: string[]; // 这里还是_id
   members: {
     address: `0x${string}`;
     username: string;

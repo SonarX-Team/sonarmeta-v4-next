@@ -39,13 +39,22 @@ export async function getCurrentUser() {
 }
 
 // 获取用户信息 - GET
-export async function fetchUser({ address, isBasic }: { address: `0x${string}`; isBasic: boolean }) {
+export async function fetchUser({
+  address,
+  isBasic,
+  isId,
+}: {
+  address: `0x${string}`;
+  isBasic?: boolean;
+  isId?: boolean;
+}) {
   try {
     await connectToDB();
 
     const user = await User.findOne({ address });
 
     if (isBasic) return _.pick(user, ["address", "username", "email", "bio", "avatar"]) as UserBasicType;
+    if (isId) return { userId: String(user._id) };
     else return user;
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to fetch user: ${error.message}` };

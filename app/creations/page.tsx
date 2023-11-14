@@ -19,13 +19,15 @@ export default async function page() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
-          {creations && creations.length > 0 ? (
-            creations.map((creation, index) => <CreationEntryCard key={index} {...creation} />)
-          ) : (
-            <SadPlaceholder size={300} text="No data source found" />
-          )}
-        </section>
+        {creations && creations.length > 0 ? (
+          <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
+            {creations.map((creation, index) => (
+              <CreationEntryCard key={index} {...creation} />
+            ))}
+          </section>
+        ) : (
+          <SadPlaceholder size={300} text="No data source found" />
+        )}
       </div>
     </>
   );

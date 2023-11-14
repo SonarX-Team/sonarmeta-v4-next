@@ -36,7 +36,7 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
   const { config } = usePrepareContractWrite({
     address: MAIN_CONTRACT,
     abi: mainContractAbi,
-    functionName: "createIpDao",
+    functionName: "deployIpDao",
     chainId: chain?.id,
   });
 

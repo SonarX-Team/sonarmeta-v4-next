@@ -58,14 +58,14 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultVa
     <div>
       <div className="flex justify-between items-center mb-2">
         <label className="font-bold text-zinc-800">
-          Image collection <span className="text-red-600">*</span>
+          Pictures <span className="text-red-600">*</span>
         </label>
 
         {errMsg && <label className="text-red-600 err-message">{errMsg}</label>}
       </div>
 
-      <p className="text-small-regular text-zinc-500 mb-2">
-        Provide additional portfolio images to describe your creation, note that this will not be a part of NFT.
+      <p className="text-small-regular text-zinc-500 mb-3">
+        Provide additional portfolio images to describe your IP DAO.
       </p>
 
       <div className="grid lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 grid-cols-2 gap-4 text-small-regular">

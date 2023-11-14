@@ -28,16 +28,16 @@ export default async function page({ params }: { params: { address: `0x${string}
   const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
 
   return (
-    <>
+    <div className="max-w-7xl mx-auto px-6 py-12">
       {creations && creations.length > 0 ? (
-        <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-4">
+        <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
           {creations.map((creation, index) => (
             <CreationEntryCard key={index} {...creation} />
           ))}
         </section>
       ) : (
-        <SadPlaceholder size={300} text="No creations available, please mint some first" />
+        <SadPlaceholder size={300} text="No data source found" />
       )}
-    </>
+    </div>
   );
 }

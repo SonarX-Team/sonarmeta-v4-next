@@ -11,7 +11,7 @@ import { connectToDB } from "@/lib/mongoose";
 
 import { ipDaoValidation } from "@/validations/ipdao.validation";
 
-import { ipDaosType, ipDaoType } from "@/types/ipdao.type";
+import { inclinedIpDaosType, ipDaosType, ipDaoType } from "@/types/ipdao.type";
 
 // 获取IP DAOs - GET
 export async function fetchIpDaos({
@@ -19,11 +19,13 @@ export async function fetchIpDaos({
   pageSize = 20,
   owner,
   member,
+  inclined,
 }: {
   pageNumber: number;
   pageSize: number;
   owner?: `0x${string}`;
   member?: `0x${string}`;
+  inclined?: boolean;
 }) {
   try {
     await connectToDB();
@@ -49,21 +51,28 @@ export async function fetchIpDaos({
 
     const res = await query.exec();
 
-    const ipDaos: ipDaosType[] = [];
-    for (let i = 0; i < res.length; i++) {
-      const ipDao = _.pick(res[i], [
-        "address",
-        "title",
-        "description",
-        "avatar",
-        "cover",
-        "owner",
-        "subscribers",
-        "members",
-        "createdAt",
-      ]);
-      ipDaos.push(ipDao);
-    }
+    const ipDaos = [];
+
+    if (inclined)
+      for (let i = 0; i < res.length; i++) {
+        const ipDao: inclinedIpDaosType = _.pick(res[i], ["address", "title", "avatar", "inclinedMembers"]);
+        ipDaos.push(ipDao);
+      }
+    else
+      for (let i = 0; i < res.length; i++) {
+        const ipDao: ipDaosType = _.pick(res[i], [
+          "address",
+          "title",
+          "description",
+          "avatar",
+          "cover",
+          "owner",
+          "subscribers",
+          "members",
+          "createdAt",
+        ]);
+        ipDaos.push(ipDao);
+      }
 
     const totalipDaosCount = await IpDao.countDocuments();
 
@@ -143,16 +152,41 @@ export async function createIpDao({
     });
     await ipDao.save();
 
-    // 更新User
-    await User.findByIdAndUpdate(user._id, {
-      $push: { ipDaos: ipDao._id },
-    });
-
     revalidatePath(`/space/${owner}/ip-daos`);
 
     return { status: 201, message: "Created" };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to create IP DAO: ${error.message}` };
+  }
+}
+
+// 用户关注IP DAO - PATCH
+export async function subscribeIpDao({
+  userAddr,
+  ipDaoAddr,
+  path,
+}: {
+  userAddr: `0x${string}`;
+  ipDaoAddr: `0x${string}`;
+  path: string;
+}) {
+  try {
+    await connectToDB();
+
+    const ipDao = await IpDao.findOne({ address: ipDaoAddr });
+    const user = await User.findOne({ address: userAddr });
+
+    if (ipDao.subscribers.some((memberId: ObjectId) => String(memberId) === String(user._id)))
+      ipDao.subscribers = ipDao.subscribers.filter((memberId: ObjectId) => String(memberId) !== String(user._id));
+    else ipDao.subscribers.push(user._id);
+
+    ipDao.save();
+
+    revalidatePath(path);
+
+    return { status: 200 };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to subscribe IP DAO: ${error.message}` };
   }
 }
 
@@ -169,14 +203,15 @@ export async function applyIpDao({
   try {
     await connectToDB();
 
-    // 看这个用户是否已经加入或已经申请加入该IP DAO了
     const ipDao = await IpDao.findOne({ address: ipDaoAddr });
     const user = await User.findOne({ address: userAddr });
+
+    // 看这个用户是否已经加入或已经申请加入该IP DAO了
     if (
-      ipDao.inclinedMembers.some((memberId: ObjectId) => String(memberId) === user._id) ||
-      ipDao.members.some((memberId: ObjectId) => String(memberId) === user._id)
+      ipDao.inclinedMembers.some((memberId: ObjectId) => String(memberId) === String(user._id)) ||
+      ipDao.members.some((memberId: ObjectId) => String(memberId) === String(user._id))
     )
-      return { status: 400, message: "Already requested or joined" };
+      return { status: 400, errMsg: "Already applied or joined" };
 
     // 更新IpDao
     ipDao.inclinedMembers.push(user._id);
@@ -192,13 +227,13 @@ export async function applyIpDao({
 
 // 准许用户加入IP DAO - PATCH
 export async function addMember({
-  userAddr,
   adminAddr,
+  userAddr,
   ipDaoAddr,
   path,
 }: {
-  userAddr: `0x${string}`;
   adminAddr: `0x${string}`;
+  userAddr: `0x${string}`;
   ipDaoAddr: `0x${string}`;
   path: string;
 }) {
@@ -210,24 +245,24 @@ export async function addMember({
     const admin = await User.findOne({ address: adminAddr });
 
     // 看当前操作者是否有权限
-    if (String(ipDao.owner) !== admin._id) return { status: 401, message: "No accesss to this IP DAO" };
+    if (String(ipDao.owner) !== String(admin._id)) return { status: 401, errMsg: "No accesss to this IP DAO" };
 
-    // 看这个用户是否已经加入该IP DAO了
-    if (user.ipDaos.some((ipDaoId: ObjectId) => String(ipDaoId) === ipDao._id))
-      return { status: 400, message: "Already joined" };
+    // 看这个用户是否已经申请了该IP DAO
+    if (!ipDao.inclinedMembers.some((memberId: ObjectId) => String(memberId) === String(user._id)))
+      return { status: 400, errMsg: "No application from this user" };
+
+    // 看这个用户是否已经加入该IP DAO
+    if (ipDao.members.some((memberId: ObjectId) => String(memberId) === String(user._id)))
+      return { status: 400, errMsg: "Already Added" };
 
     // 更新IP DAO
-    ipDao.inclinedMembers = ipDao.inclinedMembers.filter((memberId: ObjectId) => String(memberId) !== user._id);
+    ipDao.inclinedMembers = ipDao.inclinedMembers.filter((memberId: ObjectId) => String(memberId) !== String(user._id));
     ipDao.members.push(user._id);
     ipDao.save();
 
-    // 更新User
-    user.ipDaos.push(ipDao._id);
-    user.save();
-
     revalidatePath(path);
 
-    return { status: 200, message: "Joined" };
+    return { status: 200, message: "Added" };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to add user to your IP DAO: ${error.message}` };
   }

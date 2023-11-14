@@ -25,7 +25,7 @@ export async function fetchCreations({
 
     // 处理filter
     let filter = {};
-    if (tokenIds && tokenIds.length > 0) filter = { tokenId: { $in: tokenIds } };
+    if (tokenIds) filter = { tokenId: { $in: tokenIds } };
 
     const query = Creation.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize);
 
