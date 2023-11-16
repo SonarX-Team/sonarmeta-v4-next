@@ -53,6 +53,8 @@ export async function fetchUser({
 
     const user = await User.findOne({ address });
 
+    if (!user) return { status: 404 };
+
     if (isBasic) return _.pick(user, ["address", "username", "email", "bio", "avatar"]) as UserBasicType;
     if (isId) return { userId: String(user._id) };
     else return user;

@@ -1,6 +1,7 @@
 import { fetchIpDaos } from "@/actions/ipdao.action";
 
 import IpDaoEntryCard from "@/components/cards/IpDaoEntryCard";
+import SearchInput from "@/components/ui/SearchInput";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { ipDaosType } from "@/types/ipdao.type";
@@ -15,6 +16,8 @@ export default async function page() {
           <h1 className="head-text text-left">Join IP DAOs, it begins here</h1>
 
           <p className="text-body-normal text-zinc-700">Join the IP DAO that most interests and captivates you here.</p>
+
+          <SearchInput placeholder="Search for IP DAOs" />
         </div>
       </div>
 

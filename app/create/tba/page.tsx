@@ -5,9 +5,9 @@ import { getCurrentUser } from "@/actions/user.action";
 import { fetchCreations } from "@/actions/creation.action";
 
 import CreateTBA from "@/components/forms/CreateTBA";
-
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
+import { creationsType } from "@/types/creation.type";
 
 export default async function page() {
   const { user } = await getCurrentUser();
@@ -34,7 +34,11 @@ export default async function page() {
 
   const ids: number[] = tokenIds.map((tokenId: bigint) => Number(tokenId));
 
-  const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
+  const { creations } = (await fetchCreations({
+    pageNumber: 1,
+    pageSize: 20,
+    tokenIds: ids,
+  })) as { creations: creationsType[] };
 
   return <CreateTBA address={user.address} creations={creations ? creations : []} />;
 }

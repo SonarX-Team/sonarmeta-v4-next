@@ -5,21 +5,22 @@ import { ObjectId } from "mongoose";
 import _ from "lodash";
 
 import Creation from "@/models/creation.model";
-import User from "@/models/user.model";
 
 import { connectToDB } from "@/lib/mongoose";
 import { creationValidation } from "@/validations/creation.validation";
-import { creationType, creationsType } from "@/types/creation.type";
+import { creationType, creationsType, inclinedDerivativesType } from "@/types/creation.type";
 
 // 获取Creations - GET
 export async function fetchCreations({
   pageNumber = 1,
   pageSize = 20,
   tokenIds,
+  inclined,
 }: {
   pageNumber: number;
   pageSize: number;
   tokenIds?: number[];
+  inclined?: boolean;
 }) {
   try {
     await connectToDB();
@@ -30,15 +31,33 @@ export async function fetchCreations({
     let filter = {};
     if (tokenIds) filter = { tokenId: { $in: tokenIds } };
 
-    const query = Creation.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize);
+    const query = Creation.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
+      path: "inclinedDerivatives",
+      model: Creation,
+      select: "tokenId title avatar",
+    });
 
     const res = await query.exec();
 
-    const creations: creationsType[] = [];
-    for (let i = 0; i < res.length; i++) {
-      const creation = _.pick(res[i], ["title", "description", "tokenId", "avatar", "externalLink", "createdAt"]);
-      creations.push(creation);
-    }
+    const creations = [];
+
+    if (inclined)
+      for (let i = 0; i < res.length; i++) {
+        const creation: inclinedDerivativesType = _.pick(res[i], ["tokenId", "title", "avatar", "inclinedDerivatives"]);
+        creations.push(creation);
+      }
+    else
+      for (let i = 0; i < res.length; i++) {
+        const creation: creationsType = _.pick(res[i], [
+          "title",
+          "description",
+          "tokenId",
+          "avatar",
+          "externalLink",
+          "createdAt",
+        ]);
+        creations.push(creation);
+      }
 
     const totalCount = await Creation.countDocuments();
 
@@ -57,7 +76,9 @@ export async function fetchCreation({ tokenId }: { tokenId: string }) {
 
     const res = (await Creation.findOne({ tokenId })) as creationType;
 
-    return { res };
+    if (!res) return { status: 404, errMsg: "No creation found" };
+
+    return { status: 200, res };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to fetch the creation: ${error.message}` };
   }
@@ -105,32 +126,78 @@ export async function createCreation({
 
 // 申请Creation TBA的授权
 export async function applyAuthorization({
-  adminTokenId,
+  issuerTokenId,
   inclinedTokenId,
   path,
 }: {
-  adminTokenId: number;
+  issuerTokenId: number;
   inclinedTokenId: number;
   path: string;
 }) {
   try {
     await connectToDB();
 
-    const adminToken = await Creation.findOne({ tokenId: adminTokenId });
+    const issuerToken = await Creation.findOne({ tokenId: issuerTokenId });
     const inclinedToken = await Creation.findOne({ tokenId: inclinedTokenId });
 
     // 看这个token是不是已经在列表中了
-    if (adminToken.inclinedComponents.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id)))
-      return { status: 400, errMsg: "Already applied" };
+    if (
+      issuerToken.inclinedDerivatives.some(
+        (creationId: ObjectId) => String(creationId) === String(inclinedToken._id)
+      ) ||
+      issuerToken.derivatives.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id))
+    )
+      return { status: 400, errMsg: "Already applied or authorized" };
 
     // 更新被申请的Creation
-    adminToken.inclinedComponents.push(inclinedToken._id);
-    adminToken.save();
+    issuerToken.inclinedDerivatives.push(inclinedToken._id);
+    issuerToken.save();
 
     revalidatePath(path);
 
     return { status: 200, message: "Applied" };
   } catch (error: any) {
-    return { status: 500, errMsg: `Failed to apply Creation: ${error.message}` };
+    return { status: 500, errMsg: `Failed to apply creation: ${error.message}` };
+  }
+}
+
+// 确认Creation TBA的授权
+export async function authorize({
+  issuerTokenId,
+  inclinedTokenId,
+  path,
+}: {
+  issuerTokenId: number;
+  inclinedTokenId: number;
+  path: string;
+}) {
+  try {
+    await connectToDB();
+
+    const issuerToken = await Creation.findOne({ tokenId: issuerTokenId });
+    const inclinedToken = await Creation.findOne({ tokenId: inclinedTokenId });
+
+    // 看inclinedTokenId在不在申请列表中
+    if (
+      !issuerToken.inclinedDerivatives.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id))
+    )
+      return { status: 400, errMsg: "No application from this user" };
+
+    // 看inclinedTokenId是否已经被授权过了
+    if (issuerToken.derivatives.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id)))
+      return { status: 400, errMsg: "Already authorized" };
+
+    // 更新被申请的Creation
+    issuerToken.inclinedDerivatives = issuerToken.inclinedDerivatives.filter(
+      (inclined: ObjectId) => String(inclined) !== String(inclinedToken._id)
+    );
+    issuerToken.derivatives.push(inclinedToken._id);
+    issuerToken.save();
+
+    revalidatePath(path);
+
+    return { status: 200, message: "Authorized" };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to authorize creation: ${error.message}` };
   }
 }

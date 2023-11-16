@@ -33,7 +33,7 @@ export default function IpDaoEntryCard({
       </div>
 
       <div className="flex-1 px-4 mb-2">
-        <h1 className="text-body-bold">{title}</h1>
+        <h1 className="text-body-bold line-clamp-1">{title}</h1>
         <p className="line-clamp-3 whitespace-pre-line text-small-regular text-zinc-700">{description}</p>
       </div>
 

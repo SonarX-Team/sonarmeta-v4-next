@@ -43,26 +43,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "authorizationId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "tbaAddr",
-        "type": "address"
-      }
-    ],
-    "name": "AuthorizationMinted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "authorizationId",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
@@ -87,7 +68,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "authorizationId",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
@@ -109,7 +90,7 @@
         "type": "address"
       }
     ],
-    "name": "ContributionIncreased",
+    "name": "Contributed",
     "type": "event"
   },
   {
@@ -119,6 +100,12 @@
         "indexed": true,
         "internalType": "address",
         "name": "ipDaoAddr",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
         "type": "address"
       }
     ],
@@ -161,6 +148,24 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_tbaAddr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "activateAuthorization",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "_from",
         "type": "address"
       },
@@ -171,11 +176,45 @@
       },
       {
         "internalType": "uint256",
-        "name": "_authorizationId",
+        "name": "_tokenId",
         "type": "uint256"
       }
     ],
     "name": "authorize",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "contribute",
     "outputs": [
       {
         "internalType": "uint256",
@@ -235,40 +274,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_authorizationId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "increaseContribution",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -341,25 +346,6 @@
         "type": "address"
       }
     ],
-    "name": "mintAuthorization",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      }
-    ],
     "name": "mintCreation",
     "outputs": [
       {
@@ -397,9 +383,14 @@
         "internalType": "address",
         "name": "_tbaAddr",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
       }
     ],
-    "name": "signToUseSonarMeta",
+    "name": "signToUse",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -413,6 +404,13 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdraw",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

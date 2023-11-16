@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 
@@ -19,7 +20,9 @@ export default async function layout({
   const { user } = await getCurrentUser();
   const { userId } = await fetchUser({ address: user ? user.address : "0x", isId: true });
 
-  const { res } = await fetchIpDao({ address: params.address });
+  const { res, status } = await fetchIpDao({ address: params.address });
+
+  if (status === 404) notFound();
 
   const joined = res?.members.some((member) => member.address === user?.address);
   const applied = res?.inclinedMembers.includes(userId);

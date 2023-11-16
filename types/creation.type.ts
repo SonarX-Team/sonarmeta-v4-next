@@ -7,11 +7,11 @@ export type creationsType = {
   createdAt: string;
 };
 
-export type inclinedComponentsType = {
+export type inclinedDerivativesType = {
   tokenId: number;
   title: string;
   avatar: string;
-  inclinedComponents: { tokenId: number; title: string; avatar: string }[];
+  inclinedDerivatives: { tokenId: number; title: string; avatar: string }[];
 };
 
 export type creationType = {

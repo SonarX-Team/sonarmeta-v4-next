@@ -38,6 +38,7 @@ export default function TBACard({ address, tokenId }: { address: `0x${string}`; 
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
+    // @ts-ignore
     const tokenboundClient = new TokenboundClient({ walletClient, chainId: goerli.id });
 
     const tba = tokenboundClient.getAccount({

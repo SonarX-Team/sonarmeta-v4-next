@@ -45,11 +45,11 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
   useEffect(() => {
     if (isSuccess) {
       alert(`Creation created! The tx hash is: ${mintTx?.hash}`);
-      router.push("/creations");
+      router.push(`/space/${address}/creations`);
     }
 
     if (isError) alert(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError, mintTx?.hash, error?.message, router]);
+  }, [isSuccess, isError, mintTx?.hash, error?.message, address, router]);
 
   async function createAction(formData: FormData) {
     setAvatarErr("");
@@ -92,7 +92,7 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
     // 调用合约
     write?.();
 
-    // 更新成功后
+    // 创建成功后
     if (res.status === 201 && res.message === "Created")
       alert("You will be prompted to confirm the tx, please check your wallet");
   }

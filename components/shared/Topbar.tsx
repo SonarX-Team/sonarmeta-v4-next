@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
@@ -27,6 +27,11 @@ export default function Topbar({
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
 
+  const handleSignOut = useCallback(async () => {
+    disconnect(); // 先断开连接
+    await signOutUser();
+  }, [disconnect]);
+
   // 对于连接钱包以后，还没登录的用户进行签名
   useEffect(() => {
     async function handleSignIn() {
@@ -49,21 +54,18 @@ export default function Topbar({
         if (status === 200) alert("Sign in successfully.");
         else {
           disconnect();
+          handleSignOut();
           alert("Failed to sign in");
         }
       } catch (error) {
         disconnect();
+        handleSignOut();
         alert("You rejected the request in your wallet.");
       }
     }
 
     if (address !== signAddr && isConnected) handleSignIn();
-  }, [address, isConnected, disconnect, signAddr, signMessageAsync]);
-
-  async function handleSignOut() {
-    disconnect(); // 先断开连接
-    await signOutUser();
-  }
+  }, [address, isConnected, disconnect, handleSignOut, signAddr, signMessageAsync]);
 
   return (
     <nav className="topbar">

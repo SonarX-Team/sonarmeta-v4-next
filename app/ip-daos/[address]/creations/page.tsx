@@ -8,6 +8,7 @@ import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
+import { creationsType } from "@/types/creation.type";
 
 export default async function page({ params }: { params: { address: `0x${string}` } }) {
   const publicClient = createPublicClient({
@@ -25,7 +26,9 @@ export default async function page({ params }: { params: { address: `0x${string}
 
   const ids: number[] = tokenIds.map((tokenId: bigint) => Number(tokenId));
 
-  const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
+  const { creations } = (await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids })) as {
+    creations: creationsType[];
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">

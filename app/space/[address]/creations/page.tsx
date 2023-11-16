@@ -8,6 +8,7 @@ import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
+import { creationsType } from "@/types/creation.type";
 
 export default async function page({ params }: { params: { address: `0x${string}` } }) {
   const publicClient = createPublicClient({
@@ -23,9 +24,12 @@ export default async function page({ params }: { params: { address: `0x${string}
     args: [params.address],
   });
 
+  // Todo: 之后把本人持有的ipDAO持有的creation也要加进来
   const ids: number[] = tokenIds.map((tokenId: bigint) => Number(tokenId));
 
-  const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids });
+  const { creations } = (await fetchCreations({ pageNumber: 1, pageSize: 20, tokenIds: ids })) as {
+    creations: creationsType[];
+  };
 
   return (
     <>

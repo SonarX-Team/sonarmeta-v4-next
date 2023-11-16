@@ -1,10 +1,13 @@
 import { fetchCreations } from "@/actions/creation.action";
 
 import CreationEntryCard from "@/components/cards/CreationEntryCard";
+import SearchInput from "@/components/ui/SearchInput";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
+import { creationsType } from "@/types/creation.type";
+
 export default async function page() {
-  const { creations } = await fetchCreations({ pageNumber: 1, pageSize: 20 });
+  const { creations } = (await fetchCreations({ pageNumber: 1, pageSize: 20 })) as { creations: creationsType[] };
 
   return (
     <>
@@ -15,6 +18,8 @@ export default async function page() {
           <p className="text-body-normal text-zinc-700">
             Find your favorite creation through more than 50k creations here.
           </p>
+
+          <SearchInput placeholder="Search for creations" />
         </div>
       </div>
 

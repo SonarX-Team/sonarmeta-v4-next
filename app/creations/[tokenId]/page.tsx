@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { createPublicClient, http } from "viem";
 import { goerli } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +10,7 @@ import { getCurrentUser } from "@/actions/user.action";
 import TitleCard from "@/components/cards/TitleCard";
 import TBACard from "@/components/cards/TBACard";
 import ServerButton from "@/components/ui/ServerButton";
-import ApplyAuthorization from "@/components/forms/ApplyAuthorization";
+import RequestAuthorization from "@/components/forms/RequestAuthorization";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { CREATION_CONTRACT } from "@/constants";
@@ -20,7 +21,9 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
 
-  const { res } = await fetchCreation({ tokenId: params.tokenId.toString() });
+  const { res, status } = await fetchCreation({ tokenId: params.tokenId.toString() });
+
+  if (status === 404) notFound();
 
   const publicClient = createPublicClient({
     chain: goerli,
@@ -123,7 +126,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
               <div className="flex flex-col gap-6">
                 <p>{res?.agreement}</p>
 
-                <ApplyAuthorization adminTokenId={params.tokenId} userAddr={user?.address} />
+                <RequestAuthorization issuerTokenId={Number(params.tokenId)} userAddr={user?.address} />
               </div>
             </TitleCard>
           </div>

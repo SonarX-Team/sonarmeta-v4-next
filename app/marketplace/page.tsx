@@ -12,7 +12,7 @@ export default function page() {
             Obtain authorization tokens through more than 50k issuers on the marketplace.
           </p>
 
-          <SearchInput />
+          <SearchInput placeholder="Search for authorizations of your favorite IPs" />
         </div>
       </div>
 

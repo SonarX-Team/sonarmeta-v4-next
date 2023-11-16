@@ -99,7 +99,9 @@ export async function fetchIpDao({ address }: { address: string }) {
         select: "address username avatar bio",
       })) as ipDaoType;
 
-    return { res };
+    if (!res) return { status: 404, errMsg: "No IP DAO found" };
+
+    return { status: 200, res };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to fetch IP DAO: ${error.message}` };
   }
@@ -252,7 +254,7 @@ export async function addMember({
 
     // 看这个用户是否已经加入该IP DAO
     if (ipDao.members.some((memberId: ObjectId) => String(memberId) === String(user._id)))
-      return { status: 400, errMsg: "Already Added" };
+      return { status: 400, errMsg: "Already added" };
 
     // 更新IP DAO
     ipDao.inclinedMembers = ipDao.inclinedMembers.filter((memberId: ObjectId) => String(memberId) !== String(user._id));

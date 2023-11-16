@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faDove, faEnvelope, faHandshakeAngle, faWallet } from "@fortawesome/free-solid-svg-icons";
 
@@ -27,6 +28,8 @@ export default async function layout({
   }
 
   const res = await fetchUser({ address: params.address, isBasic: false });
+
+  if (res.status === 404) notFound();
 
   return (
     <div className="sm:flex max-w-7xl mx-auto p-8">
