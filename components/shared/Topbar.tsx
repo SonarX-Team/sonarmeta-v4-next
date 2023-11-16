@@ -74,13 +74,13 @@ export default function Topbar({
     if (isConnected && chain?.name !== "Polygon Mumbai") setWrongNetworkFlag(true);
 
     if (!isConnected) handleSignOut();
-  }, [chain?.name, isConnected]);
+  }, [chain?.name, isConnected, handleSignOut]);
 
   return (
     <nav className="fixed top-0 z-30 w-full h-[60px] bg-light-1 shadow-sm">
       {wrongNetworkFlag && (
         <div className="fixed top-[60px] w-full text-center bg-violet-400 text-light-1 top-[100%] py-2">
-          You're viewing data from the Polygon Mumbai network, but your wallet is connected to an other network. To use
+          You are viewing data from the Polygon Mumbai network, but your wallet is connected to an other network. To use
           SonarMeta, please switch to Polygon Mumbai.
         </div>
       )}
