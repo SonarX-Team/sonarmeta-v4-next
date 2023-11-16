@@ -152,7 +152,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
     }
 
     if (isSignError) alert(`Failed with error: ${signError?.message}`);
-  }, [isSignSuccess, isSignError, currentTba, signError?.message, pickedTokenId, activateTx?.hash]);
+  }, [isSignSuccess, isSignError, currentTba, signError?.message, pickedTokenId, signTx?.hash]);
 
   // Activate TBA tx watcher
   useEffect(() => {
