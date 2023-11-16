@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createPublicClient, http } from "viem";
-import { goerli } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDove } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,7 +26,7 @@ export default async function page({ params }: { params: { address: `0x${string}
   // 授权的审核列表
   // Todo: 之后把本人持有的ipDAO持有的creation也要加进来
   const publicClient = createPublicClient({
-    chain: goerli,
+    chain: polygonMumbai,
     transport: http(),
   });
 

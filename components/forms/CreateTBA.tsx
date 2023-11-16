@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
-import { goerli } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 
 import TitleCard from "../cards/TitleCard";
 import CreationPicker from "../ui/CreationPicker";
@@ -26,7 +26,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
   const [walletClient, setWalletClient] = useState<WalletClient>();
 
   // @ts-ignore
-  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chainId: goerli.id }), [walletClient]);
+  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chain: polygonMumbai }), [walletClient]);
 
   const { chain } = useNetwork();
 
@@ -103,7 +103,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
 
     const wc: WalletClient = createWalletClient({
       account: address,
-      chain: goerli,
+      chain: polygonMumbai,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
@@ -253,7 +253,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
                 ? "Pick a creation first"
                 : currentTbaDeployed
                 ? "Already deployed"
-                : "Deploy your TBA"
+                : "Deploy the TBA"
             }
             otherPendingStatus={isCreateLoading}
             pendingText={isCreateLoading ? "Writing contract..." : "Deploying..."}
@@ -272,7 +272,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
                   ? Boolean(isCurrentTbaSigned)
                     ? "Already signed"
                     : "Sign TBA to use SonarMeta"
-                  : "TBA must to be deployed to sign"
+                  : "TBA must be deployed to sign"
                 : "Cannot sign"
             }
             otherPendingStatus={isSignLoading}

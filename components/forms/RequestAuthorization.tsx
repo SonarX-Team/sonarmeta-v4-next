@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
 import { http, createWalletClient, WalletClient, custom, createPublicClient } from "viem";
-import { goerli } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 
 import { applyAuthorization } from "@/actions/creation.action";
 import AppInput from "../ui/AppInput";
@@ -52,12 +52,12 @@ export default function RequestAuthorization({
     // Check TBA deployment
     const walletClient: WalletClient = createWalletClient({
       account: userAddr,
-      chain: goerli,
+      chain: polygonMumbai,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
     // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chainId: goerli.id });
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
     const tba = tokenboundClient.getAccount({
       tokenContract: CREATION_CONTRACT,
       tokenId: inclinedTokenId.toString(),
@@ -70,7 +70,7 @@ export default function RequestAuthorization({
 
     // Check TBA signed or not
     const publicClient = createPublicClient({
-      chain: goerli,
+      chain: polygonMumbai,
       transport: http(),
     });
     // @ts-ignore

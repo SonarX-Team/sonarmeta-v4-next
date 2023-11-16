@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
+import { useAccount, useDisconnect, useNetwork, useSignMessage } from "wagmi";
 
 import { ConnectBtnRow } from "../wallet/ConnectBtnRow";
 import { navLinks } from "@/constants";
@@ -22,8 +22,10 @@ export default function Topbar({
 }) {
   const [sidebarStatus, setSidebarStatus] = useState<boolean>(false);
   const [userLinkFlag, setUserLinkFlag] = useState<boolean>(false);
+  const [wrongNetworkFlag, setWrongNetworkFlag] = useState<boolean>(false);
 
   const { address: signAddr, isConnected } = useAccount();
+  const { chain } = useNetwork();
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
 
@@ -67,106 +69,124 @@ export default function Topbar({
     if (address !== signAddr && isConnected) handleSignIn();
   }, [address, isConnected, disconnect, handleSignOut, signAddr, signMessageAsync]);
 
+  useEffect(() => {
+    setWrongNetworkFlag(false);
+    if (isConnected && chain?.name !== "Polygon Mumbai") setWrongNetworkFlag(true);
+
+    if (!isConnected) handleSignOut();
+  }, [chain?.name, isConnected]);
+
   return (
-    <nav className="topbar">
-      <div className="flex justify-between items-center gap-6">
-        <Link href="/">
-          <img className="w-[150px]" src="/logo-full.png" alt="logo" />
-        </Link>
-
-        <div className="w-[1px] h-[30px] bg-zinc-300 max-lg:hidden" />
-
-        <div className="flex items-center text-base-semibold gap-8 leading-none max-lg:hidden">
-          {navLinks.map((link, index) => (
-            <Link href={link.route} key={index} className="text-zinc-800 hover:text-violet-700 duration-100">
-              {link.label}
-            </Link>
-          ))}
+    <nav className="fixed top-0 z-30 w-full h-[60px] bg-light-1 shadow-sm">
+      {wrongNetworkFlag && (
+        <div className="fixed top-[60px] w-full text-center bg-violet-400 text-light-1 top-[100%] py-2">
+          You're viewing data from the Polygon Mumbai network, but your wallet is connected to an other network. To use
+          SonarMeta, please switch to Polygon Mumbai.
         </div>
-      </div>
+      )}
 
-      <div className="flex items-center text-small-regular gap-2 leading-none">
-        <ConnectBtnRow signed={address ? true : false} />
+      <div className="flex items-center justify-between px-6 py-3">
+        <div className="flex justify-between items-center gap-6">
+          <Link href="/">
+            <img className="w-[150px]" src="/logo-full.png" alt="logo" />
+          </Link>
 
-        <button
-          className="lg:hidden flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
-          type="button"
-          onClick={() => {
-            const sidebar = document.getElementById("rightSidebar");
-            sidebarStatus ? sidebar?.classList.add("translate-x-full") : sidebar?.classList.remove("translate-x-full");
-            setSidebarStatus((prev) => !prev);
-          }}
-        >
-          <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faBars} />
-        </button>
+          <div className="w-[1px] h-[30px] bg-zinc-300 max-lg:hidden" />
 
-        {address && username && (
-          <div className="relative">
-            <button
-              className="flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
-              onMouseEnter={() => setUserLinkFlag(true)}
-              onMouseLeave={() => setUserLinkFlag(false)}
-              type="button"
-              onClick={() => setUserLinkFlag(true)}
-            >
-              {avatar ? (
-                <img src={avatar} alt="user-avatar" className="w-[30px] h-[30px] rounded-full" />
-              ) : (
-                <img src="/user.png" alt="user-avatar" className="w-[30px] h-[30px] rounded-full" />
-              )}
-            </button>
+          <div className="flex items-center text-base-semibold gap-8 leading-none max-lg:hidden">
+            {navLinks.map((link, index) => (
+              <Link href={link.route} key={index} className="text-zinc-800 hover:text-violet-700 duration-100">
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
 
-            {userLinkFlag && (
-              <div
-                className="flex flex-col gap-2 min-w-[260px] text-zinc-700 text-sm bg-light-1 shadow-lg absolute top-11 right-0 rounded-xl py-3"
+        <div className="flex items-center text-small-regular gap-2 leading-none">
+          <ConnectBtnRow signed={address ? true : false} />
+
+          <button
+            className="lg:hidden flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
+            type="button"
+            onClick={() => {
+              const sidebar = document.getElementById("rightSidebar");
+              sidebarStatus
+                ? sidebar?.classList.add("translate-x-full")
+                : sidebar?.classList.remove("translate-x-full");
+              setSidebarStatus((prev) => !prev);
+            }}
+          >
+            <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faBars} />
+          </button>
+
+          {address && username && (
+            <div className="relative">
+              <button
+                className="flex justify-center items-center bg-violet-100 hover:bg-violet-200/70 duration-200 rounded-lg w-[42px] h-[42px] gap-2"
                 onMouseEnter={() => setUserLinkFlag(true)}
                 onMouseLeave={() => setUserLinkFlag(false)}
+                type="button"
+                onClick={() => setUserLinkFlag(true)}
               >
-                <div className="flex items-center px-6 py-2 gap-2">
-                  {avatar ? (
-                    <img className="w-[42px] h-[42px] bg-violet-100 rounded-full" src={avatar} alt="avatar" />
-                  ) : (
-                    <img className="w-[42px] h-[42px] bg-violet-100 rounded-full" src="/user.png" alt="avatar" />
-                  )}
+                {avatar ? (
+                  <img src={avatar} alt="user-avatar" className="w-[30px] h-[30px] rounded-full" />
+                ) : (
+                  <img src="/user.png" alt="user-avatar" className="w-[30px] h-[30px] rounded-full" />
+                )}
+              </button>
 
-                  <div>
-                    <h3 className="text-body-bold line-clamp-1">{username}</h3>
-                    {address && <p className="text-sm text-zinc-500">{hiddenAddress(address)}</p>}
+              {userLinkFlag && (
+                <div
+                  className="flex flex-col gap-2 min-w-[260px] text-zinc-700 text-sm bg-light-1 shadow-lg absolute top-11 right-0 rounded-xl py-3"
+                  onMouseEnter={() => setUserLinkFlag(true)}
+                  onMouseLeave={() => setUserLinkFlag(false)}
+                >
+                  <div className="flex items-center px-6 py-2 gap-2">
+                    {avatar ? (
+                      <img className="w-[42px] h-[42px] bg-violet-100 rounded-full" src={avatar} alt="avatar" />
+                    ) : (
+                      <img className="w-[42px] h-[42px] bg-violet-100 rounded-full" src="/user.png" alt="avatar" />
+                    )}
+
+                    <div>
+                      <h3 className="text-body-bold line-clamp-1">{username}</h3>
+                      {address && <p className="text-sm text-zinc-500">{hiddenAddress(address)}</p>}
+                    </div>
                   </div>
+
+                  <div className="border-b-[1px] border-zinc-200" />
+
+                  <Link
+                    className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
+                    href="/space"
+                  >
+                    <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faUser} />
+                    <span>Profile space</span>
+                  </Link>
+
+                  <Link
+                    className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
+                    href="/account"
+                  >
+                    <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faGear} />
+                    <span>Account settings</span>
+                  </Link>
+
+                  <div className="border-b-[1px] border-zinc-200" />
+
+                  <button
+                    className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
+                    onClick={handleSignOut}
+                    type="button"
+                  >
+                    <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faSignOut} />
+                    <span>Sign out</span>
+                  </button>
                 </div>
-
-                <div className="border-b-[1px] border-zinc-200" />
-
-                <Link
-                  className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
-                  href="/space"
-                >
-                  <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faUser} />
-                  <span>Profile space</span>
-                </Link>
-
-                <Link
-                  className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
-                  href="/account"
-                >
-                  <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faGear} />
-                  <span>Account settings</span>
-                </Link>
-
-                <div className="border-b-[1px] border-zinc-200" />
-
-                <button
-                  className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
-                  onClick={handleSignOut}
-                  type="button"
-                >
-                  <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faSignOut} />
-                  <span>Sign out</span>
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );

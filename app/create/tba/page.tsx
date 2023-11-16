@@ -1,5 +1,5 @@
 import { createPublicClient, http } from "viem";
-import { goerli } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 
 import { getCurrentUser } from "@/actions/user.action";
 import { fetchCreations } from "@/actions/creation.action";
@@ -20,7 +20,7 @@ export default async function page() {
     );
 
   const publicClient = createPublicClient({
-    chain: goerli,
+    chain: polygonMumbai,
     transport: http(),
   });
 

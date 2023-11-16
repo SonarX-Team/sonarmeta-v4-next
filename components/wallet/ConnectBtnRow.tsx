@@ -1,6 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faFaceSadTear } from "@fortawesome/free-regular-svg-icons";
 
 export const ConnectBtnRow = ({ signed }: { signed: boolean }) => {
   return (
@@ -34,8 +35,13 @@ export const ConnectBtnRow = ({ signed }: { signed: boolean }) => {
               }
               if (chain.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="button">
-                    Unsupported network
+                  <button
+                    className="flex justify-center items-center gap-2 rounded-lg px-2 text-dark-1 bg-violet-100 hover:bg-violet-200/70 duration-200 h-[42px]"
+                    onClick={openChainModal}
+                    type="button"
+                  >
+                    <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faFaceSadTear} />
+                    <p className="text-dark-1 max-sm:hidden">Unsupported network</p>
                   </button>
                 );
               }

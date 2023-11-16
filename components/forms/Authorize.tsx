@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
-import { goerli } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 
 import { authorize } from "@/actions/creation.action";
 import AppButton from "../ui/AppButton";
@@ -52,13 +52,13 @@ export default function Authorize({
     async function mounted() {
       const walletClient: WalletClient = createWalletClient({
         account: userAddr,
-        chain: goerli,
+        chain: polygonMumbai,
         // @ts-ignore
         transport: window.ethereum ? custom(window.ethereum) : http(),
       });
 
       // @ts-ignore
-      const tokenboundClient = new TokenboundClient({ walletClient, chainId: goerli.id });
+      const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
 
       const inclined = tokenboundClient.getAccount({
         tokenContract: CREATION_CONTRACT,

@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <>
       <div className="relative flex flex-col justify-between items-center bg-light-1 overflow-hidden min-h-screen sm:-mt-[60px]">
-        <div className="relative flex flex-col flex-1 justify-center items-center gap-10 max-w-4xl px-6 py-12 z-20">
+        <div className="relative flex flex-col flex-1 justify-center items-center gap-10 max-w-4xl px-6 py-12 z-10">
           <h1 className="md:text-heading1-bold text-heading1-small text-center">
             Craft Your IP & Join the Creative Network as a Stakeholder
           </h1>

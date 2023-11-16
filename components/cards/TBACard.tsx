@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
-import { goerli } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 
 import TitleCard from "../cards/TitleCard";
 import { CREATION_CONTRACT } from "@/constants";
@@ -33,13 +33,13 @@ export default function TBACard({ address, tokenId }: { address: `0x${string}`; 
 
     const walletClient: WalletClient = createWalletClient({
       account: address,
-      chain: goerli,
+      chain: polygonMumbai,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
     // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chainId: goerli.id });
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
 
     const tba = tokenboundClient.getAccount({
       tokenContract: CREATION_CONTRACT,

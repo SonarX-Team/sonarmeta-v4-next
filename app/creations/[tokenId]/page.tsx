@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createPublicClient, http } from "viem";
-import { goerli } from "viem/chains";
+import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { fetchCreation } from "@/actions/creation.action";
@@ -26,7 +26,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
   if (status === 404) notFound();
 
   const publicClient = createPublicClient({
-    chain: goerli,
+    chain: polygonMumbai,
     transport: http(),
   });
 
@@ -43,7 +43,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
     { info: hiddenAddress(CREATION_CONTRACT), title: "Contract address" },
     { info: `#${params.tokenId}`, title: "Token ID" },
     { info: "ERC-721", title: "Token standard" },
-    { info: "Goerli", title: "Chain" },
+    { info: "Polygon Mumbai", title: "Chain" },
   ];
   const detailCard: JSX.Element[] = detailInfo.map((info, index) => (
     <div key={index} className="flex flex-col gap-2">
