@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
+import toast from "react-hot-toast";
 
 import { addMember } from "@/actions/ipdao.action";
 import AppButton from "../ui/AppButton";
@@ -30,24 +32,40 @@ export default function AddMember({
     args: [userAddr],
   });
 
-  const { data: mintTx, write } = useContractWrite(config);
+  const { data: tx, write } = useContractWrite(config);
 
   const { error, isSuccess, isError, isLoading } = useWaitForTransaction({
-    hash: mintTx?.hash,
+    hash: tx?.hash,
   });
 
   useEffect(() => {
-    if (isSuccess) alert(`Member added! The tx hash is: ${mintTx?.hash}`);
-    if (isError) alert(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError, mintTx?.hash, error?.message]);
+    if (isSuccess)
+      toast.custom(
+        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
+          <div>😃</div>
+          <div>
+            Member added successfully! You can check the tx on{" "}
+            <Link
+              className="text-violet-700 hover:text-violet-600 duration-200"
+              href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
+              target="_blank"
+            >
+              Polygonscan
+            </Link>
+          </div>
+        </div>
+      );
+
+    if (isError) toast.error(`Failed with error: ${error?.message}`);
+  }, [isSuccess, isError, tx?.hash, error?.message]);
 
   async function addAction() {
     const { status, message } = await addMember({ userAddr, ownerAddr, ipDaoAddr, path });
 
-    write?.();
-
-    if (status === 200 && message === "Added")
-      alert("You will be prompted to confirm the tx, please check your wallet");
+    if (status === 200 && message === "Added") {
+      toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
+      write?.();
+    }
   }
 
   return (

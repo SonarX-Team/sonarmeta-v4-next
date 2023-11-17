@@ -131,7 +131,7 @@ export async function createIpDao({
 }) {
   // 对客户端传来的数据做校验
   const { isValid, errors } = ipDaoValidation({ title, description, recruitment, externalLink });
-  if (!isValid) return { ValidationErrors: errors };
+  if (!isValid) return { status: 400, ValidationErrors: errors };
 
   try {
     await connectToDB();

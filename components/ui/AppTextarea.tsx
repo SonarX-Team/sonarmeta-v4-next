@@ -17,7 +17,7 @@ const AppTextarea: React.FC<Props> = ({ name, label, defaultValue, placeholder, 
           {label} {required && <span className="text-red-600">*</span>}
         </label>
 
-        {errMsg && <label className="text-red-600 err-message">{errMsg}</label>}
+        {errMsg && <label className="text-small-regular text-red-600">{errMsg}</label>}
       </div>
 
       <div

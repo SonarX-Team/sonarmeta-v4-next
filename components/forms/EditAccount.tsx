@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import AvatarInput from "../ui/AvatarInput";
 import AppInput from "../ui/AppInput";
@@ -36,26 +37,16 @@ export default function EditAccount({ address, username, email, bio, avatar }: U
       if (res.ValidationErrors.username) setUsernameErr(res.ValidationErrors.username._errors[0]);
       if (res.ValidationErrors.email) setEmailErr(res.ValidationErrors.email._errors[0]);
       if (res.ValidationErrors.bio) setBioErr(res.ValidationErrors.bio._errors[0]);
-
-      // 回滚：删掉上传了的图片
-      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
-
-      return;
     }
-    if (res.errName === "username") {
-      // 回滚：删掉上传了的图片
-      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
-      return setUsernameErr(res.errMsg);
-    }
-
-    if (res.status === 500) {
-      // 回滚：删掉上传了的图片
-      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]);
-      return;
-    }
+    if (res.errName === "username") setUsernameErr(res.errMsg);
 
     // 更新成功后
-    if (res.status === 200 && res.message === "Updated") alert("Save successfully");
+    if (res.status === 200 && res.message === "Updated") toast.success("Saved successfully");
+    else {
+      if (res.status === 400) toast.error("The information you entered contains errors.");
+      if (res.status === 500) toast.error("Internal server error.");
+      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarUrl]); // 回滚
+    }
   }
 
   return (

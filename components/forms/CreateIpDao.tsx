@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
+import toast from "react-hot-toast";
 
 import { deleteMulti, uploadFile } from "@/lib/alioss";
 import { createIpDao } from "@/actions/ipdao.action";
@@ -48,11 +50,26 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
 
   useEffect(() => {
     if (isSuccess) {
-      alert(`IP DAO with address ${config.result} created! The tx hash is: ${createTx?.hash}`);
+      toast.custom(
+        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
+          <div>😃</div>
+          <div>
+            IP DAO created successfully! You can check the tx on{" "}
+            <Link
+              className="text-violet-700 hover:text-violet-600 duration-200"
+              href={`https://mumbai.polygonscan.com/tx/${createTx?.hash}`}
+              target="_blank"
+            >
+              Polygonscan
+            </Link>
+          </div>
+        </div>
+      );
+
       router.push(`/space/${address}/ip-daos`);
     }
 
-    if (isError) alert(`Failed with error: ${error?.message}`);
+    if (isError) toast.error(`Failed with error: ${error?.message}`);
   }, [isSuccess, isError, createTx?.hash, error?.message, router, address, config.result]);
 
   async function createAction(formData: FormData) {
@@ -70,9 +87,18 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     const coverFile = formData.get("cover") as File;
 
     // 客户端处理图片上传
-    if (!(avatarFile && avatarFile.size > 0)) return setAvatarErr("Must select an avatar");
-    if (!(coverFile && coverFile.size > 0)) return setCoverErr("Must select a cover");
-    if (imagesAdded.current.length === 0) return setImagesErr("Must add one image at least");
+    if (!(avatarFile && avatarFile.size > 0)) {
+      toast.error("The information you entered contains errors.");
+      return setAvatarErr("Must select an avatar");
+    }
+    if (!(coverFile && coverFile.size > 0)) {
+      toast.error("The information you entered contains errors.");
+      return setCoverErr("Must select a cover");
+    }
+    if (imagesAdded.current.length === 0) {
+      toast.error("The information you entered contains errors.");
+      return setImagesErr("Must add one image at least");
+    }
 
     // 处理头像和封面
     const avatarRes = await uploadFile(`ipdaos/${timeStamp}/avatar.png`, avatarFile);
@@ -109,30 +135,20 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
       if (res.ValidationErrors.description) setDescriptionErr(res.ValidationErrors.description._errors[0]);
       if (res.ValidationErrors.recruitment) setRecruitmentErr(res.ValidationErrors.recruitment._errors[0]);
       if (res.ValidationErrors.externalLink) setExternalLinkErr(res.ValidationErrors.externalLink._errors[0]);
+    }
 
-      // 回滚：删掉上传了的图片
+    if (res.status === 201 && res.message === "Created") {
+      toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
+      write?.();
+    } else {
+      if (res.status === 400) toast.error("The information you entered contains errors.");
+      if (res.status === 500) toast.error("Internal server error.");
+
+      // 回滚
       if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarRes.url]);
       if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
       if (imagesAdded.current.length > 0) await deleteMulti(imageUrls);
-
-      return;
     }
-
-    if (res.status === 500) {
-      // 回滚：删掉上传了的图片
-      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarRes.url]);
-      if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
-      if (imagesAdded.current.length > 0) await deleteMulti(imageUrls);
-
-      return;
-    }
-
-    // 调用合约
-    write?.();
-
-    // 更新成功后
-    if (res.status === 201 && res.message === "Created")
-      alert("You will be prompted to confirm the tx, please check your wallet");
   }
 
   return (

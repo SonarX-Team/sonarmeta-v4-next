@@ -61,7 +61,7 @@ const ImagesInput: React.FC<Props> = ({ name, getResults, getUrlsLeft, defaultVa
           Pictures <span className="text-red-600">*</span>
         </label>
 
-        {errMsg && <label className="text-red-600 err-message">{errMsg}</label>}
+        {errMsg && <label className="text-small-regular text-red-600">{errMsg}</label>}
       </div>
 
       <p className="text-small-regular text-zinc-500 mb-3">

@@ -101,7 +101,7 @@ export async function createCreation({
 
   // 对客户端传来的数据做校验
   const { isValid, errors } = creationValidation({ title, description, agreement, externalLink });
-  if (!isValid) return { ValidationErrors: errors };
+  if (!isValid) return { status: 400, ValidationErrors: errors };
 
   try {
     await connectToDB();

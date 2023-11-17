@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
 import { polygonMumbai } from "viem/chains";
+import toast from "react-hot-toast";
 
 import TitleCard from "../cards/TitleCard";
 import CreationPicker from "../ui/CreationPicker";
@@ -17,8 +19,11 @@ import { formatDateString, hiddenAddress } from "@/lib/utils";
 
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
+import { useRouter } from "next/navigation";
 
 export default function CreateTBA({ address, creations }: { address: `0x${string}`; creations: creationsType[] }) {
+  const router = useRouter();
+
   const [currentTba, setCurrentTba] = useState<`0x${string}`>("0x");
   const [currentTbaDeployed, setCurrentTbaDeployed] = useState<boolean>(false);
   const [pickedTokenId, setPickedTokenId] = useState<number>(0);
@@ -133,57 +138,103 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
   // Create TBA tx watcher
   useEffect(() => {
     if (isCreateSuccess) {
-      alert(
-        `Token-bound account ${currentTba} for creation tokenId: ${pickedTokenId} with tx hash: ${createTxHash} was successfully created`
+      toast.custom(
+        <div className="w-[350px] bg-light-1 shadow-lg rounded-lg text-body-normal flex items-center gap-3 py-4 px-5">
+          <div>😃</div>
+          <div>
+            Token-bound account deployed successfully. You can check the tx on{" "}
+            <Link
+              className="text-violet-700 hover:text-violet-600 duration-200"
+              href={`https://mumbai.polygonscan.com/tx/${createTxHash}`}
+              target="_blank"
+            >
+              Polygonscan
+            </Link>
+          </div>
+        </div>
       );
-      location.reload();
+
+      router.refresh();
+      setPickedTokenId(0);
     }
 
-    if (isCreateError) alert(`Failed with error: ${createError?.message}`);
-  }, [isCreateSuccess, isCreateError, currentTba, createError?.message, pickedTokenId, createTxHash]);
+    if (isCreateError) toast.error(`Failed with error: ${createError?.message}`);
+  }, [isCreateSuccess, isCreateError, createError?.message, createTxHash, router]);
 
   // Sign TBA tx watcher
   useEffect(() => {
     if (isSignSuccess) {
-      alert(
-        `Token-bound account ${currentTba} for creation tokenId: ${pickedTokenId} with tx hash: ${signTx?.hash} was successfully signed`
+      toast.custom(
+        <div className="w-[350px] bg-light-1 shadow-lg rounded-lg text-body-normal flex items-center gap-3 py-4 px-5">
+          <div>😃</div>
+          <div>
+            Token-bound account signed successfully. You can check the tx on{" "}
+            <Link
+              className="text-violet-700 hover:text-violet-600 duration-200"
+              href={`https://mumbai.polygonscan.com/tx/${signTx?.hash}`}
+              target="_blank"
+            >
+              Polygonscan
+            </Link>
+          </div>
+        </div>
       );
-      location.reload();
+
+      router.refresh();
+      setPickedTokenId(0);
     }
 
-    if (isSignError) alert(`Failed with error: ${signError?.message}`);
-  }, [isSignSuccess, isSignError, currentTba, signError?.message, pickedTokenId, signTx?.hash]);
+    if (isSignError) toast.error(`Failed with error: ${signError?.message}`);
+  }, [isSignSuccess, isSignError, signError?.message, signTx?.hash, router]);
 
   // Activate TBA tx watcher
   useEffect(() => {
     if (isActivateSuccess) {
-      alert(
-        `Token-bound account ${currentTba} for creation tokenId: ${pickedTokenId} with tx hash: ${activateTx?.hash} was successfully activated`
+      toast.custom(
+        <div className="w-[350px] bg-light-1 shadow-lg rounded-lg text-body-normal flex items-center gap-3 py-4 px-5">
+          <div>😃</div>
+          <div>
+            Token-bound account activated successfully. You can check the tx on{" "}
+            <Link
+              className="text-violet-700 hover:text-violet-600 duration-200"
+              href={`https://mumbai.polygonscan.com/tx/${activateTx?.hash}`}
+              target="_blank"
+            >
+              Polygonscan
+            </Link>
+          </div>
+        </div>
       );
-      location.reload();
+
+      router.refresh();
+      setPickedTokenId(0);
     }
 
-    if (isActivateError) alert(`Failed with error: ${activateError?.message}`);
-  }, [isActivateSuccess, isActivateError, currentTba, activateError?.message, pickedTokenId, activateTx?.hash]);
+    if (isActivateError) toast.error(`Failed with error: ${activateError?.message}`);
+  }, [isActivateSuccess, isActivateError, activateError?.message, activateTx?.hash, router]);
 
   async function createAction() {
     if (currentTbaDeployed) return;
 
-    alert("You will be prompted to confirm the tx, please check your wallet");
+    toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
-    const { account, txHash: createTxHash } = await tokenboundClient.createAccount({
-      tokenContract: CREATION_CONTRACT,
-      tokenId: pickedTokenId.toString(),
-    });
+    try {
+      const { account, txHash: createTxHash } = await tokenboundClient.createAccount({
+        tokenContract: CREATION_CONTRACT,
+        tokenId: pickedTokenId.toString(),
+      });
 
-    setCreateTxHash(createTxHash);
-    setCurrentTba(account);
+      setCreateTxHash(createTxHash);
+      setCurrentTba(account);
+    } catch (error) {
+      toast.error("You denied transaction signature.");
+    }
   }
 
   async function signAction() {
     if (!currentTbaDeployed) return;
 
-    alert("You will be prompted to confirm the tx, please check your wallet");
+    toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
     signWrite?.();
   }
@@ -191,7 +242,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
   async function activateAction() {
     if (isCurrentTbaActivated || !currentTbaDeployed) return;
 
-    alert("You will be prompted to confirm the tx, please check your wallet");
+    toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
     activateWrite?.();
   }
@@ -249,11 +300,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
         <form action={createAction} className="h-[50px]">
           <AppButton
             text={
-              pickedTokenId === 0
-                ? "Pick a creation first"
-                : currentTbaDeployed
-                ? "Already deployed"
-                : "Deploy the TBA"
+              pickedTokenId === 0 ? "Pick a creation first" : currentTbaDeployed ? "Already deployed" : "Deploy the TBA"
             }
             otherPendingStatus={isCreateLoading}
             pendingText={isCreateLoading ? "Writing contract..." : "Deploying..."}

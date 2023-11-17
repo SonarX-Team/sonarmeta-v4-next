@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
 import { polygonMumbai } from "viem/chains";
+import toast from "react-hot-toast";
 
 import { authorize } from "@/actions/creation.action";
 import AppButton from "../ui/AppButton";
@@ -39,10 +41,10 @@ export default function Authorize({
     args: [issuerTba, inclinedTba, issuerTokenId], // _from, _to, _tokenId
   });
 
-  const { data: mintTx, write } = useContractWrite(config);
+  const { data: tx, write } = useContractWrite(config);
 
   const { error, isSuccess, isError, isLoading } = useWaitForTransaction({
-    hash: mintTx?.hash,
+    hash: tx?.hash,
   });
 
   // onMounted, when window object is available
@@ -87,17 +89,33 @@ export default function Authorize({
   }, [userAddr, inclinedTokenId, issuerTokenId]);
 
   useEffect(() => {
-    if (isSuccess) alert(`Authorized! The tx hash is: ${mintTx?.hash}`);
-    if (isError) alert(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError, mintTx?.hash, error?.message]);
+    if (isSuccess)
+      toast.custom(
+        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
+          <div>😃</div>
+          <div>
+            Authorized successfully! You can check the tx on{" "}
+            <Link
+              className="text-violet-700 hover:text-violet-600 duration-200"
+              href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
+              target="_blank"
+            >
+              Polygonscan
+            </Link>
+          </div>
+        </div>
+      );
+
+    if (isError) toast.error(`Failed with error: ${error?.message}`);
+  }, [isSuccess, isError, tx?.hash, error?.message]);
 
   async function authorizeAction() {
     if (!inclinedTbaDeployed)
-      return alert(`Token-bound account of the creation #${inclinedTokenId} has not been deployed yet`);
+      return toast.error(`Token-bound account of the creation #${inclinedTokenId} has not been deployed yet`);
     if (!issuerTbaDeployed)
-      return alert(`Token-bound account of the creation #${issuerTokenId} has not been deployed yet`);
+      return toast.error(`Token-bound account of the creation #${issuerTokenId} has not been deployed yet`);
 
-    alert("You will be prompted to confirm the tx, please check your wallet");
+    toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
     write?.();
 

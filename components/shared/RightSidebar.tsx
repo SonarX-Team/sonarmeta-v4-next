@@ -1,10 +1,12 @@
 "use client";
 
+import { useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useDisconnect } from "wagmi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { useDisconnect } from "wagmi";
+import toast from "react-hot-toast";
 
 import { navLinks } from "@/constants";
 import { signOutUser } from "@/actions/user.action";
@@ -16,10 +18,11 @@ export default function RightSidebar({ loginStatus }: { loginStatus: boolean }) 
 
   const { disconnect } = useDisconnect();
 
-  async function handleSignOut() {
+  const handleSignOut = useCallback(async () => {
     disconnect(); // 先断开连接
     await signOutUser();
-  }
+    toast.success("Sign out successfully!");
+  }, [disconnect]);
 
   return (
     <section id="rightSidebar" className="custom-scrollbar rightsidebar translate-x-full">

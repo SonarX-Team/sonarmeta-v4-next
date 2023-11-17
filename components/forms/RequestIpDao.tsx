@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 import { applyIpDao, subscribeIpDao } from "@/actions/ipdao.action";
 import AppButton from "../ui/AppButton";
@@ -21,16 +22,16 @@ export default function RequestIpDao({
   const path = usePathname();
 
   async function applyAction() {
-    if (!userAddr) return alert("Please connect your wallet and sign in first");
+    if (!userAddr) return toast.error("Please connect your wallet and sign in first!");
 
     const { status, errMsg } = await applyIpDao({ userAddr, ipDaoAddr, path });
 
-    if (status === 200) alert("Applied");
-    else if (status === 500) alert(errMsg);
+    if (status === 200) toast.success("Applied successfully!");
+    else if (status === 500) toast.error("Internal server error.");
   }
 
   async function subscribeAction() {
-    if (!userAddr) return alert("Please connect your wallet and sign in first");
+    if (!userAddr) return toast.error("Please connect your wallet and sign in first!");
 
     await subscribeIpDao({ userAddr, ipDaoAddr, path });
   }

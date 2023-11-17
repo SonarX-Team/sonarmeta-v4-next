@@ -79,7 +79,7 @@ export async function updateUser({
 
   // 对客户端传来的数据做校验
   const { isValid, errors } = UpdateUserValidation({ username, email, bio });
-  if (!isValid) return { ValidationErrors: errors };
+  if (!isValid) return { status: 400, ValidationErrors: errors };
 
   try {
     await connectToDB();
@@ -87,7 +87,7 @@ export async function updateUser({
     let user = await User.findOne({ username });
 
     if (user && String(user.address) !== address)
-      return { errName: "username", errMsg: "Username has been already used" };
+      return { status:400, errName: "username", errMsg: "Username has been already used!" };
 
     await User.findOneAndUpdate(
       { address },

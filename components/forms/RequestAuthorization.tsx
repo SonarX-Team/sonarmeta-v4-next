@@ -1,19 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
 import { http, createWalletClient, WalletClient, custom, createPublicClient } from "viem";
 import { polygonMumbai } from "viem/chains";
+import toast from "react-hot-toast";
 
-import { applyAuthorization } from "@/actions/creation.action";
-import AppInput from "../ui/AppInput";
+import AppSelect from "../ui/AppSelect";
 import AppButton from "../ui/AppButton";
 
 import { CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
+
+import { applyAuthorization, fetchCreations } from "@/actions/creation.action";
+import { creationsType } from "@/types/creation.type";
 
 export default function RequestAuthorization({
   issuerTokenId,
@@ -24,11 +27,12 @@ export default function RequestAuthorization({
 }) {
   const path = usePathname();
 
+  const [options, setOptions] = useState<{ value: number; label: string }[]>([]);
   const [errMsg, setErrMsg] = useState<string>("");
 
   const { chain } = useNetwork();
 
-  const { data: creations } = useContractRead({
+  const { data: tokenIds } = useContractRead({
     address: CREATION_CONTRACT,
     abi: creationContractAbi,
     chainId: chain?.id,
@@ -37,17 +41,35 @@ export default function RequestAuthorization({
     args: [userAddr],
   }) as { data: bigint[] };
 
-  async function applyAction(formData: FormData) {
-    if (userAddr === "0x") return alert("Please connect your wallet and sign in first");
+  useEffect(() => {
+    async function getCreations() {
+      if (!tokenIds) return;
 
+      const ids: number[] = tokenIds.map((tokenId: bigint) => Number(tokenId));
+
+      const { creations } = (await fetchCreations({
+        pageNumber: 1,
+        pageSize: 20,
+        tokenIds: ids,
+      })) as { creations: creationsType[] };
+
+      let ops: { value: number; label: string }[] = [];
+
+      ops = creations.map((creation: creationsType) => ({
+        value: creation.tokenId,
+        label: `#${creation.tokenId} ${creation.title}`,
+      }));
+
+      setOptions(ops);
+    }
+
+    getCreations();
+  }, [tokenIds]);
+
+  async function applyAction(formData: FormData) {
     setErrMsg("");
 
     const inclinedTokenId = Number(formData.get("inclinedTokenId"));
-
-    // Check tokenID validation
-    if (!creations.some((creation: bigint) => Number(creation) === inclinedTokenId))
-      return setErrMsg("Invalid creation tokenID");
-    if (issuerTokenId === inclinedTokenId) return setErrMsg("Cannot apply itself");
 
     // Check TBA deployment
     const walletClient: WalletClient = createWalletClient({
@@ -85,19 +107,17 @@ export default function RequestAuthorization({
 
     const { status, errMsg } = await applyAuthorization({ issuerTokenId, inclinedTokenId, path });
 
-    if (status === 200) alert("Applied");
-    else if (status === 400) alert(`Failed with error: ${errMsg}`);
-    else if (status === 500) alert(errMsg);
+    if (status === 200) toast.success("Applied successfully!");
+    else if (status === 400 || status === 500) toast.error(`Failed with error: ${errMsg}!`);
   }
 
   return (
     <form className="flex flex-col gap-3" action={applyAction}>
-      <AppInput
+      <AppSelect
         name="inclinedTokenId"
-        label="Creation tokenID"
-        placeholder="Creation tokenID for which you wish to apply"
-        required={true}
-        type="text"
+        label="Pick a creation"
+        placeholder="Creation that you want to apply"
+        options={options}
         errMsg={errMsg}
       />
 

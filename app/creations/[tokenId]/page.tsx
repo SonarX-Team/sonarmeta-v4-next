@@ -126,7 +126,9 @@ export default async function page({ params }: { params: { tokenId: number } }) 
               <div className="flex flex-col gap-6">
                 <p>{res?.agreement}</p>
 
-                <RequestAuthorization issuerTokenId={Number(params.tokenId)} userAddr={user?.address} />
+                {user && user.address !== owner && (
+                  <RequestAuthorization issuerTokenId={Number(params.tokenId)} userAddr={user.address} />
+                )}
               </div>
             </TitleCard>
           </div>

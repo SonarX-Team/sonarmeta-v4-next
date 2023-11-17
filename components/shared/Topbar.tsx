@@ -5,8 +5,11 @@ import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useAccount, useDisconnect, useNetwork, useSignMessage } from "wagmi";
+import toast from "react-hot-toast";
 
 import { ConnectBtnRow } from "../wallet/ConnectBtnRow";
+import AppToaster from "../ui/AppToaster";
+
 import { navLinks } from "@/constants";
 import { requestMessage, signOutUser, verifySignature } from "@/actions/user.action";
 import { hiddenAddress } from "@/lib/utils";
@@ -29,23 +32,27 @@ export default function Topbar({
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
 
-  const handleSignOut = useCallback(async () => {
-    disconnect(); // 先断开连接
-    await signOutUser();
-  }, [disconnect]);
+  const handleSignOut = useCallback(
+    async (normal?: boolean) => {
+      disconnect(); // 先断开连接
+      await signOutUser();
+      if (normal) toast.success("Sign out successfully!");
+    },
+    [disconnect]
+  );
 
   // 对于连接钱包以后，还没登录的用户进行签名
   useEffect(() => {
     async function handleSignIn() {
       if (!signAddr) return; // 回避typescript报错
 
-      alert("You will be prompted to sign a message to authenticate, please check your wallet.");
+      toast("You will be prompted to sign a message to authenticate, please check your wallet.", { icon: "✍️" });
 
       try {
         // 获取需要签名的信息
         const { message } = await requestMessage({ address: signAddr });
 
-        if (message === "") return alert("Something went wrong with server");
+        if (message === "") return toast.error("Something went wrong with server!");
 
         // 发起签名
         const signature = await signMessageAsync({ message });
@@ -53,16 +60,16 @@ export default function Topbar({
         // 验证签名
         const { status } = await verifySignature({ address: signAddr, message, signature });
 
-        if (status === 200) alert("Sign in successfully.");
+        if (status === 200) toast.success("Sign in successfully!");
         else {
           disconnect();
           handleSignOut();
-          alert("Failed to sign in");
+          toast.error("Failed to sign in!");
         }
       } catch (error) {
         disconnect();
         handleSignOut();
-        alert("You rejected the request in your wallet.");
+        toast.error("You rejected the request in your wallet!");
       }
     }
 
@@ -70,10 +77,12 @@ export default function Topbar({
   }, [address, isConnected, disconnect, handleSignOut, signAddr, signMessageAsync]);
 
   useEffect(() => {
+    // Wrong network watcher
     setWrongNetworkFlag(false);
     if (isConnected && chain?.name !== "Polygon Mumbai") setWrongNetworkFlag(true);
 
-    if (!isConnected) handleSignOut();
+    // Connected watcher
+    if (!isConnected) handleSignOut(true);
   }, [chain?.name, isConnected, handleSignOut]);
 
   return (
@@ -176,7 +185,7 @@ export default function Topbar({
 
                   <button
                     className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
-                    onClick={handleSignOut}
+                    onClick={() => handleSignOut(true)}
                     type="button"
                   >
                     <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faSignOut} />
@@ -188,6 +197,8 @@ export default function Topbar({
           )}
         </div>
       </div>
+
+      <AppToaster />
     </nav>
   );
 }
