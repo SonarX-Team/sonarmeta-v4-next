@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faFeather, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useAccount, useDisconnect, useNetwork, useSignMessage } from "wagmi";
 import toast from "react-hot-toast";
 
@@ -80,10 +80,7 @@ export default function Topbar({
     // Wrong network watcher
     setWrongNetworkFlag(false);
     if (isConnected && chain?.name !== "Polygon Mumbai") setWrongNetworkFlag(true);
-
-    // Connected watcher
-    if (!isConnected) handleSignOut(true);
-  }, [chain?.name, isConnected, handleSignOut]);
+  }, [chain?.name, isConnected]);
 
   return (
     <nav className="fixed top-0 z-30 w-full h-[60px] bg-light-1 shadow-sm">
@@ -162,6 +159,16 @@ export default function Topbar({
                       {address && <p className="text-sm text-zinc-500">{hiddenAddress(address)}</p>}
                     </div>
                   </div>
+
+                  <div className="border-b-[1px] border-zinc-200" />
+
+                  <Link
+                    className="flex gap-2 items-center text-base-semibold hover:bg-zinc-100 duration-200 rounded-md mx-4 p-4"
+                    href="/studio"
+                  >
+                    <FontAwesomeIcon className="w-[16px] h-[16px] text-slate-500" icon={faFeather} />
+                    <span>Studio</span>
+                  </Link>
 
                   <div className="border-b-[1px] border-zinc-200" />
 

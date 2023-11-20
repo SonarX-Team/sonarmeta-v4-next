@@ -246,6 +246,25 @@
         "type": "address"
       }
     ],
+    "name": "getHolderCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_tbaAddr",
+        "type": "address"
+      }
+    ],
     "name": "getNodeValue",
     "outputs": [
       {
@@ -261,30 +280,16 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_holderAddr",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "_tbaAddr",
         "type": "address"
       }
     ],
-    "name": "getStakeholderCount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_ipDaoAddr",
-        "type": "address"
-      }
-    ],
-    "name": "isIpDaoTracked",
+    "name": "isHolder",
     "outputs": [
       {
         "internalType": "bool",
@@ -299,16 +304,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_stakeholderAddr",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_tbaAddr",
+        "name": "_ipDaoAddr",
         "type": "address"
       }
     ],
-    "name": "isStakeholder",
+    "name": "isIpDaoTracked",
     "outputs": [
       {
         "internalType": "bool",

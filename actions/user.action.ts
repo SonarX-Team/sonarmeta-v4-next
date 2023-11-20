@@ -87,7 +87,7 @@ export async function updateUser({
     let user = await User.findOne({ username });
 
     if (user && String(user.address) !== address)
-      return { status:400, errName: "username", errMsg: "Username has been already used!" };
+      return { status: 400, errName: "username", errMsg: "Username has been already used!" };
 
     await User.findOneAndUpdate(
       { address },
@@ -135,7 +135,7 @@ export async function requestMessage({ address }: { address: `0x${string}` }) {
     const nonce = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
     const message =
-      `Welcome to SonarMeta - On-chain nuturing & authorization network for emerging IPs.\n\n` +
+      `Welcome to SonarMeta - on-chain IP authorization and value captured network.\n\n` +
       `Click to sign in and accept the SonarMeta Terms of Service (https://www.sonarmeta.com/tos) and Privacy Policy (https://www.sonarmeta.com/privacy).\n\n` +
       `This request will not trigger a blockchain transaction or cost any gas fees.\n\n` +
       `Wallet address:\n${address}\n\n` +

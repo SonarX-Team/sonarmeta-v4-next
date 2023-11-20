@@ -155,7 +155,13 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     <form action={createAction} className="flex flex-col justify-start gap-8">
       <div className="sm:flex justify-between items-center">
         <div className="sm:basis-1/2 sm:mb-0 mb-8">
-          <AvatarInput name="avatar" required={true} errMsg={avatarErr} />
+          <AvatarInput
+            name="avatar"
+            label="Select your avatar image"
+            type="circle"
+            required={true}
+            errMsg={avatarErr}
+          />
         </div>
         <div className="sm:basis-1/2">
           <CoverInput name="cover" required={true} errMsg={coverErr} />

@@ -41,7 +41,7 @@ export default function Authorize({
     args: [issuerTba, inclinedTba, issuerTokenId], // _from, _to, _tokenId
   });
 
-  const { data: tx, write } = useContractWrite(config);
+  const { data: tx, writeAsync } = useContractWrite(config);
 
   const { error, isSuccess, isError, isLoading } = useWaitForTransaction({
     hash: tx?.hash,
@@ -89,24 +89,31 @@ export default function Authorize({
   }, [userAddr, inclinedTokenId, issuerTokenId]);
 
   useEffect(() => {
-    if (isSuccess)
-      toast.custom(
-        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-          <div>😃</div>
-          <div>
-            Authorized successfully! You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
+    async function authorizeDb() {
+      if (isSuccess) {
+        await authorize({ issuerTokenId, inclinedTokenId, path });
 
-    if (isError) toast.error(`Failed with error: ${error?.message}`);
+        toast.custom(
+          <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
+            <div>😃</div>
+            <div>
+              Authorized successfully! You can check the tx on{" "}
+              <Link
+                className="text-violet-700 hover:text-violet-600 duration-200"
+                href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
+                target="_blank"
+              >
+                Polygonscan
+              </Link>
+            </div>
+          </div>
+        );
+      }
+
+      if (isError) toast.error(`Failed with error: ${error?.message}`);
+    }
+
+    authorizeDb();
   }, [isSuccess, isError, tx?.hash, error?.message]);
 
   async function authorizeAction() {
@@ -117,19 +124,20 @@ export default function Authorize({
 
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
-    write?.();
-
-    const { status, message } = await authorize({ issuerTokenId, inclinedTokenId, path });
-    if (status === 200 && message === "Authorized") return;
+    try {
+      await writeAsync?.();
+    } catch (error: any) {
+      if (error.message.includes("User rejected the request.")) toast.error("You rejected the request in your wallet.");
+    }
   }
 
   return (
     <form action={authorizeAction} className="text-small-regular leading-none h-[44px]">
       <AppButton
-        text={write ? "Authorize" : "Cannot authorize"}
+        text={writeAsync ? "Authorize" : "Cannot authorize"}
         otherPendingStatus={isLoading}
         pendingText={isLoading ? "Writing contract..." : "Authorizing..."}
-        disabled={!write}
+        disabled={!writeAsync}
         type="submit"
       />
     </form>

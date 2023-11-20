@@ -51,7 +51,7 @@ export default function EditAccount({ address, username, email, bio, avatar }: U
 
   return (
     <form action={updateUserAction} className="flex flex-col justify-start gap-8">
-      <AvatarInput name="avatar" defaultValue={avatar} />
+      <AvatarInput name="avatar" label="Select your avatar image" type="circle" defaultValue={avatar} />
       <AppInput
         name="username"
         label="Username"

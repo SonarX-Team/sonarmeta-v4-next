@@ -6,12 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
   name: string;
+  label: string;
+  type: "square" | "circle";
   defaultValue?: string;
   required?: boolean;
   errMsg?: string;
 };
 
-const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) => {
+const AvatarInput: React.FC<Props> = ({ name, label, type, defaultValue, required, errMsg }) => {
   const [avatarUrl, setAvatarUrl] = useState<string>(defaultValue ? defaultValue : "");
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,11 +42,15 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
             !avatarUrl
               ? "border-2 border-dashed border-zinc-400 text-zinc-700 bg-slate-300/30 hover:bg-slate-400/20"
               : "bg-violet-300 hover:bg-violet-200"
-          } duration-200 rounded-full cursor-pointer`}
+          } duration-200 ${type === "circle" ? "rounded-full" : "rounded-xl"} cursor-pointer`}
           htmlFor="avatarInput"
         >
           {avatarUrl ? (
-            <img className="w-[120px] h-[120px] rounded-full" src={avatarUrl} alt="avatar" />
+            <img
+              className={`w-[120px] h-[120px] ${type === "circle" ? "rounded-full" : "rounded-xl"}`}
+              src={avatarUrl}
+              alt="avatar"
+            />
           ) : (
             <>
               <FontAwesomeIcon className="w-[24px] h-[24px] text-dark-2 mb-2" icon={faCloudArrowUp} />
@@ -56,7 +62,7 @@ const AvatarInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) 
 
       <div>
         <label htmlFor="avatarInput" className="text-violet-700 hover:text-violet-600 duration-200 cursor-pointer">
-          Select your avatar image {required && <span className="text-red-600">*</span>}
+          {label} {required && <span className="text-red-600">*</span>}
         </label>
         {errMsg && <p className="text-small-regular text-red-600 mt-1">{errMsg}</p>}
       </div>

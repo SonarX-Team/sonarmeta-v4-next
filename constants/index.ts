@@ -74,10 +74,10 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
 // Mumbai合约地址
-export const MAIN_CONTRACT = "0x1f22bcca683845cf6f4ac9c6495f6d549349d5cb";
-export const CREATION_CONTRACT = "0x470d67f8de312a7674d9417aa18717cd114469b9";
-export const AUTHORIZATION_CONTRACT = "0x50e160f7a2f54c74282c3022061b96273f9836ef";
-export const MARKETPLACE_CONTRACT = "0x9817a7faaeab2ff87d270a6f192cb49bb8d81e85";
+export const MAIN_CONTRACT = "0xa45f96a60cd03de14f3c0e82a5e824d824f1d387";
+export const CREATION_CONTRACT = "0x61a3f47f7d7a55565a82807ead6b3ffd951d19bf";
+export const AUTHORIZATION_CONTRACT = "0x389c15affdbb9dbc60ea50ad5d07b9b64f858932";
+export const MARKETPLACE_CONTRACT = "0x746ff97588f3e0d8df2e09333d68368f509db35a";
 
 // CCTP Testnet合约地址
 export const ETH_TOKEN_MESSENGER_CONTRACT_ADDRESS = "0xd0c3da58f55358142b8d3e06c1c30c5c6114efe8";

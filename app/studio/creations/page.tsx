@@ -4,7 +4,7 @@ import { polygonMumbai } from "viem/chains";
 import { getCurrentUser } from "@/actions/user.action";
 import { fetchCreations } from "@/actions/creation.action";
 
-import CreateTBA from "@/components/forms/CreateTBA";
+import StudioCreationCard from "@/components/cards/StudioCreationCard";
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { creationsType } from "@/types/creation.type";
@@ -29,7 +29,7 @@ export default async function page() {
     address: CREATION_CONTRACT,
     abi: creationContractAbi,
     functionName: "getTokenIds",
-    args: [user?.address],
+    args: [user.address],
   });
 
   const ids: number[] = tokenIds.map((tokenId: bigint) => Number(tokenId));
@@ -40,5 +40,11 @@ export default async function page() {
     tokenIds: ids,
   })) as { creations: creationsType[] };
 
-  return <CreateTBA address={user.address} creations={creations ? creations : []} />;
+  return (
+    <div className="flex flex-col gap-4">
+      {creations.map((creation, index) => (
+        <StudioCreationCard key={index} {...creation} />
+      ))}
+    </div>
+  );
 }

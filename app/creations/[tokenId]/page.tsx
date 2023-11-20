@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchCreation } from "@/actions/creation.action";
 import { getCurrentUser } from "@/actions/user.action";
@@ -16,14 +16,11 @@ import SadPlaceholder from "@/components/shared/SadPlaceholder";
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { hiddenAddress } from "@/lib/utils";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
 
-  const { res, status } = await fetchCreation({ tokenId: params.tokenId.toString() });
-
-  if (status === 404) notFound();
+  const { res } = await fetchCreation({ tokenId: params.tokenId.toString() });
 
   const publicClient = createPublicClient({
     chain: polygonMumbai,
@@ -56,9 +53,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
     <div className="py-12">
       <div className="md:flex max-w-6xl mx-auto px-6 gap-8">
         <div className="flex-1 flex flex-col gap-8">
-          <div>
-            <img className="rounded-xl" src={res?.avatar} alt="nft-image" />
-          </div>
+          <img className="aspect-[1] rounded-xl" src={res?.avatar} alt="creation-image" />
 
           <div className="md:hidden flex flex-col gap-4">
             <h3 className="text-body-bold leading-none">SonarMeta Creation Network Node</h3>

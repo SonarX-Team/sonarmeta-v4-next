@@ -1,56 +1,51 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
-import { useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
+import { useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractRead } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
 import { polygonMumbai } from "viem/chains";
 import toast from "react-hot-toast";
 
-import TitleCard from "../cards/TitleCard";
-import CreationPicker from "../ui/CreationPicker";
 import AppButton from "../ui/AppButton";
-import SadPlaceholder from "../shared/SadPlaceholder";
+import TitleCard from "../cards/TitleCard";
 
-import { MAIN_CONTRACT, AUTHORIZATION_CONTRACT, CREATION_CONTRACT } from "@/constants";
-import { creationsType } from "@/types/creation.type";
-import { formatDateString, hiddenAddress } from "@/lib/utils";
-
+import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
-import { useRouter } from "next/navigation";
+import { hiddenAddress } from "@/lib/utils";
 
-export default function CreateTBA({ address, creations }: { address: `0x${string}`; creations: creationsType[] }) {
+export default function TbaFactory({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
   const router = useRouter();
 
-  const [currentTba, setCurrentTba] = useState<`0x${string}`>("0x");
-  const [currentTbaDeployed, setCurrentTbaDeployed] = useState<boolean>(false);
-  const [pickedTokenId, setPickedTokenId] = useState<number>(0);
-  const [createTxHash, setCreateTxHash] = useState<`0x${string}`>();
+  const [tba, setTba] = useState<`0x${string}`>("0x");
+  const [tbaDeployed, setTbaDeployed] = useState<boolean>(false);
+  const [deployTxHash, setDeployTxHash] = useState<`0x${string}`>();
   const [walletClient, setWalletClient] = useState<WalletClient>();
+
+  const { chain } = useNetwork();
 
   // @ts-ignore
   const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chain: polygonMumbai }), [walletClient]);
 
-  const { chain } = useNetwork();
-
-  const { data: isCurrentTbaSigned } = useContractRead({
+  const { data: isTbaSigned } = useContractRead({
     address: MAIN_CONTRACT,
     abi: mainContractAbi,
     functionName: "isTbaSigned",
     chainId: chain?.id,
     // @ts-ignore
-    args: [currentTba],
+    args: [tba],
   });
 
-  const { data: isCurrentTbaActivated } = useContractRead({
+  const { data: isTbaActivated } = useContractRead({
     address: AUTHORIZATION_CONTRACT,
     abi: authorizationContractAbi,
     functionName: "exists",
     chainId: chain?.id,
     // @ts-ignore
-    args: [pickedTokenId],
+    args: [tokenId],
   });
 
   const { config: signConfig } = usePrepareContractWrite({
@@ -59,7 +54,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
     functionName: "signToUse",
     chainId: chain?.id,
     // @ts-ignore
-    args: [currentTba, pickedTokenId],
+    args: [tba, tokenId],
   });
 
   const { data: signTx, write: signWrite } = useContractWrite(signConfig);
@@ -70,18 +65,18 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
     functionName: "activateAuthorization",
     chainId: chain?.id,
     // @ts-ignore
-    args: [currentTba, pickedTokenId],
+    args: [tba, tokenId],
   });
 
   const { data: activateTx, write: activateWrite } = useContractWrite(activateConfig);
 
   const {
-    error: createError,
-    isSuccess: isCreateSuccess,
-    isLoading: isCreateLoading,
-    isError: isCreateError,
+    error: deployError,
+    isSuccess: isDeploySuccess,
+    isLoading: isDeployLoading,
+    isError: isDeployError,
   } = useWaitForTransaction({
-    hash: createTxHash,
+    hash: deployTxHash,
   });
 
   const {
@@ -120,24 +115,24 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
     async function watchTba() {
       const tba = tokenboundClient.getAccount({
         tokenContract: CREATION_CONTRACT,
-        tokenId: pickedTokenId.toString(),
+        tokenId: tokenId.toString(),
       });
 
-      setCurrentTba(tba);
+      setTba(tba);
 
       const isAccountDeployed = await tokenboundClient.checkAccountDeployment({
         accountAddress: tba,
       });
 
-      setCurrentTbaDeployed(isAccountDeployed);
+      setTbaDeployed(isAccountDeployed);
     }
 
     watchTba();
-  }, [pickedTokenId, tokenboundClient]);
+  }, [tokenId, tokenboundClient]);
 
   // Create TBA tx watcher
   useEffect(() => {
-    if (isCreateSuccess) {
+    if (isDeploySuccess) {
       toast.custom(
         <div className="w-[350px] bg-light-1 shadow-lg rounded-lg text-body-normal flex items-center gap-3 py-4 px-5">
           <div>😃</div>
@@ -145,7 +140,7 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
             Token-bound account deployed successfully. You can check the tx on{" "}
             <Link
               className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${createTxHash}`}
+              href={`https://mumbai.polygonscan.com/tx/${deployTxHash}`}
               target="_blank"
             >
               Polygonscan
@@ -155,11 +150,10 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
       );
 
       router.refresh();
-      setPickedTokenId(0);
     }
 
-    if (isCreateError) toast.error(`Failed with error: ${createError?.message}`);
-  }, [isCreateSuccess, isCreateError, createError?.message, createTxHash, router]);
+    if (isDeployError) toast.error(`Failed with error: ${deployError?.message}`);
+  }, [isDeploySuccess, isDeployError, deployError?.message, deployTxHash, router]);
 
   // Sign TBA tx watcher
   useEffect(() => {
@@ -181,7 +175,6 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
       );
 
       router.refresh();
-      setPickedTokenId(0);
     }
 
     if (isSignError) toast.error(`Failed with error: ${signError?.message}`);
@@ -207,32 +200,31 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
       );
 
       router.refresh();
-      setPickedTokenId(0);
     }
 
     if (isActivateError) toast.error(`Failed with error: ${activateError?.message}`);
   }, [isActivateSuccess, isActivateError, activateError?.message, activateTx?.hash, router]);
 
-  async function createAction() {
-    if (currentTbaDeployed) return;
+  async function deployAction() {
+    if (tbaDeployed) return;
 
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
     try {
-      const { account, txHash: createTxHash } = await tokenboundClient.createAccount({
+      const { account, txHash: deployTxHash } = await tokenboundClient.createAccount({
         tokenContract: CREATION_CONTRACT,
-        tokenId: pickedTokenId.toString(),
+        tokenId: tokenId.toString(),
       });
 
-      setCreateTxHash(createTxHash);
-      setCurrentTba(account);
+      setDeployTxHash(deployTxHash);
+      setTba(account);
     } catch (error) {
       toast.error("You denied transaction signature.");
     }
   }
 
   async function signAction() {
-    if (!currentTbaDeployed) return;
+    if (!tbaDeployed) return;
 
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
@@ -240,71 +232,39 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
   }
 
   async function activateAction() {
-    if (isCurrentTbaActivated || !currentTbaDeployed) return;
+    if (isTbaActivated || !tbaDeployed) return;
 
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
     activateWrite?.();
   }
 
+  const tbaInfo = [
+    { info: hiddenAddress(tba), title: "Token-bound account" },
+    { info: tbaDeployed ? "Deployed" : "Not deployed", title: "TBA deployed" },
+    { info: isTbaSigned ? "Signed" : "Not signed", title: "TBA signed" },
+    { info: isTbaActivated ? "Activated" : "Not activated", title: "TBA authorization" },
+  ];
+  const tbaCard: JSX.Element[] = tbaInfo.map((info, index) => (
+    <div key={index} className="flex flex-col gap-2">
+      <div className="text-small-medium text-zinc-500">{info.title}</div>
+      <div className="text-small-medium line-clamp-1">{info.info}</div>
+    </div>
+  ));
+
   return (
     <>
-      <CreationPicker
-        label="Pick a creation"
-        creations={creations}
-        getCreation={(tokenId) => setPickedTokenId(tokenId)}
-        required={true}
-      />
-
-      <TitleCard title="Token details">
-        <>
-          {creations?.map((creation, index) => {
-            if (creation.tokenId !== pickedTokenId) return;
-
-            const detailInfo = [
-              { info: `#${pickedTokenId}`, title: "Token ID" },
-              { info: "ERC-721", title: "Token standard" },
-              { info: hiddenAddress(CREATION_CONTRACT), title: "Contract address" },
-              { info: hiddenAddress(address), title: "Owner" },
-              { info: hiddenAddress(currentTba), title: "Token-bound account" },
-              { info: currentTbaDeployed ? "Deployed" : "Not deployed", title: "TBA deployed" },
-              { info: isCurrentTbaSigned ? "Signed" : "Not signed", title: "TBA Signed" },
-              { info: isCurrentTbaActivated ? "Activated" : "Not activated", title: "TBA Authorization" },
-              { info: creation.externalLink ? creation.externalLink : "-", title: "External link" },
-              { info: formatDateString(creation.createdAt), title: "Minted at" },
-            ];
-            const detailCard: JSX.Element[] = detailInfo.map((info, index) => (
-              <div key={index} className="flex flex-col gap-2">
-                <p className="text-small-medium text-zinc-500">{info.title}</p>
-                <p className="text-small-medium line-clamp-1">{info.info}</p>
-              </div>
-            ));
-
-            return (
-              <div key={index} className="flex flex-col gap-8">
-                <div className="grid grid-cols-4 gap-8">{detailCard}</div>
-
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-small-medium text-zinc-500">Description</h3>
-                  <p className="text-small-medium line-clamp-6 whitespace-pre-line">{creation.description}</p>
-                </div>
-              </div>
-            );
-          })}
-
-          {pickedTokenId === 0 && <SadPlaceholder size={300} text="No creation picked" />}
-        </>
+      <TitleCard title="Token-bound account">
+        <div className="grid grid-cols-4 gap-8">{tbaCard}</div>
       </TitleCard>
 
       <div className="flex flex-col justify-start gap-4">
-        <form action={createAction} className="h-[50px]">
+        <form action={deployAction} className="h-[50px]">
           <AppButton
-            text={
-              pickedTokenId === 0 ? "Pick a creation first" : currentTbaDeployed ? "Already deployed" : "Deploy the TBA"
-            }
-            otherPendingStatus={isCreateLoading}
-            pendingText={isCreateLoading ? "Writing contract..." : "Deploying..."}
-            disabled={pickedTokenId === 0 || currentTbaDeployed}
+            text={tbaDeployed ? "TBA already deployed" : "Deploy this TBA"}
+            otherPendingStatus={isDeployLoading}
+            pendingText={isDeployLoading ? "Writing contract..." : "Deploying..."}
+            disabled={tbaDeployed}
             type="submit"
           />
         </form>
@@ -312,19 +272,17 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
         <form action={signAction} className="h-[50px]">
           <AppButton
             text={
-              pickedTokenId === 0
-                ? "Pick a creation first"
-                : signWrite
-                ? currentTbaDeployed
-                  ? Boolean(isCurrentTbaSigned)
-                    ? "Already signed"
+              signWrite
+                ? tbaDeployed
+                  ? Boolean(isTbaSigned)
+                    ? "TBA already signed"
                     : "Sign TBA to use SonarMeta"
                   : "TBA must be deployed to sign"
                 : "Cannot sign"
             }
             otherPendingStatus={isSignLoading}
             pendingText={isSignLoading ? "Writing contract..." : "Deploying..."}
-            disabled={pickedTokenId === 0 || !currentTbaDeployed || Boolean(isCurrentTbaSigned) || !signWrite}
+            disabled={!tbaDeployed || Boolean(isTbaSigned) || !signWrite}
             type="submit"
           />
         </form>
@@ -332,19 +290,15 @@ export default function CreateTBA({ address, creations }: { address: `0x${string
         <form action={activateAction} className="h-[50px]">
           <AppButton
             text={
-              pickedTokenId === 0
-                ? "Pick a creation first"
-                : activateWrite
-                ? isCurrentTbaActivated
-                  ? "Already activated"
-                  : currentTbaDeployed
-                  ? "Activate authorization functionality"
-                  : "Only deployed and signed TBA can be activated"
-                : "Cannot activate"
+              isTbaActivated
+                ? "TBA already activated"
+                : tbaDeployed
+                ? "Activate authorization functionality"
+                : "Only deployed and signed TBA can be activated"
             }
             otherPendingStatus={isActivateLoading}
             pendingText={isActivateLoading ? "Writing contract..." : "Activating..."}
-            disabled={pickedTokenId === 0 || !currentTbaDeployed || Boolean(isCurrentTbaActivated) || !activateWrite}
+            disabled={!tbaDeployed || Boolean(isTbaActivated) || !activateWrite}
             type="submit"
           />
         </form>

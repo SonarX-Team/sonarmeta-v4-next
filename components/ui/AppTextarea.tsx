@@ -21,7 +21,7 @@ const AppTextarea: React.FC<Props> = ({ name, label, defaultValue, placeholder, 
       </div>
 
       <div
-        className={`flex border-[1px] ${disabled ? "bg-zinc-700/90" : "bg-transparent"} ${
+        className={`flex border-[1px] ${disabled ? "bg-zinc-200" : "bg-transparent"} ${
           errMsg ? "border-red-600" : "border-zinc-300 hover:border-zinc-500"
         } rounded-lg duration-200`}
       >

@@ -1,4 +1,5 @@
 import NftEntryCard from "@/components/cards/NftEntryCard";
+import BuyListing from "@/components/forms/BuyListing";
 import SearchInput from "@/components/ui/SearchInput";
 
 export default function page() {
@@ -17,38 +18,28 @@ export default function page() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
-          <NftEntryCard
-            url={`/marketplace/${0}`}
-            title="Design Bear"
-            avatar="/nft-cards/nft-1.jpg"
-            price="1.33"
-            nodeValue="120"
-            holderId="1"
-            holder="AwonderIP"
-            holderAvatar="/user.png"
-          />
-          <NftEntryCard
-            url={`/marketplace/${1}`}
-            title="Design Bear"
-            avatar="/nft-cards/nft-2.png"
-            price="1.33"
-            nodeValue="120"
-            holderId="2"
-            holder="AwonderIP"
-            holderAvatar="/user.png"
-          />
-          <NftEntryCard
-            url={`/marketplace/${2}`}
-            title="Design Bear"
-            avatar="/nft-cards/nft-3.png"
-            price="1.33"
-            nodeValue="120"
-            holderId="3"
-            holder="AwonderIP"
-            holderAvatar="/user.png"
-          />
-        </section>
+        <div className="table table-fixed w-full">
+          <div className="table-header-group">
+            <div className="table-row text-base-bold text-zinc-500">
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Creation</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Seller</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Base price</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Available</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Trade</div>
+            </div>
+          </div>
+          <div className="table-row-group">
+            <div className="table-row">
+              <div className="table-cell border-b-[1px] border-zinc-300">SonarMeta first creation</div>
+              <div className="table-cell border-b-[1px] border-zinc-300">0x58f1...FE22</div>
+              <div className="table-cell border-b-[1px] border-zinc-300">0.013 ETH</div>
+              <div className="table-cell border-b-[1px] border-zinc-300">256</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-6">
+                <BuyListing tokenId={0} seller="0x58f1...FE22" basePrice={0.013} max={256} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -7,8 +7,8 @@ import _ from "lodash";
 import Creation from "@/models/creation.model";
 
 import { connectToDB } from "@/lib/mongoose";
-import { creationValidation } from "@/validations/creation.validation";
-import { creationType, creationsType, inclinedDerivativesType } from "@/types/creation.type";
+import { createCreationValidation, updateCreationValidation } from "@/validations/creation.validation";
+import { creationsType, inclinedDerivativesType } from "@/types/creation.type";
 
 // 获取Creations - GET
 export async function fetchCreations({
@@ -74,7 +74,11 @@ export async function fetchCreation({ tokenId }: { tokenId: string }) {
   try {
     await connectToDB();
 
-    const res = (await Creation.findOne({ tokenId })) as creationType;
+    const res = await Creation.findOne({ tokenId }).populate({
+      path: "derivatives",
+      model: Creation,
+      select: "tokenId title avatar",
+    });
 
     if (!res) return { status: 404, errMsg: "No creation found" };
 
@@ -100,7 +104,7 @@ export async function createCreation({
   const externalLink = String(formData.get("externalLink"));
 
   // 对客户端传来的数据做校验
-  const { isValid, errors } = creationValidation({ title, description, agreement, externalLink });
+  const { isValid, errors } = createCreationValidation({ title, description, agreement, externalLink });
   if (!isValid) return { status: 400, ValidationErrors: errors };
 
   try {
@@ -116,9 +120,30 @@ export async function createCreation({
     });
     await creation.save();
 
-    revalidatePath("/creations");
+    revalidatePath("/studio/creations");
 
     return { status: 201, message: "Created" };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to create creation: ${error.message}` };
+  }
+}
+
+// 更新Creation - PATCH
+export async function updateCreation({ tokenId, formData }: { tokenId: number; formData: FormData }) {
+  const agreement = String(formData.get("agreement"));
+
+  // 对客户端传来的数据做校验
+  const { isValid, errors } = updateCreationValidation({ agreement });
+  if (!isValid) return { status: 400, ValidationErrors: errors };
+
+  try {
+    await connectToDB();
+
+    await Creation.findOneAndUpdate({ tokenId }, { agreement });
+
+    revalidatePath(`/creations/${tokenId}/edit`);
+
+    return { status: 200, message: "Updated" };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to create creation: ${error.message}` };
   }

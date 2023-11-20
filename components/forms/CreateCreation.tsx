@@ -61,11 +61,11 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
         </div>
       );
 
-      router.push(`/space/${address}/creations`);
+      router.push("/studio/creations");
     }
 
     if (isError) toast.error(`Failed with error: ${error?.message}`); // TODO回滚
-  }, [isSuccess, isError, mintTx?.hash, error?.message, address, router]);
+  }, [isSuccess, isError, mintTx?.hash, error?.message, router]);
 
   async function createAction(formData: FormData) {
     setAvatarErr("");
@@ -82,7 +82,7 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
       toast.error("The information you entered contains errors.");
       return setAvatarErr("Must select an avatar");
     }
-    
+
     const avatarRes = await uploadFile(`creations/${timeStamp}/avatar.png`, avatarFile);
 
     const res = await createCreation({
@@ -111,7 +111,7 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
 
   return (
     <form action={createAction} className="flex flex-col justify-start gap-8">
-      <AvatarInput name="avatar" required={true} errMsg={avatarErr} />
+      <AvatarInput name="avatar" label="Select your creation image" type="square" required={true} errMsg={avatarErr} />
       <AppInput
         name="title"
         label="Creation name"
