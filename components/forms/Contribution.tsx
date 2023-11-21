@@ -8,6 +8,7 @@ import { useContractRead, useNetwork, usePrepareContractWrite, useContractWrite,
 import { http, createWalletClient, WalletClient, custom } from "viem";
 import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 import toast from "react-hot-toast";
 
@@ -44,7 +45,7 @@ export default function Contribution({
     functionName: "ownerOf",
     // @ts-ignore
     args: [tokenId],
-  });
+  }) as { data: `0x${string}` };
 
   const { config } = usePrepareContractWrite({
     address: MAIN_CONTRACT,
@@ -86,7 +87,7 @@ export default function Contribution({
 
     setIssuer(issuerTba);
     setHolder(holderTba);
-  }, [address]);
+  }, [address, issuerTokenId, tokenId]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -130,15 +131,20 @@ export default function Contribution({
         <h1 className="text-body-bold line-clamp-1">{title}</h1>
         <p className="line-clamp-3 whitespace-pre-line text-small-regular text-zinc-700">{description}</p>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
             <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faEthereum} />
             <p className="text-small-regular text-zinc-700 leading-none">#{tokenId}</p>
           </div>
 
           <div className="flex items-center gap-1">
-            <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faEthereum} />
-            <p className="text-small-regular text-zinc-700 leading-none">#{hiddenAddress(holder)}</p>
+            <FontAwesomeIcon className="w-[14px] text-violet-400" icon={faWallet} />
+            <p className="text-small-regular text-zinc-700 leading-none">{hiddenAddress(holder)}</p>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <FontAwesomeIcon className="w-[12px] text-violet-400" icon={faUser} />
+            <p className="text-small-regular text-zinc-700 leading-none">{hiddenAddress(owner)}</p>
           </div>
 
           <p className="text-subtle-medium text-zinc-500 leading-none">{formatDateString(createdAt)}</p>

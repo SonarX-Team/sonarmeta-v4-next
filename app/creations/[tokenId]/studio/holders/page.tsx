@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/actions/user.action";
 import { fetchCreation, fetchCreations } from "@/actions/creation.action";
 
 import Contribution from "@/components/forms/Contribution";
+import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { creationsType } from "@/types/creation.type";
 
@@ -23,9 +24,13 @@ export default async function page({ params }: { params: { tokenId: number } }) 
 
   return (
     <div className="flex flex-col gap-4">
-      {creations.map((creation, index) => (
-        <Contribution key={index} {...creation} address={user.address} issuerTokenId={params.tokenId} />
-      ))}
+      {creations.length ? (
+        creations.map((creation, index) => (
+          <Contribution key={index} {...creation} address={user.address} issuerTokenId={params.tokenId} />
+        ))
+      ) : (
+        <SadPlaceholder size={300} text="TBA of this creation has no shareholders" />
+      )}
     </div>
   );
 }

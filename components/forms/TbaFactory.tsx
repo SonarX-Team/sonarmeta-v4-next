@@ -113,15 +113,15 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
   // TBA watcher
   useEffect(() => {
     async function watchTba() {
-      const tba = tokenboundClient.getAccount({
+      const creationTba = tokenboundClient.getAccount({
         tokenContract: CREATION_CONTRACT,
         tokenId: tokenId.toString(),
       });
 
-      setTba(tba);
+      setTba(creationTba);
 
       const isAccountDeployed = await tokenboundClient.checkAccountDeployment({
-        accountAddress: tba,
+        accountAddress: creationTba,
       });
 
       setTbaDeployed(isAccountDeployed);

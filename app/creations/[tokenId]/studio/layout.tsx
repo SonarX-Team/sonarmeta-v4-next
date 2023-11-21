@@ -54,16 +54,16 @@ export default async function layout({ params, children }: { params: { tokenId: 
 
   return (
     <div className="max-w-4xl flex flex-col gap-10 mx-auto px-6 py-12">
-      <h1 className="head-text text-left">Edit creation</h1>
+      <h1 className="head-text text-left">Creation studio</h1>
 
       <CategoryTab
-        tabs={["Edit", "Token-bound account", "Holders"]}
-        routes={["", "/tba", "/holders"]}
-        root={`/creations/${params.tokenId}/edit`}
+        tabs={["Edit", "Token-bound account", "Holders", "Listings"]}
+        routes={["/edit", "/tba", "/holders", "/listings"]}
+        root={`/creations/${params.tokenId}/studio`}
       />
 
       <div className="flex item-start gap-6">
-        <img className="max-w-[369px] aspect-[1] rounded-xl" src={res?.avatar} alt="creation-image" />
+        <img className="max-w-[333px] aspect-[1] rounded-xl" src={res?.avatar} alt="creation-image" />
 
         <div className="flex flex-col gap-6 flex-1">
           <h3 className="flex items-center gap-2 text-body-bold leading-none">

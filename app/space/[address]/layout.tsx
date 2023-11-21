@@ -16,17 +16,6 @@ export default async function layout({
 }) {
   const { user } = await getCurrentUser();
 
-  let tabNames: string[] = [];
-  let tabRoutes: string[] = [];
-
-  if (user && user.address === params.address) {
-    tabNames = ["Overview", "Creations", "IP DAOs", "Approvals"];
-    tabRoutes = ["", "/creations", "/ip-daos", "/approvals"];
-  } else {
-    tabNames = ["Overview", "Creations", "IP DAOs"];
-    tabRoutes = ["", "/creations", "/ip-daos"];
-  }
-
   const res = await fetchUser({ address: params.address, isBasic: false });
 
   if (res.status === 404) notFound();
@@ -108,7 +97,11 @@ export default async function layout({
       </div>
 
       <div className="basis-3/4 flex flex-col gap-8 sm:pl-10 sm:mt-0 mt-6">
-        <CategoryTab tabs={tabNames} routes={tabRoutes} root={`/space/${params.address}`} />
+        <CategoryTab
+          tabs={["Overview", "Creations", "IP DAOs"]}
+          routes={["", "/creations", "/ip-daos"]}
+          root={`/space/${params.address}`}
+        />
 
         {children}
       </div>

@@ -19,9 +19,15 @@ import { inclinedIpDaosType } from "@/types/ipdao.type";
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 
-export default async function page({ params }: { params: { address: `0x${string}` } }) {
+export default async function page() {
   const { user } = await getCurrentUser();
-  if (!user || user.address !== params.address) notFound(); // 只有自己才能看到本页面
+
+  if (!user)
+    return (
+      <p className="mt-3 text-base-regular text-zinc-400">
+        Please find &quot;Connect Wallet&quot; button on the topbar and connect it to continue use SonarMeta.
+      </p>
+    );
 
   // 授权的审核列表
   // Todo: 之后把本人持有的ipDAO持有的creation也要加进来
@@ -35,7 +41,7 @@ export default async function page({ params }: { params: { address: `0x${string}
     address: CREATION_CONTRACT,
     abi: creationContractAbi,
     functionName: "getTokenIds",
-    args: [params.address],
+    args: [user.address],
   });
 
   const ids: number[] = tokenIds.map((tokenId: bigint) => Number(tokenId));
@@ -83,7 +89,7 @@ export default async function page({ params }: { params: { address: `0x${string}
           Authorization applications
         </h3>
 
-        <div className="min-h-[200px] max-h-[800px] flex flex-col gap-3 bg-light-1 rounded-xl px-6 py-3 overflow-y-auto">
+        <div className="flex flex-col gap-3">
           {cApplications.length > 0 ? (
             cApplications.map((application, index) => (
               <div key={index} className="flex justify-between items-center gap-3">
@@ -150,7 +156,7 @@ export default async function page({ params }: { params: { address: `0x${string}
           IP DAO applications
         </h3>
 
-        <div className="min-h-[200px] max-h-[800px] flex flex-col gap-3 bg-light-1 rounded-xl px-6 py-3 overflow-y-auto">
+        <div className="flex flex-col gap-3">
           {daoApplications.length > 0 ? (
             daoApplications.map((application, index) => (
               <div key={index} className="flex justify-between items-center gap-3">

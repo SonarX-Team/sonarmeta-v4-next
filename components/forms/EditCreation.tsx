@@ -20,9 +20,8 @@ export default function EditCreation({ tokenId, agreement }: { tokenId: number; 
     });
 
     // 处理校验信息失败
-    if (res.ValidationErrors) {
+    if (res.ValidationErrors)
       if (res.ValidationErrors.agreement) setAgreementErr(res.ValidationErrors.agreement._errors[0]);
-    }
 
     if (res.status === 200 && res.message === "Updated") toast.success("Saved successfully!");
     else {
@@ -44,7 +43,7 @@ export default function EditCreation({ tokenId, agreement }: { tokenId: number; 
       />
 
       <div className="h-[50px]">
-        <AppButton text="Save agreement" pendingText="Saving..." type="submit" />
+        <AppButton text="Save" pendingText="Saving..." type="submit" />
       </div>
     </form>
   );

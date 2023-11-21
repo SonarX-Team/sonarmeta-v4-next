@@ -141,7 +141,7 @@ export async function updateCreation({ tokenId, formData }: { tokenId: number; f
 
     await Creation.findOneAndUpdate({ tokenId }, { agreement });
 
-    revalidatePath(`/creations/${tokenId}/edit`);
+    revalidatePath(`/creations/${tokenId}/studio`);
 
     return { status: 200, message: "Updated" };
   } catch (error: any) {

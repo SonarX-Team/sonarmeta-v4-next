@@ -26,8 +26,8 @@ export default function StudioCreationCard({ tokenId, title, description, avatar
       </div>
 
       <div className="flex items-center text-small-regular gap-3">
-        <Link href={`/creations/${tokenId}/edit`}>
-          <ServerButton text="Edit" />
+        <Link href={`/creations/${tokenId}/studio`}>
+          <ServerButton text="Studio" />
         </Link>
         <Link href={`/creations/${tokenId}`}>
           <ServerButton text="View" />

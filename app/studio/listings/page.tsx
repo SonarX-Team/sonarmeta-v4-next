@@ -4,10 +4,12 @@ import { polygonMumbai } from "viem/chains";
 import { getCurrentUser } from "@/actions/user.action";
 import { fetchCreations } from "@/actions/creation.action";
 
-import StudioCreationCard from "@/components/cards/StudioCreationCard";
-import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT } from "@/constants";
+import ApproveMarket from "@/components/forms/ApproveMarket";
+import StudioListingItem from "@/components/forms/StudioListingItem";
+import SadPlaceholder from "@/components/shared/SadPlaceholder";
+
+import { AUTHORIZATION_CONTRACT } from "@/constants";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
-import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { creationsType } from "@/types/creation.type";
 
 export default async function page() {
@@ -25,8 +27,6 @@ export default async function page() {
     transport: http(),
   });
 
-  // 从当前登录用户自己的钱包中检索Authorization
-
   // @ts-ignore
   const aTokenIds: bigint[] = await publicClient.readContract({
     address: AUTHORIZATION_CONTRACT,
@@ -36,39 +36,37 @@ export default async function page() {
   });
 
   const aids: number[] = aTokenIds.map((tokenId: bigint) => Number(tokenId));
-  const addrList: `0x${string}`[] = aids.map(() => user.address);
-
-  // @ts-ignore
-  const aTokenAmounts: bigint[] = await publicClient.readContract({
-    address: AUTHORIZATION_CONTRACT,
-    abi: authorizationContractAbi,
-    functionName: "balanceOfBatch",
-    args: [addrList, aids],
-  });
-
-  // 从当前登录用户持有的Creation的TBA中检索Authorization
-
-  // @ts-ignore
-  const cTokenIds: bigint[] = await publicClient.readContract({
-    address: CREATION_CONTRACT,
-    abi: creationContractAbi,
-    functionName: "getTokenIds",
-    args: [user.address],
-  });
-
-  const cids: number[] = cTokenIds.map((tokenId: bigint) => Number(tokenId));
 
   const { creations } = (await fetchCreations({
     pageNumber: 1,
     pageSize: 20,
-    tokenIds: cids,
+    tokenIds: aids,
   })) as { creations: creationsType[] };
 
   return (
-    <div className="flex flex-col gap-4">
-      {creations.map((creation, index) => (
-        <StudioCreationCard key={index} {...creation} />
-      ))}
+    <div className="flex flex-col gap-8">
+      <ApproveMarket address={user.address} />
+
+      {creations.length > 0 ? (
+        <div className="table table-fixed w-full">
+          <div className="table-header-group">
+            <div className="table-row text-base-bold text-zinc-500">
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Represent for</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Available</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Base price</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Amount</div>
+              <div className="table-cell border-b-[1px] border-zinc-300 py-2">List</div>
+            </div>
+          </div>
+          <div className="table-row-group">
+            {creations.map((creation, index) => (
+              <StudioListingItem key={index} {...creation} address={user.address} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <SadPlaceholder size={300} text="Your account has no authorization tokens" />
+      )}
     </div>
   );
 }

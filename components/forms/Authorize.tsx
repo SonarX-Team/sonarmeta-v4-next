@@ -114,7 +114,7 @@ export default function Authorize({
     }
 
     authorizeDb();
-  }, [isSuccess, isError, tx?.hash, error?.message]);
+  }, [isSuccess, isError, tx?.hash, error?.message, inclinedTokenId, issuerTokenId, path]);
 
   async function authorizeAction() {
     if (!inclinedTbaDeployed)

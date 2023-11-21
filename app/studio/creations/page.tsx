@@ -5,6 +5,8 @@ import { getCurrentUser } from "@/actions/user.action";
 import { fetchCreations } from "@/actions/creation.action";
 
 import StudioCreationCard from "@/components/cards/StudioCreationCard";
+import SadPlaceholder from "@/components/shared/SadPlaceholder";
+
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { creationsType } from "@/types/creation.type";
@@ -42,9 +44,11 @@ export default async function page() {
 
   return (
     <div className="flex flex-col gap-4">
-      {creations.map((creation, index) => (
-        <StudioCreationCard key={index} {...creation} />
-      ))}
+      {creations.length > 0 ? (
+        creations.map((creation, index) => <StudioCreationCard key={index} {...creation} />)
+      ) : (
+        <SadPlaceholder size={300} text="No data source found" />
+      )}
     </div>
   );
 }
