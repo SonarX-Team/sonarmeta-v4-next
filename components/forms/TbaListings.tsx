@@ -152,22 +152,22 @@ export default function TbaListings({ address, tokenId }: { address: `0x${string
       </form>
 
       {creations.length > 0 ? (
-        <div className="table table-fixed w-full">
-          <div className="table-header-group">
-            <div className="table-row text-base-bold text-zinc-500">
-              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Represent for</div>
-              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Available</div>
-              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Base price</div>
-              <div className="table-cell border-b-[1px] border-zinc-300 py-2">Amount</div>
-              <div className="table-cell border-b-[1px] border-zinc-300 py-2">List</div>
-            </div>
-          </div>
-          <div className="table-row-group">
+        <table className="table-fixed w-full">
+          <thead className="text-left">
+            <tr className="text-base-bold text-zinc-500">
+              <th className="border-b-[1px] border-zinc-300 py-2">Represent for</th>
+              <th className="border-b-[1px] border-zinc-300 py-2">Available</th>
+              <th className="border-b-[1px] border-zinc-300 py-2">Base price</th>
+              <th className="border-b-[1px] border-zinc-300 py-2">Amount</th>
+              <th className="border-b-[1px] border-zinc-300 py-2">List</th>
+            </tr>
+          </thead>
+          <tbody>
             {creations.map((creation, index) => (
               <CreationListingItem key={index} {...creation} userAddr={address} tbaAddr={tba} />
             ))}
-          </div>
-        </div>
+          </tbody>
+        </table>
       ) : (
         <SadPlaceholder size={300} text="TBA of this creation has no authorization tokens" />
       )}

@@ -30,7 +30,7 @@ export async function fetchListings({
     const query = Listing.find(filter).sort({ createdAt: "desc" }).skip(skipAmount).limit(pageSize).populate({
       path: "creation",
       model: Creation,
-      select: "tokenId title avatar",
+      select: "tokenId title description avatar",
     });
 
     const listings = await query.exec();
@@ -71,5 +71,30 @@ export async function upsertListing({
     return { status: 200, message: "Upserted" };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to upsert listing: ${error.message}` };
+  }
+}
+
+// 创建或更新一个Listing - POST/PATCH
+export async function removeListing({
+  tokenId,
+  seller,
+  path,
+}: {
+  tokenId: number;
+  seller: `0x${string}`;
+  path: string;
+}) {
+  try {
+    await connectToDB();
+
+    const creation = await Creation.findOne({ tokenId });
+
+    await Listing.findOneAndDelete({ creation: creation._id, seller });
+
+    revalidatePath(path);
+
+    return { status: 204, message: "Deleted" };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to remove listing: ${error.message}` };
   }
 }

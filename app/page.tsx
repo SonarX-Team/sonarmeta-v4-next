@@ -45,7 +45,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto">
           <h1 className="head-text mb-12">Getting started</h1>
 
-          <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mb-12">{guideCards}</div>
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4 mb-12">{guideCards}</div>
 
           <div className="flex gap-4 justify-center items-center h-[50px]">
             <Link href="/creations">
@@ -159,10 +159,10 @@ export default async function Home() {
       </div>
 
       <div className="flex flex-col items-center gap-6 px-6 py-20">
-        <h1 className="head-text text-center">Say goodbye to Web2 platform constraints today!</h1>
+        <h1 className="head-text text-center">Say goodbye to Web2 content platform constraints today</h1>
 
         <p className="max-w-[800px] text-body-bold text-zinc-700 text-center">
-          Decentralized mechanisms, driven by creators, govern all traffic value here.
+          Decentralized mechanisms, driven by creators, govern all traffic value here
         </p>
       </div>
     </>

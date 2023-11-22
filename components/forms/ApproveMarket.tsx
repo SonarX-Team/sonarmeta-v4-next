@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useContractRead, useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 import toast from "react-hot-toast";
 
@@ -11,8 +10,6 @@ import { AUTHORIZATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 
 export default function ApproveMarket({ address }: { address: `0x${string}` }) {
-  const router = useRouter();
-
   const { chain } = useNetwork();
 
   const { data: isApproved } = useContractRead({
@@ -58,11 +55,11 @@ export default function ApproveMarket({ address }: { address: `0x${string}` }) {
         </div>
       );
 
-      router.refresh();
+      location.reload();
     }
 
     if (isError) toast.error(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError, tx?.hash, error?.message, router]);
+  }, [isSuccess, isError, tx?.hash, error?.message]);
 
   async function approveAction() {
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });

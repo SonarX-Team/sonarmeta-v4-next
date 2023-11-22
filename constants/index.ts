@@ -1,11 +1,13 @@
 import {
   faPlus,
   faStore,
-  faHammer,
   faInfoCircle,
   faWallet,
   faUsersGear,
   faDove,
+  faCircleNodes,
+  faBridgeCircleCheck,
+  faCodeMerge,
 } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
@@ -41,28 +43,41 @@ export const navLinks: { icon: IconProp; route: string; label: string }[] = [
 // 首页Getting started部分的卡片内容
 export const Guides = [
   {
-    title: "Connect your wallet",
+    title: "Connect wallet to sign in",
     description:
       "Install and connect a decentralized wallet by press the top-right cornor button, such as MetaMask, to link your decentralized account.",
     icon: faWallet,
   },
   {
+    title: "Mint network nodes",
+    description:
+      "Mint an NFT pointing to your creation and bind it an token-bound account to issue, give, and receive authorization token as a node on the value network.",
+    icon: faCircleNodes,
+  },
+  {
+    title: "Establish network edges",
+    description:
+      "Issue authorization tokens to any node that wants to be your derivative, establish bridges for the flow of node value and grant legitimacy to them.",
+    icon: faBridgeCircleCheck,
+  },
+  {
+    title: "Buy/Sell on the marketplace",
+    description:
+      "Contributing traffic enhances the value of the node, allowing the holder to list their authorization tokens at higher prices on the Marketplace.",
+    icon: faStore,
+  },
+  {
+    title: "Make your node a co-creation/component",
+    description:
+      "A creation can also be a co-creation or a component since the token-bound account. Collaborators can merge/transfer their creations to others.",
+    icon: faCodeMerge,
+  },
+
+  {
     title: "Create/Join IP DAOs",
     description:
-      "An IP DAO is the owner of co-creations, which authorizes derivatives, and distributes profit among its members.",
+      "If you don't want to create solo, you can create/join an IP DAO, which will be the owner of the co-creation and distributes profit among its members.",
     icon: faUsersGear,
-  },
-  {
-    title: "Bind and submit",
-    description:
-      "Mint a co-creation NFT and bind an account to it so that members within the IP DAO can submit their component NFTs to it.",
-    icon: faHammer,
-  },
-  {
-    title: "Authorize on the marketplace",
-    description:
-      "Mint authorization NFTs to a co-creation token-bound account and use that account to list them on the marketplace to connect others.",
-    icon: faStore,
   },
 ];
 

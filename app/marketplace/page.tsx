@@ -23,28 +23,29 @@ export default async function page() {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         {listings && listings.length > 0 ? (
-          <div className="table table-fixed w-full">
-            <div className="table-header-group">
-              <div className="table-row text-base-bold text-zinc-500">
-                <div className="table-cell border-b-[1px] border-zinc-300 py-2">Creation</div>
-                <div className="table-cell border-b-[1px] border-zinc-300 py-2">Seller</div>
-                <div className="table-cell border-b-[1px] border-zinc-300 py-2">Base price</div>
-                <div className="table-cell border-b-[1px] border-zinc-300 py-2">Available</div>
-                <div className="table-cell border-b-[1px] border-zinc-300 py-2">Trade</div>
-              </div>
-            </div>
-            <div className="table-row-group">
+          <table className="table-fixed w-full">
+            <thead className="text-left">
+              <tr className="text-base-bold text-zinc-500">
+                <th className="border-b-[1px] border-zinc-300 py-2">Creation</th>
+                <th className="border-b-[1px] border-zinc-300 py-2">Seller</th>
+                <th className="border-b-[1px] border-zinc-300 py-2">Base price</th>
+                <th className="border-b-[1px] border-zinc-300 py-2">Available</th>
+                <th className="border-b-[1px] border-zinc-300 py-2">Trade</th>
+              </tr>
+            </thead>
+            <tbody>
               {listings.map((listing, index) => (
                 <BuyListing
                   key={index}
                   tokenId={listing.creation.tokenId}
                   title={listing.creation.title}
+                  description={listing.creation.description}
                   avatar={listing.creation.avatar}
                   seller={listing.seller}
                 />
               ))}
-            </div>
-          </div>
+            </tbody>
+          </table>
         ) : (
           <SadPlaceholder size={300} text="No data source found" />
         )}

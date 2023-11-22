@@ -50,10 +50,6 @@ body {
   margin-top: 8px;
 }
 
-.text-shadow {
-  text-shadow: 2px 3px 0px #868889;
-}
-
 input,
 textarea {
   font-size: 14px;
@@ -62,6 +58,14 @@ input::placeholder,
 textarea::placeholder {
   color: #aaa;
   font-size: 14px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* 自定义自转动画 */

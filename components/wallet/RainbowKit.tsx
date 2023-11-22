@@ -3,12 +3,12 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, sepolia, goerli, polygon, polygonMumbai, avalancheFuji } from "wagmi/chains";
+import { mainnet, linea, polygon, polygonMumbai, lineaTestnet, goerli } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { infuraProvider } from "wagmi/providers/infura";
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, polygonMumbai, sepolia, goerli, avalancheFuji],
+  [mainnet, goerli, polygon, polygonMumbai, linea, lineaTestnet],
   [infuraProvider({ apiKey: "2b7300b9852a435d86a5dc856e462c0e" }), publicProvider()]
 );
 
