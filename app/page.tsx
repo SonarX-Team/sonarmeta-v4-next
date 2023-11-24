@@ -26,8 +26,8 @@ export default async function Home() {
           </p>
 
           <div className="flex gap-4 items-center h-[50px]">
-            <Link href="/creations">
-              <ServerButton text="Explore creations" />
+            <Link href="https://youtu.be/eT6uTgPD-d8" target="_blank">
+              <ServerButton text="Watch video" />
             </Link>
             <Link href="/create">
               <ServerButton text="Create" />

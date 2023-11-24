@@ -235,10 +235,10 @@ export default function StudioListingItem({
         <td className="border-b-[1px] border-zinc-300 py-6">{Number(available)}</td>
 
         {/* Base price */}
-        <td className="border-b-[1px] border-zinc-300 py-6">{Number(formatEther(listing.basePrice))}</td>
+        <td className="border-b-[1px] border-zinc-300 py-6">{listing && Number(formatEther(listing.basePrice))}</td>
 
         {/* Amount to sell */}
-        <td className="border-b-[1px] border-zinc-300 py-6">{Number(listing.amount)}</td>
+        <td className="border-b-[1px] border-zinc-300 py-6">{listing && Number(listing.amount)}</td>
 
         <td className="border-b-[1px] border-zinc-300 text-small-regular py-6">
           <AppButton text="List" handleClick={openModal} />
