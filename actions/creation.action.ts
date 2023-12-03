@@ -91,22 +91,20 @@ export async function fetchCreation({ tokenId }: { tokenId: string }) {
 // 创建新Creation - POST
 export async function createCreation({
   tokenId,
-  formData,
+  title,
+  description,
+  agreement,
+  externalLink,
   avatar,
 }: {
   tokenId: number;
-  formData: FormData;
+  title: string;
+  description: string;
+  agreement: string;
+  externalLink: string;
   avatar: string;
 }) {
-  const title = String(formData.get("title"));
-  const description = String(formData.get("description"));
-  const agreement = String(formData.get("agreement"));
-  const externalLink = String(formData.get("externalLink"));
-
-  // 对客户端传来的数据做校验
-  const { isValid, errors } = createCreationValidation({ title, description, agreement, externalLink });
-  if (!isValid) return { status: 400, ValidationErrors: errors };
-
+  // 无需二次数据校验，前端已可信
   try {
     await connectToDB();
 
