@@ -15,16 +15,15 @@ export default async function Home() {
           <h1 className="md:text-heading1-bold text-heading1-small text-center">
             Craft Your IP & Join the Creative Network as a Stakeholder
           </h1>
-
           <p className="md:text-heading3-normal text-heading4-medium text-center text-dark-2 md:leading-10 leading-8">
-            SonarMeta shapes a metaverse powered entirely by creators, providing unrestricted traffic and a worry-free
-            copyright environment. Start your own IP journey & contribute to others here right away.
+            SonarMeta shapes a metaverse driven entirely by creators, enabling them to freely buy/sell VIEWs without
+            being constrained by the centralized platforms, and a worry-free copyright environment. Build shareholder
+            relationships with others, fostering peer-to-peer incentives and win-win scenarios now!
           </p>
 
           <p className="bg-violet-400 rounded-md text-light-2 px-3 py-1">
-            This is an ALPHA demo and the BETA version will come soon
+            ALPHA v4.2 demo now, and BETA will come soon
           </p>
-
           <div className="flex gap-4 items-center h-[50px]">
             <Link href="https://youtu.be/eT6uTgPD-d8" target="_blank">
               <ServerButton text="Watch video" />
@@ -64,10 +63,10 @@ export default async function Home() {
 
           <div className="md:flex justify-between">
             <p className="basis-1/2 text-body-normal text-zinc-700 leading-8 md:mb-0 mb-3">
-              An on-chain network where the value of IP can be captured and circulated, traffic distribution is
-              determined by the entire creator ecosystem rather than being controlled by Web2 content platforms,
-              copyright is protected, IPs form into interest-based relationships, and everyone becomes a shareholder of
-              the IPs they contribute to, enjoying their deserved profits.
+              An on-chain network where the value of IP can be captured and circulated, VIEWs distribution is determined
+              by the entire creator ecosystem rather than being controlled by Web2 content platforms, copyright is
+              protected, IPs form into interest-based relationships, and everyone becomes a shareholder of the IPs they
+              contribute to, enjoying their deserved profits.
             </p>
 
             <div className="basis-1/2 flex md:justify-end h-[50px]">
@@ -105,9 +104,9 @@ export default async function Home() {
             <div className="basis-1/2">
               <h1 className="head-text mb-3">Value snowballing</h1>
               <p className="text-body-normal text-zinc-700 leading-8 md:mb-0 mb-3">
-                When the traffic of a derivative increases, it will bring influence to its original, thus, more people
-                aspire to obtain traffic from latter, thus increasing the value of the authorization held by former. As
-                traffic circulates, its shared nature creates additional value, resulting in a constantly increasing
+                When the VIEWs of a derivative increases, it will bring influence to its original, thus, more people
+                aspire to obtain VIEWs from latter, thus increasing the value of the authorization held by former. As
+                VIEWs circulates, its shared nature creates additional value, resulting in a constantly increasing
                 network value. As the network grows, it attracts more people to join, then forming a closed loop of
                 value growth.
               </p>
@@ -162,7 +161,7 @@ export default async function Home() {
         <h1 className="head-text text-center">Say goodbye to Web2 content platform constraints today</h1>
 
         <p className="max-w-[800px] text-body-bold text-zinc-700 text-center">
-          Decentralized mechanisms, driven by creators, govern all traffic value here
+          Decentralized mechanisms, driven by creators, govern all VIEWs value here
         </p>
       </div>
     </>

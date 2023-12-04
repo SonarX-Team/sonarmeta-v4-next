@@ -59,27 +59,27 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
   }, [isSuccess, isError, tx?.hash, error?.message, router]);
 
   async function createAction(formData: FormData) {
-    // step0 清空页面报错
+    // step1 清空页面报错
     setAvatarErr("");
     setTitleErr("");
     setDescriptionErr("");
     setAgreementErr("");
     setExternalLinkErr("");
 
-    // step1 获取信息
+    // step2 获取信息
+    const avatarFile = formData.get("avatar") as File;
     const title = String(formData.get("title"));
     const description = String(formData.get("description"));
     const agreement = String(formData.get("agreement"));
     const externalLink = String(formData.get("externalLink"));
 
-    // step2 信息校验
+    // step3 信息校验
     const { isValid, errors: validationErrors } = createCreationValidation({
       title,
       description,
       agreement,
       externalLink,
     });
-
     if (!isValid && validationErrors) {
       if (validationErrors.title) setTitleErr(validationErrors.title._errors[0]);
       if (validationErrors.description) setDescriptionErr(validationErrors.description._errors[0]);
@@ -88,9 +88,6 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
 
       return toast.error("The information you entered contains errors.");
     }
-
-    // step3 图片校验
-    const avatarFile = formData.get("avatar") as File;
 
     if (!(avatarFile && avatarFile.size > 0)) {
       toast.error("The information you entered contains errors.");
@@ -108,8 +105,7 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
     }
 
     // step5 上传图片
-    const timeStamp = Date.now();
-    const avatarRes = await uploadFile(`creations/${timeStamp}/avatar.png`, avatarFile);
+    const avatarRes = await uploadFile(`creations/${Date.now()}/avatar.png`, avatarFile);
 
     // step6 后端逻辑
     await createCreation({

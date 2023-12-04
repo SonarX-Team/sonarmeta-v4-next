@@ -11,10 +11,9 @@ export default function Footer() {
               <img className="lg:w-[50%] w-[180px]" src="/logo-col.png" alt="Sonarmeta Logo" />
             </div>
 
-            <p className="text-small-regular text-zinc-700 text-center">
-              Here, the value of IP can be captured and circulated, traffic distribution is determined by the entire
-              creator ecosystem, copyright is protected, IPs form into interest-based relationships, and everyone
-              becomes a shareholder of the IPs they contribute to, enjoying their deserved profits.
+            <p className="text-zinc-700 text-center">
+              Welcome to SonarMeta, an on-chain decentralized creation network for IP authorization and value
+              circulation.
             </p>
           </div>
 

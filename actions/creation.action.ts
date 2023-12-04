@@ -7,7 +7,7 @@ import _ from "lodash";
 import Creation from "@/models/creation.model";
 
 import { connectToDB } from "@/lib/mongoose";
-import { createCreationValidation, updateCreationValidation } from "@/validations/creation.validation";
+import { updateCreationValidation } from "@/validations/creation.validation";
 import { creationsType, inclinedDerivativesType } from "@/types/creation.type";
 
 // 获取Creations - GET

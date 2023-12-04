@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 import { deleteMulti, uploadFile } from "@/lib/alioss";
 import { createIpDao } from "@/actions/ipdao.action";
+import { ipDaoValidation } from "@/validations/ipdao.validation";
 
 import AppInput from "../ui/AppInput";
 import AppButton from "../ui/AppButton";
@@ -17,7 +18,6 @@ import CoverInput from "../ui/coverInput";
 import ImagesInput from "../ui/ImagesInput";
 
 import { MAIN_CONTRACT } from "@/constants";
-
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 
 export default function CreateIpDao({ address }: { address: `0x${string}` }) {
@@ -42,7 +42,7 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     chainId: chain?.id,
   });
 
-  const { data: createTx, write } = useContractWrite(config);
+  const { data: createTx, writeAsync } = useContractWrite(config);
 
   const { error, isLoading, isSuccess, isError } = useWaitForTransaction({
     hash: createTx?.hash,
@@ -73,6 +73,7 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
   }, [isSuccess, isError, createTx?.hash, error?.message, router, address, config.result]);
 
   async function createAction(formData: FormData) {
+    // step0 清空页面报错
     setAvatarErr("");
     setCoverErr("");
     setTitleErr("");
@@ -81,12 +82,25 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     setImagesErr("");
     setExternalLinkErr("");
 
-    const timeStamp = Date.now();
-
+    // step2 获取信息
     const avatarFile = formData.get("avatar") as File;
     const coverFile = formData.get("cover") as File;
+    const title = String(formData.get("title"));
+    const description = String(formData.get("description"));
+    const recruitment = String(formData.get("recruitment"));
+    const externalLink = String(formData.get("externalLink"));
 
-    // 客户端处理图片上传
+    // step3 信息校验
+    const { isValid, errors: validationErrors } = ipDaoValidation({ title, description, recruitment, externalLink });
+    if (!isValid && validationErrors) {
+      if (validationErrors.title) setTitleErr(validationErrors.title._errors[0]);
+      if (validationErrors.description) setDescriptionErr(validationErrors.description._errors[0]);
+      if (validationErrors.recruitment) setRecruitmentErr(validationErrors.recruitment._errors[0]);
+      if (validationErrors.externalLink) setExternalLinkErr(validationErrors.externalLink._errors[0]);
+
+      return toast.error("The information you entered contains errors.");
+    }
+
     if (!(avatarFile && avatarFile.size > 0)) {
       toast.error("The information you entered contains errors.");
       return setAvatarErr("Must select an avatar");
@@ -100,24 +114,30 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
       return setImagesErr("Must add one image at least");
     }
 
-    // 处理头像和封面
+    // step4 校验全部通过后进行钱包交互
+    try {
+      toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
+
+      await writeAsync?.();
+    } catch (error: any) {
+      if (error.message.includes("User rejected the request."))
+        return toast.error("You rejected the request in your wallet.");
+    }
+
+    // step5 上传图片
+    const timeStamp = Date.now();
+    
     const avatarRes = await uploadFile(`ipdaos/${timeStamp}/avatar.png`, avatarFile);
     const coverRes = await uploadFile(`ipdaos/${timeStamp}/cover.png`, coverFile);
 
-    // 处理图册
     const imageUrls: string[] = [];
     for (let i = 0; i < imagesAdded.current.length; i++) {
       const result = await uploadFile(`ipdaos/${timeStamp}/image-${i}.png`, imagesAdded.current[i]);
       imageUrls.push(result.url);
     }
 
-    // 图册在formData里可能引起413错误，所以这个action不传formData，把字段读出来
-    const title = String(formData.get("title"));
-    const description = String(formData.get("description"));
-    const recruitment = String(formData.get("recruitment"));
-    const externalLink = String(formData.get("externalLink"));
-
-    const res = await createIpDao({
+    // step6 后端逻辑
+    await createIpDao({
       address: String(config.result) as `0x${string}`,
       title,
       description,
@@ -128,27 +148,6 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
       cover: coverRes.url,
       images: imageUrls,
     });
-
-    // 处理校验信息失败
-    if (res.ValidationErrors) {
-      if (res.ValidationErrors.title) setTitleErr(res.ValidationErrors.title._errors[0]);
-      if (res.ValidationErrors.description) setDescriptionErr(res.ValidationErrors.description._errors[0]);
-      if (res.ValidationErrors.recruitment) setRecruitmentErr(res.ValidationErrors.recruitment._errors[0]);
-      if (res.ValidationErrors.externalLink) setExternalLinkErr(res.ValidationErrors.externalLink._errors[0]);
-    }
-
-    if (res.status === 201 && res.message === "Created") {
-      toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
-      write?.();
-    } else {
-      if (res.status === 400) toast.error("The information you entered contains errors.");
-      if (res.status === 500) toast.error("Internal server error.");
-
-      // 回滚
-      if (avatarFile && avatarFile.size > 0) await deleteMulti([avatarRes.url]);
-      if (coverFile && coverFile.size > 0) await deleteMulti([coverRes.url]);
-      if (imagesAdded.current.length > 0) await deleteMulti(imageUrls);
-    }
   }
 
   return (
@@ -208,10 +207,10 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
 
       <div className="h-[50px]">
         <AppButton
-          text={write ? "Create and deploy" : "Cannot create"}
+          text={writeAsync ? "Create and deploy" : "Cannot create"}
           otherPendingStatus={isLoading}
           pendingText={isLoading ? "Deploying a new IP DAO contract..." : "Creating..."}
-          disabled={!write}
+          disabled={!writeAsync}
           type="submit"
         />
       </div>

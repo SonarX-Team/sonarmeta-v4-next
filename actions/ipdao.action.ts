@@ -8,7 +8,6 @@ import IpDao from "@/models/ipdao.model";
 import User from "@/models/user.model";
 
 import { connectToDB } from "@/lib/mongoose";
-import { ipDaoValidation } from "@/validations/ipdao.validation";
 import { inclinedIpDaosType, ipDaosType, ipDaoType } from "@/types/ipdao.type";
 
 // 获取IP DAOs - GET
@@ -129,10 +128,7 @@ export async function createIpDao({
   cover: string;
   images: string[];
 }) {
-  // 对客户端传来的数据做校验
-  const { isValid, errors } = ipDaoValidation({ title, description, recruitment, externalLink });
-  if (!isValid) return { status: 400, ValidationErrors: errors };
-
+  // 无需二次数据校验，前端已可信
   try {
     await connectToDB();
 

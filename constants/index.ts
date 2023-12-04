@@ -63,7 +63,7 @@ export const Guides = [
   {
     title: "Buy/Sell on the marketplace",
     description:
-      "Contributing traffic enhances the value of the node, allowing the holder to list their authorization tokens at higher prices on the Marketplace.",
+      "Contributing VIEWs enhances the value of the node, allowing the holder to list their authorization tokens at higher prices on the Marketplace.",
     icon: faStore,
   },
   {
