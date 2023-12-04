@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import toast from "react-hot-toast";
 
 import { addMember } from "@/actions/ipdao.action";
+
 import AppButton from "../ui/AppButton";
+import TxToast from "../ui/TxToast";
+
 import ipDaoContractAbi from "@/contracts/sonarmeta/IpDao.json";
 
 export default function AddMember({
@@ -39,23 +41,7 @@ export default function AddMember({
   });
 
   useEffect(() => {
-    if (isSuccess)
-      toast.custom(
-        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-          <div>😃</div>
-          <div>
-            Member added successfully! You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+    if (isSuccess) toast.custom(<TxToast title="Member added successfully!" hash={tx?.hash} />);
     if (isError) toast.error(`Failed with error: ${error?.message}`);
   }, [isSuccess, isError, tx?.hash, error?.message]);
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { formatEther, parseEther } from "viem";
@@ -11,6 +10,7 @@ import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
 import AppModal from "../ui/AppModal";
+import TxToast from "../ui/TxToast";
 
 import { removeListing } from "@/actions/listing.action";
 import { MARKETPLACE_CONTRACT } from "@/constants";
@@ -65,24 +65,10 @@ export default function BuyListing({
     hash: tx?.hash,
   });
 
+  // Tx receipt watcher
   useEffect(() => {
     if (isSuccess) {
-      toast.custom(
-        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-          <div>😃</div>
-          <div>
-            Bought successfully! You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+      toast.custom(<TxToast title="Bought listing successfully!" hash={tx?.hash} />);
       router.refresh();
     }
 
@@ -109,17 +95,9 @@ export default function BuyListing({
     }
   }
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
   return (
     <>
-      <AppModal isOpen={isModalOpen} onClose={closeModal}>
+      <AppModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="flex flex-col gap-8">
           <h1 className="text-heading3-normal">Buy authorization token</h1>
 
@@ -228,7 +206,7 @@ export default function BuyListing({
         <td className="border-b-[1px] border-zinc-300 py-6">{Number(available)}</td>
 
         <td className="border-b-[1px] border-zinc-300 text-small-regular py-6">
-          <AppButton text="Buy now" handleClick={openModal} />
+          <AppButton text="Buy now" handleClick={() => setModalOpen(true)} />
         </td>
       </tr>
     </>

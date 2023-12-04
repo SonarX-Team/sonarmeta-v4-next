@@ -13,7 +13,7 @@ import AppInput from "../ui/AppInput";
 import AppButton from "../ui/AppButton";
 import AppTextarea from "../ui/AppTextarea";
 import AvatarInput from "../ui/AvatarInput";
-import CustomToast from "../ui/CustomToast";
+import TxToast from "../ui/TxToast";
 
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import { MAIN_CONTRACT } from "@/constants";
@@ -22,6 +22,8 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
   const router = useRouter();
 
   const { chain } = useNetwork();
+
+  console.log(chain?.name);
 
   const [avatarErr, setAvatarErr] = useState<string>("");
   const [titleErr, setTitleErr] = useState<string>("");
@@ -44,14 +46,10 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
     hash: tx?.hash,
   });
 
+  // Tx receipt watcher
   useEffect(() => {
     if (isSuccess) {
-      toast.custom(
-        <CustomToast
-          title="Creation minted successfully, you can check the tx on"
-          url={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
-        />
-      );
+      toast.custom(<TxToast title="Creation minted successfully!" hash={tx?.hash} />);
       router.push("/studio/creations");
     }
 

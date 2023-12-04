@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
@@ -13,6 +12,7 @@ import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
 import AppModal from "../ui/AppModal";
+import TxToast from "../ui/TxToast";
 
 import { upsertListing } from "@/actions/listing.action";
 import { AUTHORIZATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
@@ -102,21 +102,7 @@ export default function CreationListingItem({
         data: functionData,
       });
 
-      toast.custom(
-        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-          <div>😃</div>
-          <div>
-            Listed successfully! You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${txHash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
+      toast.custom(<TxToast title="Listed successfully!" hash={txHash} />);
 
       const { status } = await upsertListing({ tokenId, seller: tbaAddr, path });
 
@@ -128,17 +114,9 @@ export default function CreationListingItem({
     }
   }
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
   return (
     <>
-      <AppModal isOpen={isModalOpen} onClose={closeModal}>
+      <AppModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="flex flex-col gap-8">
           <h1 className="text-heading3-normal">Buy authorization token</h1>
 
@@ -250,7 +228,7 @@ export default function CreationListingItem({
         <td className="border-b-[1px] border-zinc-300 py-6">{listing && Number(listing.amount)}</td>
 
         <td className="border-b-[1px] border-zinc-300 text-small-regular py-6">
-          <AppButton text="List" handleClick={openModal} />
+          <AppButton text="List" handleClick={() => setModalOpen(true)} />
         </td>
       </tr>
     </>

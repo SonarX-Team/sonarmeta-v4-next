@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractRead } from "wagmi";
@@ -10,6 +9,7 @@ import { polygonMumbai } from "viem/chains";
 import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
+import TxToast from "../ui/TxToast";
 import TitleCard from "../cards/TitleCard";
 
 import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
@@ -133,72 +133,27 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
   // Create TBA tx watcher
   useEffect(() => {
     if (isDeploySuccess) {
-      toast.custom(
-        <div className="w-[350px] bg-light-1 shadow-lg rounded-lg text-body-normal flex items-center gap-3 py-4 px-5">
-          <div>😃</div>
-          <div>
-            Token-bound account deployed successfully. You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${deployTxHash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+      toast.custom(<TxToast title="Token-bound account deployed successfully!" hash={deployTxHash} />);
       router.refresh();
     }
 
     if (isDeployError) toast.error(`Failed with error: ${deployError?.message}`);
   }, [isDeploySuccess, isDeployError, deployError?.message, deployTxHash, router]);
 
-  // Sign TBA tx watcher
+  // Sign TBA tx receipt watcher
   useEffect(() => {
     if (isSignSuccess) {
-      toast.custom(
-        <div className="w-[350px] bg-light-1 shadow-lg rounded-lg text-body-normal flex items-center gap-3 py-4 px-5">
-          <div>😃</div>
-          <div>
-            Token-bound account signed successfully. You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${signTx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+      toast.custom(<TxToast title="Token-bound account signed successfully!" hash={signTx?.hash} />);
       router.refresh();
     }
 
     if (isSignError) toast.error(`Failed with error: ${signError?.message}`);
   }, [isSignSuccess, isSignError, signError?.message, signTx?.hash, router]);
 
-  // Activate TBA tx watcher
+  // Activate TBA tx receipt watcher
   useEffect(() => {
     if (isActivateSuccess) {
-      toast.custom(
-        <div className="w-[350px] bg-light-1 shadow-lg rounded-lg text-body-normal flex items-center gap-3 py-4 px-5">
-          <div>😃</div>
-          <div>
-            Token-bound account activated successfully. You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${activateTx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+      toast.custom(<TxToast title="Token-bound account activated successfully!" hash={activateTx?.hash} />);
       router.refresh();
     }
 

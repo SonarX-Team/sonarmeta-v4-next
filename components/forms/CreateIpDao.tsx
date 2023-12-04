@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 import toast from "react-hot-toast";
 
-import { deleteMulti, uploadFile } from "@/lib/alioss";
+import { uploadFile } from "@/lib/alioss";
 import { createIpDao } from "@/actions/ipdao.action";
 import { ipDaoValidation } from "@/validations/ipdao.validation";
 
@@ -16,6 +15,7 @@ import AppTextarea from "../ui/AppTextarea";
 import AvatarInput from "../ui/AvatarInput";
 import CoverInput from "../ui/coverInput";
 import ImagesInput from "../ui/ImagesInput";
+import TxToast from "../ui/TxToast";
 
 import { MAIN_CONTRACT } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
@@ -42,35 +42,21 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     chainId: chain?.id,
   });
 
-  const { data: createTx, writeAsync } = useContractWrite(config);
+  const { data: tx, writeAsync } = useContractWrite(config);
 
   const { error, isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: createTx?.hash,
+    hash: tx?.hash,
   });
 
+  // Tx receipt watcher
   useEffect(() => {
     if (isSuccess) {
-      toast.custom(
-        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-          <div>😃</div>
-          <div>
-            IP DAO created successfully! You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${createTx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+      toast.custom(<TxToast title="IP DAO created successfully!" hash={tx?.hash} />);
       router.push(`/space/${address}/ip-daos`);
     }
 
     if (isError) toast.error(`Failed with error: ${error?.message}`);
-  }, [isSuccess, isError, createTx?.hash, error?.message, router, address, config.result]);
+  }, [isSuccess, isError, tx?.hash, error?.message, router, address, config.result]);
 
   async function createAction(formData: FormData) {
     // step0 清空页面报错
@@ -126,7 +112,7 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
 
     // step5 上传图片
     const timeStamp = Date.now();
-    
+
     const avatarRes = await uploadFile(`ipdaos/${timeStamp}/avatar.png`, avatarFile);
     const coverRes = await uploadFile(`ipdaos/${timeStamp}/cover.png`, coverFile);
 

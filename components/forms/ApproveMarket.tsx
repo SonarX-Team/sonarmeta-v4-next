@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { useContractRead, useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
+import TxToast from "../ui/TxToast";
+
 import { AUTHORIZATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 
@@ -36,25 +37,10 @@ export default function ApproveMarket({ address }: { address: `0x${string}` }) {
     hash: tx?.hash,
   });
 
-  // Approve watcher
+  // Tx receipt watcher
   useEffect(() => {
     if (isSuccess) {
-      toast.custom(
-        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-          <div>😃</div>
-          <div>
-            Approved successfully! You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+      toast.custom(<TxToast title="Approved successfully!" hash={tx?.hash} />);
       location.reload();
     }
 

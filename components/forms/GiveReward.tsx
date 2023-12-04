@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
@@ -13,6 +12,7 @@ import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
+import TxToast from "../ui/TxToast";
 
 import { CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
@@ -21,7 +21,7 @@ import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { formatDateString, hiddenAddress } from "@/lib/utils";
 import { creationsType } from "@/types/creation.type";
 
-export default function Contribution({
+export default function GiveReward({
   tokenId,
   title,
   description,
@@ -89,24 +89,10 @@ export default function Contribution({
     setHolder(holderTba);
   }, [address, issuerTokenId, tokenId]);
 
+  // Tx receipt watcher
   useEffect(() => {
     if (isSuccess) {
-      toast.custom(
-        <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-          <div>😃</div>
-          <div>
-            Contribution increased successfully! You can check the tx on{" "}
-            <Link
-              className="text-violet-700 hover:text-violet-600 duration-200"
-              href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
-              target="_blank"
-            >
-              Polygonscan
-            </Link>
-          </div>
-        </div>
-      );
-
+      toast.custom(<TxToast title="Reward was given successfully!" hash={tx?.hash} />);
       router.refresh();
     }
 
@@ -152,7 +138,7 @@ export default function Contribution({
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="font-bold text-zinc-800">Give contribution</label>
+        <label className="font-bold text-zinc-800">Give reward</label>
 
         <div className="flex items-center gap-3">
           <div className="flex border-[1px] max-w-[100px] bg-transparent border-zinc-300 hover:border-zinc-500 rounded-md duration-200">

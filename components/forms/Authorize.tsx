@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
@@ -10,7 +9,10 @@ import { polygonMumbai } from "viem/chains";
 import toast from "react-hot-toast";
 
 import { authorize } from "@/actions/creation.action";
+
 import AppButton from "../ui/AppButton";
+import TxToast from "../ui/TxToast";
+
 import { CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 
@@ -88,26 +90,12 @@ export default function Authorize({
     mounted();
   }, [userAddr, inclinedTokenId, issuerTokenId]);
 
+  // Tx receipt watcher
   useEffect(() => {
     async function authorizeDb() {
       if (isSuccess) {
         await authorize({ issuerTokenId, inclinedTokenId, path });
-
-        toast.custom(
-          <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">
-            <div>😃</div>
-            <div>
-              Authorized successfully! You can check the tx on{" "}
-              <Link
-                className="text-violet-700 hover:text-violet-600 duration-200"
-                href={`https://mumbai.polygonscan.com/tx/${tx?.hash}`}
-                target="_blank"
-              >
-                Polygonscan
-              </Link>
-            </div>
-          </div>
-        );
+        toast.custom(<TxToast title="Authorized successfully!" hash={tx?.hash} />);
       }
 
       if (isError) toast.error(`Failed with error: ${error?.message}`);
