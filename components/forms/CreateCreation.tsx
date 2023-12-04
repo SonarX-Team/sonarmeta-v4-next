@@ -90,7 +90,6 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
     }
 
     // step3 图片校验
-    const timeStamp = Date.now();
     const avatarFile = formData.get("avatar") as File;
 
     if (!(avatarFile && avatarFile.size > 0)) {
@@ -109,6 +108,7 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
     }
 
     // step5 上传图片
+    const timeStamp = Date.now();
     const avatarRes = await uploadFile(`creations/${timeStamp}/avatar.png`, avatarFile);
 
     // step6 后端逻辑
