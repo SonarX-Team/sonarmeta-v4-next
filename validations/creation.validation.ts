@@ -10,7 +10,7 @@ export const createCreationValidation = (creation: {
   externalLink: string;
 }) => {
   const schema = z.object({
-    title: z.string().nonempty({ message: "No empty" }).max(30, { message: "Creation's name is too long" }),
+    title: z.string().nonempty({ message: "No empty" }).max(60, { message: "Creation's name is too long" }),
     description: z
       .string()
       .nonempty({ message: "No empty" })

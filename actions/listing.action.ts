@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { ObjectId } from "mongoose";
 import _ from "lodash";
 
 import Listing from "@/models/listing.model";

@@ -69,6 +69,22 @@
     "type": "error"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "derivative",
+        "type": "address"
+      }
+    ],
+    "name": "SellerIsNotDerivative",
+    "type": "error"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -96,26 +112,7 @@
         "type": "uint256"
       }
     ],
-    "name": "ItemBought",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "seller",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "ItemCanceled",
+    "name": "AuthorizationBought",
     "type": "event"
   },
   {
@@ -146,7 +143,26 @@
         "type": "uint256"
       }
     ],
-    "name": "ItemListed",
+    "name": "AuthorizationListed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ListingCanceled",
     "type": "event"
   },
   {
@@ -186,7 +202,7 @@
         "type": "uint256"
       }
     ],
-    "name": "buyItem",
+    "name": "buyAuthorization",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -275,9 +291,14 @@
         "internalType": "uint256",
         "name": "_basePrice",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_sonarmetaImpAddr",
+        "type": "address"
       }
     ],
-    "name": "listItem",
+    "name": "listAuthorization",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

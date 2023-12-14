@@ -29,7 +29,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
           <GiveReward key={index} {...creation} address={user.address} issuerTokenId={params.tokenId} />
         ))
       ) : (
-        <SadPlaceholder size={300} text="TBA of this creation has no shareholders" />
+        <SadPlaceholder size={300} text="This node has no derivatives" />
       )}
     </div>
   );

@@ -10,7 +10,7 @@ export const ipDaoValidation = (ipDao: {
   externalLink: string;
 }) => {
   const schema = z.object({
-    title: z.string().nonempty({ message: "No empty" }).max(30, { message: "IP DAO's name is too long" }),
+    title: z.string().nonempty({ message: "No empty" }).max(60, { message: "IP DAO's name is too long" }),
     description: z
       .string()
       .nonempty({ message: "No empty" })

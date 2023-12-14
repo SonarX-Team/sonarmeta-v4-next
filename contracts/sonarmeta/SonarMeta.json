@@ -10,10 +10,79 @@
         "internalType": "address",
         "name": "_authorizationImpAddr",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_lockingVaultImpAddr",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "nodeAddr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "AuthorizationMustBeIssuedByOriginal",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "original",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "derivative",
+        "type": "address"
+      }
+    ],
+    "name": "NodeIsDerivative",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "original",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "derivative",
+        "type": "address"
+      }
+    ],
+    "name": "NodeIsNotDerivative",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "nodeAddr",
+        "type": "address"
+      }
+    ],
+    "name": "NodeNotSigned",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotApprovedForSonarMetaProtocol",
+    "type": "error"
   },
   {
     "inputs": [
@@ -67,37 +136,6 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      }
-    ],
-    "name": "Contributed",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
         "internalType": "address",
         "name": "ipDaoAddr",
         "type": "address"
@@ -110,6 +148,19 @@
       }
     ],
     "name": "IpDaoDeployed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "nodeAddr",
+        "type": "address"
+      }
+    ],
+    "name": "NodeSigned",
     "type": "event"
   },
   {
@@ -132,32 +183,24 @@
     "type": "event"
   },
   {
-    "anonymous": false,
     "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "tbaAddr",
-        "type": "address"
-      }
-    ],
-    "name": "TbaSigned",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_tbaAddr",
-        "type": "address"
-      },
       {
         "internalType": "uint256",
         "name": "_tokenId",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_derivative",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
       }
     ],
-    "name": "activateAuthorization",
+    "name": "acceptApplication",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -166,12 +209,35 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_from",
+        "name": "_nodeAddr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxSupply",
+        "type": "uint256"
+      }
+    ],
+    "name": "activateNode",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_original",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_to",
+        "name": "_derivative",
         "type": "address"
       },
       {
@@ -195,38 +261,10 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_from",
+        "name": "_creationImpAddr",
         "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
       }
     ],
-    "name": "contribute",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "deployIpDao",
     "outputs": [
       {
@@ -242,11 +280,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_tbaAddr",
+        "name": "_nodeAddr",
         "type": "address"
       }
     ],
-    "name": "getHolderCount",
+    "name": "getDerivativeCount",
     "outputs": [
       {
         "internalType": "uint256",
@@ -261,7 +299,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_tbaAddr",
+        "name": "_nodeAddr",
         "type": "address"
       }
     ],
@@ -280,16 +318,40 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_holderAddr",
+        "name": "_original",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_tbaAddr",
+        "name": "_derivative",
         "type": "address"
       }
     ],
-    "name": "isHolder",
+    "name": "isDerivativeByAddress",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_derivative",
+        "type": "address"
+      }
+    ],
+    "name": "isDerivativeByTokenId",
     "outputs": [
       {
         "internalType": "bool",
@@ -323,11 +385,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_tbaAddr",
+        "name": "_nodeAddr",
         "type": "address"
       }
     ],
-    "name": "isTbaSigned",
+    "name": "isNodeSigned",
     "outputs": [
       {
         "internalType": "bool",
@@ -459,7 +521,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_tbaAddr",
+        "name": "_nodeAddr",
         "type": "address"
       },
       {
@@ -468,7 +530,7 @@
         "type": "uint256"
       }
     ],
-    "name": "signToUse",
+    "name": "signNodeToUse",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

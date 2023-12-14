@@ -23,8 +23,6 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
 
   const { chain } = useNetwork();
 
-  console.log(chain?.name);
-
   const [avatarErr, setAvatarErr] = useState<string>("");
   const [titleErr, setTitleErr] = useState<string>("");
   const [descriptionErr, setDescriptionErr] = useState<string>("");

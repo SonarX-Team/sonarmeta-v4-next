@@ -1,7 +1,7 @@
 import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
 
-import TbaListings from "@/components/forms/TbaListings";
+import NodeListings from "@/components/forms/NodeListings";
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 
@@ -19,5 +19,5 @@ export default async function page({ params }: { params: { tokenId: number } }) 
     args: [params.tokenId],
   });
 
-  return <TbaListings address={owner} tokenId={params.tokenId} />;
+  return <NodeListings address={owner} tokenId={params.tokenId} />;
 }

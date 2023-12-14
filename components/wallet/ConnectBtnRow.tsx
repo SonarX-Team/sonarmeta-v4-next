@@ -13,11 +13,7 @@ export const ConnectBtnRow = ({ signed }: { signed: boolean }) => {
           <div
             {...(!mounted && {
               "aria-hidden": true,
-              style: {
-                opacity: 0,
-                pointerEvents: "none",
-                userSelect: "none",
-              },
+          
             })}
           >
             {(() => {

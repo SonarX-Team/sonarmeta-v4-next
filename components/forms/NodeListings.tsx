@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
 import TxToast from "../ui/TxToast";
-import CreationListingItem from "@/components/forms/CreationListingItem";
+import ListingItem from "@/components/forms/ListingItem";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { fetchCreations } from "@/actions/creation.action";
@@ -19,7 +19,7 @@ import { creationsType } from "@/types/creation.type";
 import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 
-export default function TbaListings({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
+export default function NodeListings({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
   const router = useRouter();
 
   const [tba, setTba] = useState<`0x${string}`>("0x");
@@ -151,12 +151,12 @@ export default function TbaListings({ address, tokenId }: { address: `0x${string
           </thead>
           <tbody>
             {creations.map((creation, index) => (
-              <CreationListingItem key={index} {...creation} userAddr={address} tbaAddr={tba} />
+              <ListingItem key={index} {...creation} userAddr={address} tbaAddr={tba} />
             ))}
           </tbody>
         </table>
       ) : (
-        <SadPlaceholder size={300} text="TBA of this creation has no authorization tokens" />
+        <SadPlaceholder size={300} text="This node has no authorization tokens" />
       )}
     </div>
   );

@@ -12,12 +12,12 @@ import AppButton from "../ui/AppButton";
 import TxToast from "../ui/TxToast";
 import TitleCard from "../cards/TitleCard";
 
-import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
+import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MAIN_CONTRACT, NODE_MAX_SUPPLY } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 import { hiddenAddress } from "@/lib/utils";
 
-export default function TbaFactory({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
+export default function NodeFactory({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
   const router = useRouter();
 
   const [tba, setTba] = useState<`0x${string}`>("0x");
@@ -30,16 +30,16 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
   // @ts-ignore
   const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chain: polygonMumbai }), [walletClient]);
 
-  const { data: isTbaSigned } = useContractRead({
+  const { data: isNodeSigned } = useContractRead({
     address: MAIN_CONTRACT,
     abi: mainContractAbi,
-    functionName: "isTbaSigned",
+    functionName: "isNodeSigned",
     chainId: chain?.id,
     // @ts-ignore
     args: [tba],
   });
 
-  const { data: isTbaActivated } = useContractRead({
+  const { data: isNodeActivated } = useContractRead({
     address: AUTHORIZATION_CONTRACT,
     abi: authorizationContractAbi,
     functionName: "exists",
@@ -51,7 +51,7 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
   const { config: signConfig } = usePrepareContractWrite({
     address: MAIN_CONTRACT,
     abi: mainContractAbi,
-    functionName: "signToUse",
+    functionName: "signNodeToUse",
     chainId: chain?.id,
     // @ts-ignore
     args: [tba, tokenId],
@@ -62,10 +62,10 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
   const { config: activateConfig } = usePrepareContractWrite({
     address: MAIN_CONTRACT,
     abi: mainContractAbi,
-    functionName: "activateAuthorization",
+    functionName: "activateNode",
     chainId: chain?.id,
     // @ts-ignore
-    args: [tba, tokenId],
+    args: [tba, tokenId, NODE_MAX_SUPPLY],
   });
 
   const { data: activateTx, write: activateWrite } = useContractWrite(activateConfig);
@@ -140,7 +140,7 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
     if (isDeployError) toast.error(`Failed with error: ${deployError?.message}`);
   }, [isDeploySuccess, isDeployError, deployError?.message, deployTxHash, router]);
 
-  // Sign TBA tx receipt watcher
+  // Sign node tx receipt watcher
   useEffect(() => {
     if (isSignSuccess) {
       toast.custom(<TxToast title="Token-bound account signed successfully!" hash={signTx?.hash} />);
@@ -150,7 +150,7 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
     if (isSignError) toast.error(`Failed with error: ${signError?.message}`);
   }, [isSignSuccess, isSignError, signError?.message, signTx?.hash, router]);
 
-  // Activate TBA tx receipt watcher
+  // Activate node tx receipt watcher
   useEffect(() => {
     if (isActivateSuccess) {
       toast.custom(<TxToast title="Token-bound account activated successfully!" hash={activateTx?.hash} />);
@@ -187,20 +187,20 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
   }
 
   async function activateAction() {
-    if (isTbaActivated || !tbaDeployed) return;
+    if (isNodeActivated || !tbaDeployed) return;
 
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
     activateWrite?.();
   }
 
-  const tbaInfo = [
+  const nodeInfo = [
     { info: hiddenAddress(tba), title: "Token-bound account" },
-    { info: tbaDeployed ? "Deployed" : "Not deployed", title: "TBA deployed" },
-    { info: isTbaSigned ? "Signed" : "Not signed", title: "TBA signed" },
-    { info: isTbaActivated ? "Activated" : "Not activated", title: "TBA authorization" },
+    { info: tbaDeployed ? "Generated" : "Not generated", title: "Node generated" },
+    { info: isNodeSigned ? "Signed" : "Not signed", title: "Node signed" },
+    { info: isNodeActivated ? "Activated" : "Not activated", title: "Node authorization" },
   ];
-  const tbaCard: JSX.Element[] = tbaInfo.map((info, index) => (
+  const nodeCard: JSX.Element[] = nodeInfo.map((info, index) => (
     <div key={index} className="flex flex-col gap-2">
       <div className="text-small-medium text-zinc-500">{info.title}</div>
       <div className="text-small-medium line-clamp-1">{info.info}</div>
@@ -209,14 +209,14 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
 
   return (
     <>
-      <TitleCard title="Token-bound account">
-        <div className="grid grid-cols-4 gap-8">{tbaCard}</div>
+      <TitleCard title="Node">
+        <div className="grid grid-cols-4 gap-8">{nodeCard}</div>
       </TitleCard>
 
       <div className="flex flex-col justify-start gap-4">
         <form action={deployAction} className="h-[50px]">
           <AppButton
-            text={tbaDeployed ? "TBA already deployed" : "Deploy this TBA"}
+            text={tbaDeployed ? "Node generated" : "Generate node"}
             otherPendingStatus={isDeployLoading}
             pendingText={isDeployLoading ? "Writing contract..." : "Deploying..."}
             disabled={tbaDeployed}
@@ -229,15 +229,15 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
             text={
               signWrite
                 ? tbaDeployed
-                  ? Boolean(isTbaSigned)
-                    ? "TBA already signed"
-                    : "Sign TBA to use SonarMeta"
-                  : "TBA must be deployed to sign"
+                  ? Boolean(isNodeSigned)
+                    ? "Node signed"
+                    : "Sign node to use SonarMeta"
+                  : "Node must be generated to sign"
                 : "Cannot sign"
             }
             otherPendingStatus={isSignLoading}
-            pendingText={isSignLoading ? "Writing contract..." : "Deploying..."}
-            disabled={!tbaDeployed || Boolean(isTbaSigned) || !signWrite}
+            pendingText={isSignLoading ? "Writing contract..." : "Signing..."}
+            disabled={!tbaDeployed || Boolean(isNodeSigned) || !signWrite}
             type="submit"
           />
         </form>
@@ -245,15 +245,15 @@ export default function TbaFactory({ address, tokenId }: { address: `0x${string}
         <form action={activateAction} className="h-[50px]">
           <AppButton
             text={
-              isTbaActivated
-                ? "TBA already activated"
+              isNodeActivated
+                ? "Node activated"
                 : tbaDeployed
                 ? "Activate authorization functionality"
-                : "Only deployed and signed TBA can be activated"
+                : "Only signed node can be activated"
             }
             otherPendingStatus={isActivateLoading}
             pendingText={isActivateLoading ? "Writing contract..." : "Activating..."}
-            disabled={!tbaDeployed || Boolean(isTbaActivated) || !activateWrite}
+            disabled={!tbaDeployed || Boolean(isNodeActivated) || !activateWrite}
             type="submit"
           />
         </form>

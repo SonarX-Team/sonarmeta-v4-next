@@ -109,7 +109,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
         <div className="relative min-w-[360px]">
           <div className="md:fixed max-md:hidden w-[360px] flex flex-col gap-6">
             <h3 className="flex items-center gap-2 text-body-bold leading-none">
-              SonarMeta Creation Network Node
+              SonarMeta IP Network Node
               <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faCircleCheck} />
             </h3>
 

@@ -15,12 +15,12 @@ import AppModal from "../ui/AppModal";
 import TxToast from "../ui/TxToast";
 
 import { upsertListing } from "@/actions/listing.action";
-import { AUTHORIZATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
+import { AUTHORIZATION_CONTRACT, MAIN_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 import marketplaceContractAbi from "@/contracts/sonarmeta/Marketplace.json";
 import { creationsType } from "@/types/creation.type";
 
-export default function CreationListingItem({
+export default function ListingItem({
   tokenId,
   title,
   description,
@@ -87,8 +87,8 @@ export default function CreationListingItem({
     //@ts-ignore
     const functionData = encodeFunctionData({
       abi: marketplaceContractAbi,
-      functionName: "listItem",
-      args: [tokenId, amount, parseEther(basePrice.toString())],
+      functionName: "listAuthorization",
+      args: [tokenId, amount, parseEther(basePrice.toString()), MAIN_CONTRACT],
     });
 
     try {

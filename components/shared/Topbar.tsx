@@ -86,8 +86,8 @@ export default function Topbar({
     <nav className="fixed top-0 z-30 w-full h-[60px] bg-light-1 shadow-sm">
       {wrongNetworkFlag && (
         <div className="fixed top-[60px] w-full text-center bg-violet-400 text-light-1 top-[100%] py-2">
-          You are viewing data from the Polygon Mumbai network, but your wallet is connected to an other network. To use
-          SonarMeta, please switch to Polygon Mumbai.
+          You are viewing data from the Polygon Mumbai network, but your wallet is connected to an other network.
+          Currently we use Polygon Mumbai to build DEMO.
         </div>
       )}
 

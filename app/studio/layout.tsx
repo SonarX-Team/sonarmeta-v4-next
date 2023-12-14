@@ -6,8 +6,8 @@ export default async function layout({ children }: { children: React.ReactNode }
       <h1 className="head-text text-left">Account studio</h1>
 
       <CategoryTab
-        tabs={["Creations", "Listings", "IP DAOs", "Approvals"]}
-        routes={["/creations", "/listings", "/ip-daos", "/approvals"]}
+        tabs={["Creations", "IP DAOs", "Approvals"]}
+        routes={["/creations", "/ip-daos", "/approvals"]}
         root="/studio"
       />
 

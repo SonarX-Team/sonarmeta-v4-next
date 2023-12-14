@@ -57,8 +57,8 @@ export default async function layout({ params, children }: { params: { tokenId: 
       <h1 className="head-text text-left">Creation studio</h1>
 
       <CategoryTab
-        tabs={["Edit", "Token-bound account", "Holders", "Listings"]}
-        routes={["/edit", "/tba", "/holders", "/listings"]}
+        tabs={["Node", "Holders", "Listings", "Edit"]}
+        routes={["/node", "/holders", "/listings", "/edit"]}
         root={`/creations/${params.tokenId}/studio`}
       />
 
@@ -67,7 +67,7 @@ export default async function layout({ params, children }: { params: { tokenId: 
 
         <div className="flex flex-col gap-6 flex-1">
           <h3 className="flex items-center gap-2 text-body-bold leading-none">
-            SonarMeta Creation Network Node
+            SonarMeta IP Network Node
             <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faCircleCheck} />
           </h3>
 

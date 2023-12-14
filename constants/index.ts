@@ -89,13 +89,10 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
 // Mumbai合约地址
-export const MAIN_CONTRACT = "0x3dadf65562a69f20829c2b8e5da35c9e88860140";
-export const CREATION_CONTRACT = "0x0edea3d5144e9edfbda4a5377870cea356a5230b";
-export const AUTHORIZATION_CONTRACT = "0x0851ab55191de8b9d817e476f89bdf2625fbaad5";
-export const MARKETPLACE_CONTRACT = "0xdeacf67c609dce96cc84460ce75c933bfe28fd4c";
+export const MAIN_CONTRACT = "0xb018789fb0effd0eb29eea81d7eb2961aa47151d";
+export const CREATION_CONTRACT = "0x3bbfe49f133945bf39840837be7e8699e1a016de";
+export const AUTHORIZATION_CONTRACT = "0x04ef64b8e9e5c040bf98e81f7aa1f9ca8b2fd45c";
+export const MARKETPLACE_CONTRACT = "0x99dcda2605634edbbf5ba2236d2aafc4c3347b4f";
 
-// CCTP Testnet合约地址
-export const ETH_TOKEN_MESSENGER_CONTRACT_ADDRESS = "0xd0c3da58f55358142b8d3e06c1c30c5c6114efe8";
-export const USDC_ETH_CONTRACT_ADDRESS = "0x07865c6e87b9f70255377e024ace6630c1eaa37f";
-export const ETH_MESSAGE_CONTRACT_ADDRESS = "0x1a9695e9dbdb443f4b20e3e4ce87c8d963fda34f";
-export const AVAX_MESSAGE_TRANSMITTER_CONTRACT_ADDRESS = "0xa9fb1b3009dcb79e2fe346c16a604b8fa8ae0a79";
+// Tokenomics常量
+export const NODE_MAX_SUPPLY = 10000000;

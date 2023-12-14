@@ -71,7 +71,7 @@ export default function RequestAuthorization({
 
     const inclinedTokenId = Number(formData.get("inclinedTokenId"));
 
-    // Check TBA deployment
+    // Check node is generated or not
     const walletClient: WalletClient = createWalletClient({
       account: userAddr,
       chain: polygonMumbai,
@@ -90,7 +90,7 @@ export default function RequestAuthorization({
 
     if (!deployed) return setErrMsg("TBA of it not deployed");
 
-    // Check TBA signed or not
+    // Check node signed or not
     const publicClient = createPublicClient({
       chain: polygonMumbai,
       transport: http(),
@@ -99,11 +99,11 @@ export default function RequestAuthorization({
     const signed: boolean = await publicClient.readContract({
       address: MAIN_CONTRACT,
       abi: mainContractAbi,
-      functionName: "isTbaSigned",
+      functionName: "isNodeSigned",
       args: [tba],
     });
 
-    if (!signed) return setErrMsg("TBA of it not signed");
+    if (!signed) return setErrMsg("Node is not signed");
 
     const { status, errMsg } = await applyAuthorization({ issuerTokenId, inclinedTokenId, path });
 
@@ -115,8 +115,8 @@ export default function RequestAuthorization({
     <form className="flex flex-col gap-3" action={applyAction}>
       <AppSelect
         name="inclinedTokenId"
-        label="Pick a creation"
-        placeholder="Creation that you want to apply"
+        label="Pick a node"
+        placeholder="Node that you want to apply"
         options={options}
         errMsg={errMsg}
       />
