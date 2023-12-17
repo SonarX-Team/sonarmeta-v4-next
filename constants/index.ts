@@ -89,10 +89,12 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
 // Mumbai合约地址
-export const MAIN_CONTRACT = "0xb018789fb0effd0eb29eea81d7eb2961aa47151d";
-export const CREATION_CONTRACT = "0x3bbfe49f133945bf39840837be7e8699e1a016de";
-export const AUTHORIZATION_CONTRACT = "0x04ef64b8e9e5c040bf98e81f7aa1f9ca8b2fd45c";
-export const MARKETPLACE_CONTRACT = "0x99dcda2605634edbbf5ba2236d2aafc4c3347b4f";
+export const MAIN_CONTRACT = "0xe0dc9879bb5d9a708e7240650c3ef22d209fe7b2";
+export const CREATION_CONTRACT = "0x745777f41a50b1709c7956a184837fbb5b482f1f";
+export const AUTHORIZATION_CONTRACT = "0x628e40a33db30e64c68ea4eb6fbfcf6871c7e02e";
+export const LOCKING_VAULT = "0xd9398ba4b8846296b3e96493af29de2ba65fbbc8";
+export const MARKETPLACE_CONTRACT = "0x79759ca28073af04e4fd47e9407759acca31e5bf";
 
 // Tokenomics常量
 export const NODE_MAX_SUPPLY = 10000000;
+export const INTERNSHIP_LOCKING_AMOUNT = 10000;

@@ -10,7 +10,7 @@ import { getCurrentUser } from "@/actions/user.action";
 import TitleCard from "@/components/cards/TitleCard";
 import TBACard from "@/components/cards/TBACard";
 import ServerButton from "@/components/ui/ServerButton";
-import RequestAuthorization from "@/components/forms/RequestAuthorization";
+import ApplyAuthorization from "@/components/forms/ApplyAuthorization";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { CREATION_CONTRACT } from "@/constants";
@@ -122,7 +122,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
                 <p>{res?.agreement}</p>
 
                 {user && user.address !== owner && (
-                  <RequestAuthorization issuerTokenId={Number(params.tokenId)} userAddr={user.address} />
+                  <ApplyAuthorization issuerTokenId={Number(params.tokenId)} userAddr={user.address} />
                 )}
               </div>
             </TitleCard>

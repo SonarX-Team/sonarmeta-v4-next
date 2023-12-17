@@ -151,7 +151,7 @@ export default function NodeListings({ address, tokenId }: { address: `0x${strin
           </thead>
           <tbody>
             {creations.map((creation, index) => (
-              <ListingItem key={index} {...creation} userAddr={address} tbaAddr={tba} />
+              <ListingItem key={index} {...creation} userAddr={address} tbaAddr={tba} isApproved={isApproved} />
             ))}
           </tbody>
         </table>

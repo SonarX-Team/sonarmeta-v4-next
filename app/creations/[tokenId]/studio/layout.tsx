@@ -57,8 +57,8 @@ export default async function layout({ params, children }: { params: { tokenId: 
       <h1 className="head-text text-left">Creation studio</h1>
 
       <CategoryTab
-        tabs={["Node", "Holders", "Listings", "Edit"]}
-        routes={["/node", "/holders", "/listings", "/edit"]}
+        tabs={["Node", "Holders", "Listings", "Applications", "Lockings", "Edit"]}
+        routes={["/node", "/holders", "/listings", "/applications", "/lockings", "/edit"]}
         root={`/creations/${params.tokenId}/studio`}
       />
 

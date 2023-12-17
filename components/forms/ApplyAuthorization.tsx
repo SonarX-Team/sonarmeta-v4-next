@@ -18,7 +18,7 @@ import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { applyAuthorization, fetchCreations } from "@/actions/creation.action";
 import { creationsType } from "@/types/creation.type";
 
-export default function RequestAuthorization({
+export default function ApplyAuthorization({
   issuerTokenId,
   userAddr,
 }: {
@@ -88,7 +88,7 @@ export default function RequestAuthorization({
       accountAddress: tba,
     });
 
-    if (!deployed) return setErrMsg("TBA of it not deployed");
+    if (!deployed) return setErrMsg("Node is not generated");
 
     // Check node signed or not
     const publicClient = createPublicClient({

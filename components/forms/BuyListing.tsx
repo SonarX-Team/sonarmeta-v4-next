@@ -52,7 +52,7 @@ export default function BuyListing({
   const { config } = usePrepareContractWrite({
     address: MARKETPLACE_CONTRACT,
     abi: marketplaceContractAbi,
-    functionName: "buyItem",
+    functionName: "buyAuthorization",
     value: parseEther((Number(basePrice) * amount).toString()),
     chainId: chain?.id,
     // @ts-ignore

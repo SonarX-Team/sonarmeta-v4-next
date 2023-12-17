@@ -27,7 +27,8 @@ export default function ListingItem({
   avatar,
   userAddr,
   tbaAddr,
-}: creationsType & { userAddr: `0x${string}`; tbaAddr: `0x${string}` }) {
+  isApproved,
+}: creationsType & { userAddr: `0x${string}`; tbaAddr: `0x${string}`; isApproved: boolean }) {
   const path = usePathname();
   const router = useRouter();
 
@@ -78,6 +79,8 @@ export default function ListingItem({
   }, [userAddr, listing]);
 
   async function listAction() {
+    if (!isApproved) return toast.error("Please approve for the marketplace first");
+
     const isValidSigner = await tokenboundClient.isValidSigner({
       account: tbaAddr,
     });
@@ -102,11 +105,10 @@ export default function ListingItem({
         data: functionData,
       });
 
-      toast.custom(<TxToast title="Listed successfully!" hash={txHash} />);
-
       const { status } = await upsertListing({ tokenId, seller: tbaAddr, path });
 
-      if (status === 500) toast.error("Internal server error.");
+      if (status === 200) toast.custom(<TxToast title="Listed successfully!" hash={txHash} />);
+      else if (status === 500) toast.error("Internal server error.");
 
       router.refresh();
     } catch (error: any) {
@@ -199,7 +201,11 @@ export default function ListingItem({
             <hr />
 
             <div className="h-[50px]">
-              <AppButton text="List" pendingText="Writing contract..." />
+              <AppButton
+                text={isApproved ? "List" : "Need your approval"}
+                pendingText="Writing contract..."
+                disabled={!isApproved}
+              />
             </div>
           </form>
         </div>

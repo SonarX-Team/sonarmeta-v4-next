@@ -7,6 +7,7 @@ import RightSidebar from "@/components/shared/RightSidebar";
 import RainbowKit from "@/components/wallet/RainbowKit";
 
 import { getCurrentUser } from "@/actions/user.action";
+import AppProgress from "@/components/ui/AppProgress";
 
 export const metadata: Metadata = {
   title: "SonarMeta - On-chain IP authorization and value captured network",
@@ -27,6 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body>
         <RainbowKit>
+          <AppProgress />
           <Topbar {...userInfo} />
 
           <main>

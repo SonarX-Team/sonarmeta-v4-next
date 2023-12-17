@@ -74,13 +74,43 @@ export async function fetchCreation({ tokenId }: { tokenId: string }) {
   try {
     await connectToDB();
 
-    const res = await Creation.findOne({ tokenId }).populate({
-      path: "derivatives",
-      model: Creation,
-      select: "tokenId title avatar",
-    });
+    const res = await Creation.findOne({ tokenId })
+      .populate({
+        path: "inclinedDerivatives",
+        model: Creation,
+        select: "tokenId title avatar",
+      })
+      .populate({
+        path: "internshipDerivatives",
+        model: Creation,
+        select: "tokenId title avatar",
+      })
+      .populate({
+        path: "derivatives",
+        model: Creation,
+        select: "tokenId title avatar",
+      });
 
     if (!res) return { status: 404, errMsg: "No creation found" };
+
+    return { status: 200, res };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to fetch the creation: ${error.message}` };
+  }
+}
+
+// 查看给定node在哪些其他node下实习中
+export async function isInternship({ tokenId }: { tokenId: string }) {
+  try {
+    await connectToDB();
+
+    const internshipNode = await Creation.findOne({ tokenId });
+    if (!internshipNode) return { status: 404, errMsg: "No creation found" };
+
+    const res = await Creation.find({
+      tokenId: { $ne: tokenId },
+      internshipDerivatives: { $in: internshipNode._id },
+    });
 
     return { status: 200, res };
   } catch (error: any) {
@@ -147,7 +177,7 @@ export async function updateCreation({ tokenId, formData }: { tokenId: number; f
   }
 }
 
-// 申请Creation TBA的授权
+// 意向成为衍生品的Node申请原生Node的授权
 export async function applyAuthorization({
   issuerTokenId,
   inclinedTokenId,
@@ -163,9 +193,12 @@ export async function applyAuthorization({
     const issuerToken = await Creation.findOne({ tokenId: issuerTokenId });
     const inclinedToken = await Creation.findOne({ tokenId: inclinedTokenId });
 
-    // 看这个token是不是已经在列表中了
+    // 看inclinedTokenId是不是已经在三个列表中的任何一个了
     if (
       issuerToken.inclinedDerivatives.some(
+        (creationId: ObjectId) => String(creationId) === String(inclinedToken._id)
+      ) ||
+      issuerToken.internshipDerivatives.some(
         (creationId: ObjectId) => String(creationId) === String(inclinedToken._id)
       ) ||
       issuerToken.derivatives.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id))
@@ -184,8 +217,8 @@ export async function applyAuthorization({
   }
 }
 
-// 确认Creation TBA的授权
-export async function authorize({
+// 原生Node接受申请
+export async function acceptApplication({
   issuerTokenId,
   inclinedTokenId,
   path,
@@ -204,7 +237,50 @@ export async function authorize({
     if (
       !issuerToken.inclinedDerivatives.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id))
     )
-      return { status: 400, errMsg: "No application from this user" };
+      return { status: 400, errMsg: "No application from this node" };
+
+    // 看inclinedTokenId是否已经被授权过了
+    if (issuerToken.derivatives.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id)))
+      return { status: 400, errMsg: "Already authorized" };
+
+    // 更新被申请的Creation
+    issuerToken.inclinedDerivatives = issuerToken.inclinedDerivatives.filter(
+      (inclined: ObjectId) => String(inclined) !== String(inclinedToken._id)
+    );
+    issuerToken.internshipDerivatives.push(inclinedToken._id);
+    issuerToken.save();
+
+    revalidatePath(path);
+
+    return { status: 200, message: "Authorized" };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to authorize creation: ${error.message}` };
+  }
+}
+
+// 原生Node确认授权
+export async function authorize({
+  issuerTokenId,
+  inclinedTokenId,
+  path,
+}: {
+  issuerTokenId: number;
+  inclinedTokenId: number;
+  path: string;
+}) {
+  try {
+    await connectToDB();
+
+    const issuerToken = await Creation.findOne({ tokenId: issuerTokenId });
+    const inclinedToken = await Creation.findOne({ tokenId: inclinedTokenId });
+
+    // 看inclinedTokenId在不在实习列表中
+    if (
+      !issuerToken.internshipDerivatives.some(
+        (creationId: ObjectId) => String(creationId) === String(inclinedToken._id)
+      )
+    )
+      return { status: 400, errMsg: "No acceptance to this node" };
 
     // 看inclinedTokenId是否已经被授权过了
     if (issuerToken.derivatives.some((creationId: ObjectId) => String(creationId) === String(inclinedToken._id)))

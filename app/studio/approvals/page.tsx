@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { createPublicClient, http } from "viem";
 import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

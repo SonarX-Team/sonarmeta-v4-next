@@ -23,8 +23,15 @@ const creationSchema = new mongoose.Schema({
     required: true,
   },
   externalLink: String,
-  // 向该Creation的TBA发出授权申请的Creations列表（待审核列表）
+  // 向该Node发出授权申请的Creations列表（待审核列表）
   inclinedDerivatives: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Creation",
+    },
+  ],
+  // 已经在Locking to contribute期间的Creations列表
+  internshipDerivatives: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Creation",

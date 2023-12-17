@@ -11,14 +11,12 @@ export default function CreationEntryCard({ tokenId, title, description, avatar,
       href={`/creations/${tokenId}`}
       className="flex flex-col bg-light-1 shadow-sm hover:shadow-md duration-200 rounded-xl h-full"
     >
-      <div className="mb-4">
-        <div className="relative w-full aspect-[1] overflow-hidden rounded-t-xl z-0">
-          <img
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            src={avatar}
-            alt="creation-avatar"
-          />
-        </div>
+      <div className="relative w-full aspect-[1] overflow-hidden rounded-t-xl z-0 mb-4">
+        <img
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          src={avatar}
+          alt="creation-avatar"
+        />
       </div>
 
       <div className="flex-1 px-4 mb-6">
