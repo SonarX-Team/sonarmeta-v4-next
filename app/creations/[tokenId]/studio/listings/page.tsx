@@ -1,23 +1,15 @@
-import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
+import { notFound } from "next/navigation";
+
+import { getCurrentUser } from "@/actions/user.action";
+import { getNodeTba } from "@/actions/creation.action";
 
 import NodeListings from "@/components/forms/NodeListings";
-import { CREATION_CONTRACT } from "@/constants";
-import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 
 export default async function page({ params }: { params: { tokenId: number } }) {
-  const publicClient = createPublicClient({
-    chain: polygonMumbai,
-    transport: http(),
-  });
+  const { user } = await getCurrentUser();
+  if (!user) notFound();
 
-  // @ts-ignore
-  const owner: `0x${string}` = await publicClient.readContract({
-    address: CREATION_CONTRACT,
-    abi: creationContractAbi,
-    functionName: "ownerOf",
-    args: [params.tokenId],
-  });
+  const { tbaAddr } = await getNodeTba({ tokenId: params.tokenId });
 
-  return <NodeListings address={owner} tokenId={params.tokenId} />;
+  return <NodeListings userAddr={user.address} tbaAddr={tbaAddr} />;
 }

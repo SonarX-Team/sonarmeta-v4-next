@@ -11,7 +11,7 @@ export default function TxToast({ title, hash }: { title: string; hash?: `0x${st
 
   useEffect(() => {
     if (chain?.name === "Polygon Mumbai") setUrl(`https://mumbai.polygonscan.com/tx/${hash}`);
-  }, [chain?.name]);
+  }, [chain?.name, hash]);
 
   return (
     <div className="w-[300px] bg-light-1 shadow-lg rounded-xl text-body-normal flex items-center gap-3 py-4 px-6">

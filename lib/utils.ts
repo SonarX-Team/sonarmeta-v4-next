@@ -24,7 +24,7 @@ export function formatDateString(dateString: string) {
 }
 
 export function hiddenAddress(address?: `0x${string}`) {
-  if (!address) return "0x";
+  if (!address) return "";
 
   return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`.toLowerCase();
 }

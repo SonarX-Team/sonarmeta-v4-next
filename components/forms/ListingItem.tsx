@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
@@ -35,12 +35,8 @@ export default function ListingItem({
   const [basePrice, setBasePrice] = useState<number>(0);
   const [amount, setAmount] = useState<number>(1);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [walletClient, setWalletClient] = useState<WalletClient>();
 
   const { chain } = useNetwork();
-
-  // @ts-ignore
-  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chain: polygonMumbai }), [walletClient]);
 
   const { data: listing } = useContractRead({
     address: MARKETPLACE_CONTRACT,
@@ -62,16 +58,6 @@ export default function ListingItem({
 
   // onMounted, when window object is available
   useEffect(() => {
-    if (!window) return;
-
-    const wc: WalletClient = createWalletClient({
-      account: userAddr,
-      chain: polygonMumbai,
-      // @ts-ignore
-      transport: window.ethereum ? custom(window.ethereum) : http(),
-    });
-    setWalletClient(wc);
-
     if (!listing) return;
 
     setBasePrice(Number(formatEther(listing.basePrice)));
@@ -81,10 +67,19 @@ export default function ListingItem({
   async function listAction() {
     if (!isApproved) return toast.error("Please approve for the marketplace first");
 
+    const walletClient: WalletClient = createWalletClient({
+      account: userAddr,
+      chain: polygonMumbai,
+      // @ts-ignore
+      transport: window.ethereum ? custom(window.ethereum) : http(),
+    });
+
+    // @ts-ignore
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
+
     const isValidSigner = await tokenboundClient.isValidSigner({
       account: tbaAddr,
     });
-
     if (!isValidSigner) return toast.error("Your account is not the valid signer of your TBA");
 
     //@ts-ignore

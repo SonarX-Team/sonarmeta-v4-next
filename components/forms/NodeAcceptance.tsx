@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
+import { useContractRead, useNetwork } from "wagmi";
 import { createWalletClient, custom, http, WalletClient, encodeFunctionData } from "viem";
 import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,20 +12,23 @@ import toast from "react-hot-toast";
 
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
-import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, INTERNSHIP_LOCKING_AMOUNT, MAIN_CONTRACT } from "@/constants";
+import { AUTHORIZATION_CONTRACT, INTERNSHIP_LOCKING_AMOUNT, LOCKING_VAULT, MAIN_CONTRACT } from "@/constants";
+
+import { acceptApplication, getNodeTba } from "@/actions/creation.action";
 
 import AppButton from "../ui/AppButton";
 import TxToast from "../ui/TxToast";
-import { acceptApplication } from "@/actions/creation.action";
 
 export default function NodeAcceptance({
   issuerTokenId,
+  issuerAddr,
   inclinedTokenId,
   title,
   avatar,
   userAddr,
 }: {
   issuerTokenId: number;
+  issuerAddr: `0x${string}`;
   inclinedTokenId: number;
   title: string;
   avatar: string;
@@ -34,73 +37,59 @@ export default function NodeAcceptance({
   const path = usePathname();
   const router = useRouter();
 
-  const [inclinedTba, setInclinedTba] = useState<`0x${string}`>("0x");
-  const [issuerTba, setIssuerTba] = useState<`0x${string}`>("0x");
-  const [walletClient, setWalletClient] = useState<WalletClient>();
+  const { chain } = useNetwork();
 
-  // @ts-ignore
-  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chain: polygonMumbai }), [walletClient]);
+  const { data: available } = useContractRead({
+    address: AUTHORIZATION_CONTRACT,
+    abi: authorizationContractAbi,
+    functionName: "balanceOf",
+    chainId: chain?.id,
+    // @ts-ignore
+    args: [issuerAddr, issuerTokenId],
+  }) as { data: bigint };
 
-  // onMounted, when window object is available
-  useEffect(() => {
-    if (!window) return;
+  async function acceptAction() {
+    if (Number(available) < INTERNSHIP_LOCKING_AMOUNT)
+      return toast.error(
+        `Authorization tokens balance: ${available} is not enough to lock (${INTERNSHIP_LOCKING_AMOUNT} needed)`
+      );
 
-    const wc: WalletClient = createWalletClient({
+    const walletClient: WalletClient = createWalletClient({
       account: userAddr,
       chain: polygonMumbai,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
-    setWalletClient(wc);
-  }, [userAddr]);
 
-  // TBA watcher
-  useEffect(() => {
-    async function watchTba() {
-      const inclined = tokenboundClient.getAccount({
-        tokenContract: CREATION_CONTRACT,
-        tokenId: inclinedTokenId.toString(),
-      });
+    // @ts-ignore
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
 
-      setInclinedTba(inclined);
-
-      const issuer = tokenboundClient.getAccount({
-        tokenContract: CREATION_CONTRACT,
-        tokenId: issuerTokenId.toString(),
-      });
-
-      setIssuerTba(issuer);
-    }
-
-    watchTba();
-  }, [inclinedTokenId, issuerTokenId, tokenboundClient]);
-
-  async function acceptAction() {
     const isValidSigner = await tokenboundClient.isValidSigner({
-      account: issuerTba,
+      account: issuerAddr,
     });
-
     if (!isValidSigner) return toast.error("Your account is not the valid signer of your TBA");
+
+    const { tbaAddr: inclinedAddr } = await getNodeTba({ tokenId: inclinedTokenId });
 
     // @ts-ignore
     const transferData = encodeFunctionData({
       abi: authorizationContractAbi,
       functionName: "safeTransferFrom",
-      args: [issuerTba, inclinedTba, issuerTokenId, INTERNSHIP_LOCKING_AMOUNT, ""],
+      args: [issuerAddr, LOCKING_VAULT, issuerTokenId, INTERNSHIP_LOCKING_AMOUNT, ""],
     });
 
     // @ts-ignore
     const accpetData = encodeFunctionData({
       abi: mainContractAbi,
       functionName: "acceptApplication",
-      args: [issuerTokenId, inclinedTba, INTERNSHIP_LOCKING_AMOUNT],
+      args: [issuerTokenId, inclinedAddr, INTERNSHIP_LOCKING_AMOUNT],
     });
 
     try {
       toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
       const transferTx = await tokenboundClient.execute({
-        account: issuerTba,
+        account: issuerAddr,
         to: AUTHORIZATION_CONTRACT,
         // @ts-ignore
         value: 0n,
@@ -108,7 +97,7 @@ export default function NodeAcceptance({
       });
 
       const acceptTx = await tokenboundClient.execute({
-        account: issuerTba,
+        account: issuerAddr,
         to: MAIN_CONTRACT,
         // @ts-ignore
         value: 0n,

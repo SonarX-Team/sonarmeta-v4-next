@@ -9,7 +9,7 @@ import NodeAcceptance from "@/components/forms/NodeAcceptance";
 
 export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
-  const { res, status } = await fetchCreation({ tokenId: params.tokenId.toString() });
+  const { res, status } = await fetchCreation({ tokenId: params.tokenId });
 
   if (!user || status === 404 || !res) notFound();
 
@@ -24,19 +24,17 @@ export default async function page({ params }: { params: { tokenId: number } }) 
 
       {applications.length > 0 ? (
         <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-4">
-          {applications.map((application) => {
-            application._id = application._id.toString();
-            return (
-              <NodeAcceptance
-                key={application._id}
-                issuerTokenId={params.tokenId}
-                title={application.title}
-                inclinedTokenId={application.tokenId}
-                avatar={application.avatar}
-                userAddr={user.address}
-              />
-            );
-          })}
+          {applications.map((application) => (
+            <NodeAcceptance
+              key={application._id}
+              issuerTokenId={params.tokenId}
+              issuerAddr={res.tbaAddr}
+              title={application.title}
+              inclinedTokenId={application.tokenId}
+              avatar={application.avatar}
+              userAddr={user.address}
+            />
+          ))}
         </div>
       ) : (
         <SadPlaceholder size={300} text="No data source found" />

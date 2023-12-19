@@ -20,7 +20,7 @@ import { hiddenAddress } from "@/lib/utils";
 export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
 
-  const { res } = await fetchCreation({ tokenId: params.tokenId.toString() });
+  const { res } = await fetchCreation({ tokenId: params.tokenId });
 
   const publicClient = createPublicClient({
     chain: polygonMumbai,
@@ -62,14 +62,19 @@ export default async function page({ params }: { params: { tokenId: number } }) 
               {res?.title} #{params.tokenId}
             </h1>
 
-            <TitleCard title="Agreement">
-              <p>{res?.agreement}</p>
-            </TitleCard>
+            <TitleCard title="Authorization agreement">
+              <div className="flex flex-col gap-6">
+                <p>{res?.agreement}</p>
 
-            <div className="flex items-center gap-4 h-[50px]">
-              <ServerButton text="Apply" />
-              <ServerButton text="Submit" />
-            </div>
+                {user && user.address !== owner && (
+                  <ApplyAuthorization
+                    issuerTokenId={Number(params.tokenId)}
+                    issuerAddr={res.tbaAddr}
+                    userAddr={user.address}
+                  />
+                )}
+              </div>
+            </TitleCard>
           </div>
 
           <TitleCard title="Description">
@@ -95,7 +100,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
             </div>
           </TitleCard>
 
-          <TBACard address={user?.address ? user.address : "0x"} tokenId={params.tokenId} />
+          <TBACard tbaAddr={res.tbaAddr} />
 
           <TitleCard title="Activity">
             <SadPlaceholder size={300} text="No data source found" />
@@ -122,7 +127,11 @@ export default async function page({ params }: { params: { tokenId: number } }) 
                 <p>{res?.agreement}</p>
 
                 {user && user.address !== owner && (
-                  <ApplyAuthorization issuerTokenId={Number(params.tokenId)} userAddr={user.address} />
+                  <ApplyAuthorization
+                    issuerTokenId={Number(params.tokenId)}
+                    issuerAddr={res.tbaAddr}
+                    userAddr={user.address}
+                  />
                 )}
               </div>
             </TitleCard>

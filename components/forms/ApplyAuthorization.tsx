@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
-import { http, createWalletClient, WalletClient, custom, createPublicClient } from "viem";
+import { http, createPublicClient } from "viem";
 import { polygonMumbai } from "viem/chains";
 import toast from "react-hot-toast";
 
@@ -15,14 +14,16 @@ import { CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 
-import { applyAuthorization, fetchCreations } from "@/actions/creation.action";
+import { applyAuthorization, fetchCreations, getNodeTba } from "@/actions/creation.action";
 import { creationsType } from "@/types/creation.type";
 
 export default function ApplyAuthorization({
   issuerTokenId,
+  issuerAddr,
   userAddr,
 }: {
   issuerTokenId: number;
+  issuerAddr: `0x${string}` | "";
   userAddr?: `0x${string}`;
 }) {
   const path = usePathname();
@@ -41,6 +42,7 @@ export default function ApplyAuthorization({
     args: [userAddr],
   }) as { data: bigint[] };
 
+  // Mounted - 按当期登录用户获取TokenIds
   useEffect(() => {
     async function getCreations() {
       if (!tokenIds) return;
@@ -70,25 +72,9 @@ export default function ApplyAuthorization({
     setErrMsg("");
 
     const inclinedTokenId = Number(formData.get("inclinedTokenId"));
+    const { tbaAddr: inclinedAddr } = await getNodeTba({ tokenId: inclinedTokenId });
 
-    // Check node is generated or not
-    const walletClient: WalletClient = createWalletClient({
-      account: userAddr,
-      chain: polygonMumbai,
-      // @ts-ignore
-      transport: window.ethereum ? custom(window.ethereum) : http(),
-    });
-    // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
-    const tba = tokenboundClient.getAccount({
-      tokenContract: CREATION_CONTRACT,
-      tokenId: inclinedTokenId.toString(),
-    });
-    const deployed = await tokenboundClient.checkAccountDeployment({
-      accountAddress: tba,
-    });
-
-    if (!deployed) return setErrMsg("Node is not generated");
+    if (!issuerAddr || !inclinedAddr) return setErrMsg("Nodes must be all generated");
 
     // Check node signed or not
     const publicClient = createPublicClient({
@@ -96,14 +82,21 @@ export default function ApplyAuthorization({
       transport: http(),
     });
     // @ts-ignore
-    const signed: boolean = await publicClient.readContract({
+    const issuerSigned: boolean = await publicClient.readContract({
       address: MAIN_CONTRACT,
       abi: mainContractAbi,
       functionName: "isNodeSigned",
-      args: [tba],
+      args: [issuerAddr],
+    });
+    // @ts-ignore
+    const inclinedSigned: boolean = await publicClient.readContract({
+      address: MAIN_CONTRACT,
+      abi: mainContractAbi,
+      functionName: "isNodeSigned",
+      args: [inclinedAddr],
     });
 
-    if (!signed) return setErrMsg("Node is not signed");
+    if (!issuerSigned || !inclinedSigned) return setErrMsg("Nodes must be all signed");
 
     const { status, errMsg } = await applyAuthorization({ issuerTokenId, inclinedTokenId, path });
 

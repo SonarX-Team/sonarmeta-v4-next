@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
@@ -16,20 +16,15 @@ import SadPlaceholder from "@/components/shared/SadPlaceholder";
 import { fetchCreations } from "@/actions/creation.action";
 import { creationsType } from "@/types/creation.type";
 
-import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
+import { AUTHORIZATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 
-export default function NodeListings({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
+export default function NodeListings({ userAddr, tbaAddr }: { userAddr: `0x${string}`; tbaAddr: `0x${string}` }) {
   const router = useRouter();
 
-  const [tba, setTba] = useState<`0x${string}`>("0x");
   const [creations, setCreations] = useState<creationsType[]>([]);
-  const [walletClient, setWalletClient] = useState<WalletClient>();
 
   const { chain } = useNetwork();
-
-  // @ts-ignore
-  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chain: polygonMumbai }), [walletClient]);
 
   const { data: aTokenIds } = useContractRead({
     address: AUTHORIZATION_CONTRACT,
@@ -37,7 +32,7 @@ export default function NodeListings({ address, tokenId }: { address: `0x${strin
     functionName: "getTokenIds",
     chainId: chain?.id,
     // @ts-ignore
-    args: [tba],
+    args: [tbaAddr],
   }) as { data: bigint[] };
 
   const { data: isApproved } = useContractRead({
@@ -46,7 +41,7 @@ export default function NodeListings({ address, tokenId }: { address: `0x${strin
     functionName: "isApprovedForAll",
     chainId: chain?.id,
     // @ts-ignore
-    args: [tba, MARKETPLACE_CONTRACT],
+    args: [tbaAddr, MARKETPLACE_CONTRACT],
   }) as { data: boolean };
 
   // onMounted, when window object is available
@@ -54,28 +49,12 @@ export default function NodeListings({ address, tokenId }: { address: `0x${strin
     if (!window) return;
 
     const wc: WalletClient = createWalletClient({
-      account: address,
+      account: userAddr,
       chain: polygonMumbai,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
-
-    setWalletClient(wc);
-  }, [address]);
-
-  // TBA watcher
-  useEffect(() => {
-    async function watchTba() {
-      const creationTba = tokenboundClient.getAccount({
-        tokenContract: CREATION_CONTRACT,
-        tokenId: tokenId.toString(),
-      });
-
-      setTba(creationTba);
-    }
-
-    watchTba();
-  }, [tokenId, tokenboundClient]);
+  }, [userAddr]);
 
   useEffect(() => {
     async function getCreations() {
@@ -96,12 +75,19 @@ export default function NodeListings({ address, tokenId }: { address: `0x${strin
   }, [aTokenIds]);
 
   async function approveAction() {
-    toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
-
-    const isValidSigner = await tokenboundClient.isValidSigner({
-      account: tba,
+    const walletClient: WalletClient = createWalletClient({
+      account: userAddr,
+      chain: polygonMumbai,
+      // @ts-ignore
+      transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
+    // @ts-ignore
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
+
+    const isValidSigner = await tokenboundClient.isValidSigner({
+      account: tbaAddr,
+    });
     if (!isValidSigner) return toast.error("Your account is not the valid signer of your TBA");
 
     //@ts-ignore
@@ -112,8 +98,10 @@ export default function NodeListings({ address, tokenId }: { address: `0x${strin
     });
 
     try {
+      toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
+
       const txHash = await tokenboundClient.execute({
-        account: tba,
+        account: tbaAddr,
         to: AUTHORIZATION_CONTRACT,
         // @ts-ignore
         value: 0n,
@@ -151,7 +139,7 @@ export default function NodeListings({ address, tokenId }: { address: `0x${strin
           </thead>
           <tbody>
             {creations.map((creation, index) => (
-              <ListingItem key={index} {...creation} userAddr={address} tbaAddr={tba} isApproved={isApproved} />
+              <ListingItem key={index} {...creation} userAddr={userAddr} tbaAddr={tbaAddr} isApproved={isApproved} />
             ))}
           </tbody>
         </table>

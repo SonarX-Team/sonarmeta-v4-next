@@ -22,6 +22,8 @@ const creationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // Token-bound account地址，如果这个字段不为空就说明已经deploy了
+  tbaAddr: String,
   externalLink: String,
   // 向该Node发出授权申请的Creations列表（待审核列表）
   inclinedDerivatives: [

@@ -199,11 +199,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@ledgerhq/connect-kit-loader@^1.1.0":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/connect-kit-loader/-/connect-kit-loader-1.1.2.tgz#d550e3c1f046e4c796f32a75324b03606b7e226a"
-  integrity sha512-mscwGroSJQrCTjtNGBu+18FQbZYA4+q6Tyx6K7CXHl6AwgZKbWfZYdgP2F+fyZcRUdGRsMX8QtvU61VcGGtO1A==
-
 "@lit-labs/ssr-dom-shim@^1.0.0", "@lit-labs/ssr-dom-shim@^1.1.0":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.1.2.tgz#d693d972974a354034454ec1317eb6afd0b00312"
@@ -520,10 +515,10 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-compose-refs" "1.0.1"
 
-"@rainbow-me/rainbowkit@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@rainbow-me/rainbowkit/-/rainbowkit-1.3.0.tgz#b5546a6b530bbe1dac13b88708ab17d4164327fa"
-  integrity sha512-y5/JZIdYjqc84QFqKc1AhOHctnFC7quaDE3K8bueGfa0TgyrXcA6XgN3Dko530b3sxJJiTgvu2LxWlNUg8Felg==
+"@rainbow-me/rainbowkit@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/@rainbow-me/rainbowkit/-/rainbowkit-1.3.1.tgz#b5add291363e77dd9cb09496f65dd3b8c2236df5"
+  integrity sha512-4Upi+S12ZHosimzlUpCiOocg4dtfGU2wkzcpxeat/FYHrvhVIOgm0TuzbsIM96W1p7OXabosd7xuxPvwduUygQ==
   dependencies:
     "@vanilla-extract/css" "1.9.1"
     "@vanilla-extract/dynamic" "2.0.2"
@@ -790,12 +785,12 @@
     "@tanstack/query-core" "4.36.1"
     use-sync-external-store "^1.2.0"
 
-"@tokenbound/sdk@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@tokenbound/sdk/-/sdk-0.4.4.tgz#d1e52c46be749f18e819fe9f47f5fa633aebd654"
-  integrity sha512-BUjEEfzpq/6j2EP/xuwOVbFUyisHUf15PoJj/0y4+QQKYci2c6uoY7Im0CnfIakh0iiGTtYgrnwWTnDMefuPyg==
+"@tokenbound/sdk@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.npmjs.org/@tokenbound/sdk/-/sdk-0.4.5.tgz#aee9d4d9c45b15c45c56f1b0e342dd4e058b44ff"
+  integrity sha512-kfvvrYBOVVhuId74ZFkN6kd/YSTFQCUnOT/yv0L22fqIQVF0i58G0bYoSgQmmW2Yypv7AglIazKXFTRuwrnByg==
   dependencies:
-    viem "^1.17.1"
+    viem "^1.19.11"
 
 "@tootallnate/quickjs-emscripten@^0.23.0":
   version "0.23.0"
@@ -993,13 +988,12 @@
   resolved "https://registry.yarnpkg.com/@vanilla-extract/sprinkles/-/sprinkles-1.5.0.tgz#c921183ae518bb484299c2dc81f2acefd91c3dbe"
   integrity sha512-W58f2Rzz5lLmk0jbhgStVlZl5wEiPB1Ur3fRvUaBM+MrifZ3qskmFq/CiH//fEYeG5Dh9vF1qRviMMH46cX9Nw==
 
-"@wagmi/connectors@3.1.9":
-  version "3.1.9"
-  resolved "https://registry.npmjs.org/@wagmi/connectors/-/connectors-3.1.9.tgz#ada92f6f2e9b409e925008200cdfd89d36c34c88"
-  integrity sha512-q7Hz6WDnvOcZ/EPzuFgilirSwyoWYo1owowHmHqHTxEu0yu6HFNQGuaMNK9hsM/XCHeCisW/ZdUvudQSBUVpHQ==
+"@wagmi/connectors@3.1.10":
+  version "3.1.10"
+  resolved "https://registry.npmjs.org/@wagmi/connectors/-/connectors-3.1.10.tgz#830cd788579ef56a2526574914481f2d3aabc9f7"
+  integrity sha512-ZLJC1QaeiZarkF07Cr9mOlVjPO1Lf5TBx+JKBms2y5fUIXlKrxCfQgO/gDCureboI+Us2X3IRI659+XacSGpbA==
   dependencies:
     "@coinbase/wallet-sdk" "^3.6.6"
-    "@ledgerhq/connect-kit-loader" "^1.1.0"
     "@safe-global/safe-apps-provider" "^0.18.1"
     "@safe-global/safe-apps-sdk" "^8.1.0"
     "@walletconnect/ethereum-provider" "2.10.6"
@@ -1009,12 +1003,12 @@
     abitype "0.8.7"
     eventemitter3 "^4.0.7"
 
-"@wagmi/core@1.4.11":
-  version "1.4.11"
-  resolved "https://registry.npmjs.org/@wagmi/core/-/core-1.4.11.tgz#df7855bbb777d8a9f77cdbe1ae1546898dc8d705"
-  integrity sha512-H6y5v+PpvYbT5Qsk7PTVu5MtcSqudDqGZC/LZFV6Y+UeJlBsnfJNy5+cPEzKmvaz+6tSyVPGCF9aWK+sNdC0sQ==
+"@wagmi/core@1.4.12":
+  version "1.4.12"
+  resolved "https://registry.npmjs.org/@wagmi/core/-/core-1.4.12.tgz#84558d1af746b2bcef02337dc3c46108242b1dd7"
+  integrity sha512-bLcYmmGgjtl3jAGo8X3Sm6oUwsdjbVxFMu9SWnwHdE4S9JdYeWM57dEhQgq8SYul2yQ7yY2/gimBf1Or0Ky3dQ==
   dependencies:
-    "@wagmi/connectors" "3.1.9"
+    "@wagmi/connectors" "3.1.10"
     abitype "0.8.7"
     eventemitter3 "^4.0.7"
     zustand "^4.3.1"
@@ -5802,24 +5796,10 @@ viem@^1.0.0:
     isows "1.0.3"
     ws "8.13.0"
 
-viem@^1.17.1:
-  version "1.18.9"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-1.18.9.tgz#8be8fe3148b1c6c3bccc853001df98f91a8aeb30"
-  integrity sha512-eAXtoTwAFA3YEgjTYMb5ZTQrDC0UPx5qyZ4sv90TirVKepcM9mBPksTkC1SSWya0UdxhBmhEBL/CiYMjmGCTWg==
-  dependencies:
-    "@adraffy/ens-normalize" "1.9.4"
-    "@noble/curves" "1.2.0"
-    "@noble/hashes" "1.3.2"
-    "@scure/bip32" "1.3.2"
-    "@scure/bip39" "1.2.1"
-    abitype "0.9.8"
-    isows "1.0.3"
-    ws "8.13.0"
-
-viem@^1.19.13:
-  version "1.19.13"
-  resolved "https://registry.npmjs.org/viem/-/viem-1.19.13.tgz#3a018720bd2abf54a039c751fc2bcd473838c523"
-  integrity sha512-DizIwJAecLedI+nq6c5LIqCLAnYXUhQX5BnH6o1H2ln6isPyJVf+v4H1IfMlRHgR5KRlC+wGI/mCjarr3tW6eg==
+viem@^1.19.11:
+  version "1.20.2"
+  resolved "https://registry.npmjs.org/viem/-/viem-1.20.2.tgz#42455f003bef012fcac7e51e510d50fa972d969a"
+  integrity sha512-f+duq2Gs38REUVsKaEmNq+JFcvXaYtaoZdw43QUAZEvm7D4iwQDkfDSMvsYSwCSUJC8rUUqX3JFcXZm03mYWlQ==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.2.0"
@@ -5830,15 +5810,29 @@ viem@^1.19.13:
     isows "1.0.3"
     ws "8.13.0"
 
-wagmi@^1.4.11:
-  version "1.4.11"
-  resolved "https://registry.npmjs.org/wagmi/-/wagmi-1.4.11.tgz#5b8632a522815b39176c3a02e6b9864b31b4bddc"
-  integrity sha512-Kslc5wwuPTSOqxpqElE9lGZahyPwlwAXrRpvmw+h89e8lPg7DWThQsPQMWiSvKcg+NloEHwQRGmy5rpfKFKLaA==
+viem@^1.20.1:
+  version "1.20.1"
+  resolved "https://registry.npmjs.org/viem/-/viem-1.20.1.tgz#ea92f9bab2fded4be556be4d4be724805d11780e"
+  integrity sha512-PaYyfuCVkNFzdaVoV8HefMIt5YtjIG6UPqxOz0rYchN52cD05YcRJlO0h/XrehQfo8ib2RSOkZ0ChJ6Adlh1Jg==
+  dependencies:
+    "@adraffy/ens-normalize" "1.10.0"
+    "@noble/curves" "1.2.0"
+    "@noble/hashes" "1.3.2"
+    "@scure/bip32" "1.3.2"
+    "@scure/bip39" "1.2.1"
+    abitype "0.9.8"
+    isows "1.0.3"
+    ws "8.13.0"
+
+wagmi@^1.4.12:
+  version "1.4.12"
+  resolved "https://registry.npmjs.org/wagmi/-/wagmi-1.4.12.tgz#e5d31c6d7621ecd9e32eded6c7b1041201223127"
+  integrity sha512-QRxpjhdMlZmbYTfn9VQkQMKq+l3kwA1O7tF10vaykPrjbGX+IIlyn72ib9oqW9BfQO7n/Sf/mnVz1zbxRhGPWA==
   dependencies:
     "@tanstack/query-sync-storage-persister" "^4.27.1"
     "@tanstack/react-query" "^4.28.0"
     "@tanstack/react-query-persist-client" "^4.28.0"
-    "@wagmi/core" "1.4.11"
+    "@wagmi/core" "1.4.12"
     abitype "0.8.7"
     use-sync-external-store "^1.2.0"
 

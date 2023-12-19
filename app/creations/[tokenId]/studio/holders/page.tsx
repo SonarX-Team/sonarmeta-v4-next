@@ -10,7 +10,7 @@ import { creationsType } from "@/types/creation.type";
 
 export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
-  const { res } = await fetchCreation({ tokenId: params.tokenId.toString() });
+  const { res } = await fetchCreation({ tokenId: params.tokenId });
 
   if (!user) notFound();
 

@@ -18,7 +18,7 @@ import { hiddenAddress } from "@/lib/utils";
 export default async function layout({ params, children }: { params: { tokenId: number }; children: React.ReactNode }) {
   const { user } = await getCurrentUser();
 
-  const { res, status } = await fetchCreation({ tokenId: params.tokenId.toString() });
+  const { res, status } = await fetchCreation({ tokenId: params.tokenId });
 
   if (!user || status === 404 || !res) notFound();
 

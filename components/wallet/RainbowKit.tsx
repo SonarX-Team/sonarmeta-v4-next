@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
@@ -25,20 +26,31 @@ const wagmiConfig = createConfig({
 });
 
 export default function RainbowKit({ children }: { children: React.ReactNode }) {
+  const [ready, setReady] = useState(false);
+
+  // 防止hydration错误
+  useEffect(() => {
+    setReady(true);
+  }, []);
+
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        chains={chains}
-        theme={lightTheme({
-          accentColor: "#7b3fe4",
-          accentColorForeground: "white",
-          borderRadius: "medium",
-          overlayBlur: "small",
-        })}
-        locale="en-US"
-      >
-        {children}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <>
+      {ready && (
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider
+            chains={chains}
+            theme={lightTheme({
+              accentColor: "#7b3fe4",
+              accentColorForeground: "white",
+              borderRadius: "medium",
+              overlayBlur: "small",
+            })}
+            locale="en-US"
+          >
+            {children}
+          </RainbowKitProvider>
+        </WagmiConfig>
+      )}
+    </>
   );
 }

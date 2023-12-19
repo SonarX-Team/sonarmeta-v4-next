@@ -7,5 +7,5 @@ export default async function page({ params }: { params: { tokenId: number } }) 
   const { user } = await getCurrentUser();
   if (!user) notFound();
 
-  return <NodeFactory address={user.address} tokenId={params.tokenId} />;
+  return <NodeFactory userAddr={user.address} tokenId={params.tokenId} />;
 }

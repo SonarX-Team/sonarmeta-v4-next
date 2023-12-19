@@ -16,8 +16,9 @@ import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MAIN_CONTRACT, NODE_MAX_SUPP
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 import { hiddenAddress } from "@/lib/utils";
+import { makeNode } from "@/actions/creation.action";
 
-export default function NodeFactory({ address, tokenId }: { address: `0x${string}`; tokenId: number }) {
+export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${string}`; tokenId: number }) {
   const router = useRouter();
 
   const [tba, setTba] = useState<`0x${string}`>("0x");
@@ -102,13 +103,13 @@ export default function NodeFactory({ address, tokenId }: { address: `0x${string
     if (!window) return;
 
     const wc: WalletClient = createWalletClient({
-      account: address,
+      account: userAddr,
       chain: polygonMumbai,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
     setWalletClient(wc);
-  }, [address]);
+  }, [userAddr]);
 
   // TBA watcher
   useEffect(() => {
@@ -132,12 +133,16 @@ export default function NodeFactory({ address, tokenId }: { address: `0x${string
 
   // Create TBA tx watcher
   useEffect(() => {
-    if (isDeploySuccess) {
-      toast.custom(<TxToast title="Token-bound account deployed successfully!" hash={deployTxHash} />);
-      router.refresh();
+    async function watchTba() {
+      if (isDeploySuccess) {
+        await makeNode({ tokenId, tbaAddr: tba });
+
+        toast.custom(<TxToast title="Token-bound account deployed successfully!" hash={deployTxHash} />);
+        router.refresh();
+      } else if (isDeployError) toast.error(`Failed with error: ${deployError?.message}`);
     }
 
-    if (isDeployError) toast.error(`Failed with error: ${deployError?.message}`);
+    watchTba();
   }, [isDeploySuccess, isDeployError, deployError?.message, deployTxHash, router]);
 
   // Sign node tx receipt watcher
@@ -145,9 +150,7 @@ export default function NodeFactory({ address, tokenId }: { address: `0x${string
     if (isSignSuccess) {
       toast.custom(<TxToast title="Token-bound account signed successfully!" hash={signTx?.hash} />);
       router.refresh();
-    }
-
-    if (isSignError) toast.error(`Failed with error: ${signError?.message}`);
+    } else if (isSignError) toast.error(`Failed with error: ${signError?.message}`);
   }, [isSignSuccess, isSignError, signError?.message, signTx?.hash, router]);
 
   // Activate node tx receipt watcher
@@ -155,9 +158,7 @@ export default function NodeFactory({ address, tokenId }: { address: `0x${string
     if (isActivateSuccess) {
       toast.custom(<TxToast title="Token-bound account activated successfully!" hash={activateTx?.hash} />);
       router.refresh();
-    }
-
-    if (isActivateError) toast.error(`Failed with error: ${activateError?.message}`);
+    } else if (isActivateError) toast.error(`Failed with error: ${activateError?.message}`);
   }, [isActivateSuccess, isActivateError, activateError?.message, activateTx?.hash, router]);
 
   async function deployAction() {

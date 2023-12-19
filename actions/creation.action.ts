@@ -70,7 +70,7 @@ export async function fetchCreations({
 }
 
 // 获取Creation - RETRIEVE
-export async function fetchCreation({ tokenId }: { tokenId: string }) {
+export async function fetchCreation({ tokenId }: { tokenId: number }) {
   try {
     await connectToDB();
 
@@ -100,7 +100,7 @@ export async function fetchCreation({ tokenId }: { tokenId: string }) {
 }
 
 // 查看给定node在哪些其他node下实习中
-export async function isInternship({ tokenId }: { tokenId: string }) {
+export async function isInternship({ tokenId }: { tokenId: number }) {
   try {
     await connectToDB();
 
@@ -113,6 +113,20 @@ export async function isInternship({ tokenId }: { tokenId: string }) {
     });
 
     return { status: 200, res };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to fetch the creation: ${error.message}` };
+  }
+}
+
+// 获取Node的TBA - GET
+export async function getNodeTba({ tokenId }: { tokenId: number }) {
+  try {
+    await connectToDB();
+
+    const node = await Creation.findOne({ tokenId });
+    if (!node) return { status: 404, errMsg: "No creation found" };
+
+    return { status: 200, tbaAddr: node.tbaAddr };
   } catch (error: any) {
     return { status: 500, errMsg: `Failed to fetch the creation: ${error.message}` };
   }
@@ -169,7 +183,22 @@ export async function updateCreation({ tokenId, formData }: { tokenId: number; f
 
     await Creation.findOneAndUpdate({ tokenId }, { agreement });
 
-    revalidatePath(`/creations/${tokenId}/studio`);
+    revalidatePath(`/creations/${tokenId}/studio/edit`);
+
+    return { status: 200, message: "Updated" };
+  } catch (error: any) {
+    return { status: 500, errMsg: `Failed to create creation: ${error.message}` };
+  }
+}
+
+// 把Creation升级为Node即部署TBA - PATCH
+export async function makeNode({ tokenId, tbaAddr }: { tokenId: number; tbaAddr: `${string}` }) {
+  try {
+    await connectToDB();
+
+    await Creation.findOneAndUpdate({ tokenId }, { tbaAddr });
+
+    revalidatePath(`/creations/${tokenId}/studio/node`);
 
     return { status: 200, message: "Updated" };
   } catch (error: any) {
