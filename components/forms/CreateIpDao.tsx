@@ -191,15 +191,15 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
         errMsg={imagesErr}
       />
 
-      <div className="h-[50px]">
-        <AppButton
-          text={writeAsync ? "Create and deploy" : "Cannot create"}
-          otherPendingStatus={isLoading}
-          pendingText={isLoading ? "Deploying a new IP DAO contract..." : "Creating..."}
-          disabled={!writeAsync}
-          type="submit"
-        />
-      </div>
+      <AppButton
+        // text={writeAsync ? "Create and deploy" : "Cannot create"}
+        text="Coming soon"
+        otherPendingStatus={isLoading}
+        pendingText={isLoading ? "Deploying a new IP DAO contract..." : "Creating..."}
+        // disabled={!writeAsync}
+        disabled={true}
+        type="submit"
+      />
     </form>
   );
 }

@@ -120,7 +120,7 @@ export default function Authorize({
   }
 
   return (
-    <form action={authorizeAction} className="text-small-regular leading-none h-[44px]">
+    <form action={authorizeAction} className="text-small-regular">
       <AppButton
         text={writeAsync ? "Authorize" : "Cannot authorize"}
         otherPendingStatus={isLoading}

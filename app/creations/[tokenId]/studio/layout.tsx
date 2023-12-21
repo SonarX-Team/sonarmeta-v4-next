@@ -8,7 +8,6 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { fetchCreation } from "@/actions/creation.action";
 import { getCurrentUser } from "@/actions/user.action";
 
-import TitleCard from "@/components/cards/TitleCard";
 import CategoryTab from "@/components/shared/CategoryTab";
 
 import { CREATION_CONTRACT } from "@/constants";
@@ -54,18 +53,12 @@ export default async function layout({ params, children }: { params: { tokenId: 
 
   return (
     <div className="max-w-4xl flex flex-col gap-10 mx-auto px-6 py-12">
-      <h1 className="head-text text-left">Creation studio</h1>
-
-      <CategoryTab
-        tabs={["Node", "Holders", "Listings", "Applications", "Lockings", "Edit"]}
-        routes={["/node", "/holders", "/listings", "/applications", "/lockings", "/edit"]}
-        root={`/creations/${params.tokenId}/studio`}
-      />
-
       <div className="flex item-start gap-6">
-        <img className="max-w-[333px] aspect-[1] rounded-xl" src={res?.avatar} alt="creation-image" />
+        <div>
+          <img className="max-w-[180px] aspect-[1] rounded-xl" src={res?.avatar} alt="creation-image" />
+        </div>
 
-        <div className="flex flex-col gap-6 flex-1">
+        <div className="flex flex-col gap-4 flex-1">
           <h3 className="flex items-center gap-2 text-body-bold leading-none">
             SonarMeta IP Network Node
             <FontAwesomeIcon className="w-[18px] text-violet-400" icon={faCircleCheck} />
@@ -75,34 +68,37 @@ export default async function layout({ params, children }: { params: { tokenId: 
             {res?.title} #{params.tokenId}
           </h1>
 
-          <TitleCard title="Description">
-            <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
+            <div>
+              Owned by{" "}
+              <Link className="text-zinc-500 hover:text-zinc-400 duration-200" href={`/space/${owner}`}>
+                {hiddenAddress(owner)}
+              </Link>
+            </div>
+
+            <p className="line-clamp-2">Description: {res?.description}</p>
+
+            {res && (
               <div>
-                Owned by{" "}
-                <Link className="text-zinc-500 hover:text-zinc-400 duration-200" href={`/space/${owner}`}>
-                  {hiddenAddress(owner)}
+                External link{" "}
+                <Link
+                  className="text-violet-600 hover:text-violet-500 duration-200"
+                  href={res.externalLink}
+                  target="_blank"
+                >
+                  {res.externalLink}
                 </Link>
               </div>
-              <p>{res?.description}</p>
-              {res && (
-                <div className="flex items-center gap-3">
-                  <Link
-                    className="text-violet-600 hover:text-violet-500 duration-200"
-                    href={res.externalLink}
-                    target="_blank"
-                  >
-                    {res.externalLink}
-                  </Link>
-                </div>
-              )}
-            </div>
-          </TitleCard>
+            )}
+          </div>
         </div>
       </div>
 
-      <TitleCard title="Details">
-        <div className="grid sm:grid-cols-4 grid-cols-2 gap-8">{detailCard}</div>
-      </TitleCard>
+      <CategoryTab
+        tabs={["Node", "Holders", "Listings", "Applications", "Lockings", "Edit"]}
+        routes={["/node", "/holders", "/listings", "/applications", "/lockings", "/edit"]}
+        root={`/creations/${params.tokenId}/studio`}
+      />
 
       {children}
     </div>

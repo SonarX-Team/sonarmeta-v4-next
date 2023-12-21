@@ -118,7 +118,7 @@ export default function NodeListings({ userAddr, tbaAddr }: { userAddr: `0x${str
 
   return (
     <div className="flex flex-col gap-8">
-      <form action={approveAction} className="h-[50px]">
+      <form action={approveAction}>
         <AppButton
           text={isApproved ? "Already approved for the marketplace" : "Approve for the marketplace"}
           pendingText="Approving..."
@@ -144,7 +144,7 @@ export default function NodeListings({ userAddr, tbaAddr }: { userAddr: `0x${str
           </tbody>
         </table>
       ) : (
-        <SadPlaceholder size={300} text="This node has no authorization tokens" />
+        <SadPlaceholder size={300} text="No authorization tokens to list" />
       )}
     </div>
   );

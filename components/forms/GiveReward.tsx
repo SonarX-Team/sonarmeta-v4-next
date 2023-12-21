@@ -154,7 +154,7 @@ export default function GiveReward({
             />
           </div>
 
-          <form action={contributeAction} className="text-small-regular h-[44px]">
+          <form action={contributeAction} className="text-small-regular">
             <AppButton
               text={writeAsync ? "Give" : "Cannot give"}
               otherPendingStatus={isLoading}

@@ -42,9 +42,7 @@ export default function EditCreation({ tokenId, agreement }: { tokenId: number; 
         errMsg={agreementErr}
       />
 
-      <div className="h-[50px]">
-        <AppButton text="Save" pendingText="Saving..." type="submit" />
-      </div>
+      <AppButton text="Save" pendingText="Saving..." type="submit" />
     </form>
   );
 }

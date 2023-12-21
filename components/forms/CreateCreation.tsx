@@ -149,15 +149,13 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
         errMsg={externalLinkErr}
       />
 
-      <div className="h-[50px]">
-        <AppButton
-          text={writeAsync ? "Create and mint" : "Cannot create"}
-          otherPendingStatus={isLoading}
-          pendingText={isLoading ? "Minting your creation NFT..." : "Creating..."}
-          disabled={!writeAsync}
-          type="submit"
-        />
-      </div>
+      <AppButton
+        text={writeAsync ? "Create and mint" : "Cannot create"}
+        otherPendingStatus={isLoading}
+        pendingText={isLoading ? "Minting your creation..." : "Creating..."}
+        disabled={!writeAsync}
+        type="submit"
+      />
     </form>
   );
 }

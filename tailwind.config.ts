@@ -15,14 +15,14 @@ module.exports = {
     },
     fontSize: {
       "heading1-bold": [
-        "56px",
+        "52px",
         {
           lineHeight: "140%",
           fontWeight: "700",
         },
       ],
       "heading1-semibold": [
-        "56px",
+        "52px",
         {
           lineHeight: "140%",
           fontWeight: "600",

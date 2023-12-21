@@ -29,7 +29,8 @@ export default async function page() {
             ))}
           </section>
         ) : (
-          <SadPlaceholder size={300} text="No data source found" />
+          // <SadPlaceholder size={300} text="No data source found" />
+          <SadPlaceholder size={300} text="This section is coming soon" />
         )}
       </div>
     </>

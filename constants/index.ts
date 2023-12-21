@@ -67,9 +67,9 @@ export const Guides = [
     icon: faStore,
   },
   {
-    title: "Make your node a co-creation/component",
+    title: "Make your node a co-creation",
     description:
-      "A creation can also be a co-creation or a component since the token-bound account. Collaborators can merge/transfer their creations to others.",
+      "A node can also be a co-creation since the token-bound account by transferring collaborators' components here.",
     icon: faCodeMerge,
   },
 

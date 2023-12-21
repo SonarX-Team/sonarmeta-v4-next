@@ -215,7 +215,7 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
       </TitleCard>
 
       <div className="flex flex-col justify-start gap-4">
-        <form action={deployAction} className="h-[50px]">
+        <form action={deployAction}>
           <AppButton
             text={tbaDeployed ? "Node generated" : "Generate node"}
             otherPendingStatus={isDeployLoading}
@@ -225,7 +225,7 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
           />
         </form>
 
-        <form action={signAction} className="h-[50px]">
+        <form action={signAction}>
           <AppButton
             text={
               signWrite
@@ -243,7 +243,7 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
           />
         </form>
 
-        <form action={activateAction} className="h-[50px]">
+        <form action={activateAction}>
           <AppButton
             text={
               isNodeActivated

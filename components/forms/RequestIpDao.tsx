@@ -37,7 +37,7 @@ export default function RequestIpDao({
   }
 
   return (
-    <div className="flex items-start text-small-regular gap-3 leading-none h-[44px]">
+    <div className="flex items-start text-small-regular gap-3">
       <form action={applyAction}>
         {!applied && !joined && <AppButton text="Apply to join" pendingText="Submitting..." type="submit" />}
         {applied && <AppButton text="Under review" disabled={true} />}

@@ -171,7 +171,7 @@ export default function BuyListing({
 
           <hr />
 
-          <form action={buyAction} className="h-[50px]">
+          <form action={buyAction}>
             <AppButton
               text={writeAsync ? "Buy now" : "Cannot buy"}
               otherPendingStatus={isLoading}

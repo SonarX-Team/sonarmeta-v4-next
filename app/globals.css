@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "titillium";
-  src: url("/TitilliumWeb.ttf");
+  font-family: "Nunito Sans";
+  src: url("/NunitoSans.ttf");
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "titillium", sans-serif;
+  font-family: "Nunito Sans", sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -36,18 +36,6 @@ body {
   background-color: #cccccc;
   border: 3px solid #ffffff;
   border-radius: 9999px;
-}
-
-.btn-press {
-  box-shadow: 3px 6px 0px 0px #868889;
-}
-.btn-press:hover {
-  box-shadow: 2px 4px 0px 0px #868889;
-  margin-top: 4px;
-}
-.btn-press:active {
-  box-shadow: 2px 4px 0px 0px #868889;
-  margin-top: 8px;
 }
 
 input,

@@ -138,7 +138,7 @@ export default function NodeAcceptance({
         </div>
       </div>
 
-      <form action={acceptAction} className="h-[44px] text-small-regular mb-4 mx-4">
+      <form action={acceptAction} className="text-small-regular mb-4 mx-4">
         <AppButton text="Accept" pendingText="Writing contract..." />
       </form>
     </div>

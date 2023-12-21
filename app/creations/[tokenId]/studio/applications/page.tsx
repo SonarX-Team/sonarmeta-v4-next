@@ -37,7 +37,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
           ))}
         </div>
       ) : (
-        <SadPlaceholder size={300} text="No data source found" />
+        <SadPlaceholder size={300} text="No applications now" />
       )}
     </div>
   );

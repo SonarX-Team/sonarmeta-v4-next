@@ -114,7 +114,7 @@ export default function ApplyAuthorization({
         errMsg={errMsg}
       />
 
-      <div className="text-small-regular h-[44px]">
+      <div className="text-small-regular">
         <AppButton text="Apply for authorization" pendingText="Submitting..." type="submit" />
       </div>
     </form>

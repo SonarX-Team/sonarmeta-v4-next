@@ -195,13 +195,11 @@ export default function ListingItem({
 
             <hr />
 
-            <div className="h-[50px]">
-              <AppButton
-                text={isApproved ? "List" : "Need your approval"}
-                pendingText="Writing contract..."
-                disabled={!isApproved}
-              />
-            </div>
+            <AppButton
+              text={isApproved ? "List" : "Need your approval"}
+              pendingText="Writing contract..."
+              disabled={!isApproved}
+            />
           </form>
         </div>
       </AppModal>

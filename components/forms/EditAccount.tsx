@@ -78,9 +78,7 @@ export default function EditAccount({ address, username, email, bio, avatar }: U
         errMsg={bioErr}
       />
 
-      <div className="h-[50px]">
-        <AppButton text="Save" pendingText="Saving..." type="submit" />
-      </div>
+      <AppButton text="Save" pendingText="Saving..." type="submit" />
     </form>
   );
 }

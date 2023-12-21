@@ -55,7 +55,7 @@ export default function AddMember({
   }
 
   return (
-    <form action={addAction} className="text-small-regular leading-none h-[44px]">
+    <form action={addAction} className="text-small-regular leading-none">
       <AppButton
         text={write ? "Add" : "Cannot add"}
         otherPendingStatus={isLoading}
