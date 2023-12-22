@@ -13,7 +13,7 @@ import AppInput from "../ui/AppInput";
 import AppButton from "../ui/AppButton";
 import AppTextarea from "../ui/AppTextarea";
 import AvatarInput from "../ui/AvatarInput";
-import CoverInput from "../ui/coverInput";
+import CoverInput from "../ui/CoverInput";
 import ImagesInput from "../ui/ImagesInput";
 import TxToast from "../ui/TxToast";
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import ServerButton from "@/components/ui/ServerButton";
 import GuideCard from "@/components/cards/GuideCard";
+import AppNetwork from "@/components/ui/AppNetwork";
 
 import { Guides } from "@/constants";
 
@@ -41,20 +42,25 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="px-6 py-20">
+      <div className="bg-light-1 px-6 py-20">
         <div className="max-w-7xl mx-auto">
-          <h1 className="head-text mb-12">Getting started</h1>
+          <h1 className="head-text mb-3">Real-time Graph (Coming soon)</h1>
+          <AppNetwork />
+        </div>
+      </div>
 
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4 mb-12">{guideCards}</div>
+      <div className="px-6 py-20 max-w-7xl mx-auto">
+        <h1 className="head-text mb-12">Getting started</h1>
 
-          <div className="flex gap-4 justify-center items-center">
-            <Link href="/creations">
-              <ServerButton text="Explore creations" />
-            </Link>
-            <Link href="/create">
-              <ServerButton text="Create" />
-            </Link>
-          </div>
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4 mb-12">{guideCards}</div>
+
+        <div className="flex gap-4 justify-center items-center">
+          <Link href="/creations">
+            <ServerButton text="Explore creations" />
+          </Link>
+          <Link href="/create">
+            <ServerButton text="Create" />
+          </Link>
         </div>
       </div>
 

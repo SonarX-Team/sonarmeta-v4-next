@@ -34,8 +34,6 @@ export default async function page() {
     args: [user.address],
   });
 
-  console.log(tokenIds);
-
   const ids: number[] = tokenIds.map((tokenId: bigint) => Number(tokenId));
 
   const { creations } = (await fetchCreations({
