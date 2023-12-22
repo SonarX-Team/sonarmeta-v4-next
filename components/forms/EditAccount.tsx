@@ -3,7 +3,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-import AvatarInput from "../ui/AvatarInput";
+import AvatarPicker from "../ui/AvatarPicker";
 import AppInput from "../ui/AppInput";
 import AppButton from "../ui/AppButton";
 import AppTextarea from "../ui/AppTextarea";
@@ -51,7 +51,7 @@ export default function EditAccount({ address, username, email, bio, avatar }: U
 
   return (
     <form action={updateUserAction} className="flex flex-col justify-start gap-8">
-      <AvatarInput name="avatar" label="Select your avatar image" type="circle" defaultValue={avatar} />
+      <AvatarPicker name="avatar" label="Select your avatar image" type="circle" defaultValue={avatar} />
       <AppInput
         name="username"
         label="Username"

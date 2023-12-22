@@ -11,7 +11,7 @@ type Props = {
   errMsg?: string;
 };
 
-const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) => {
+const CoverPicker: React.FC<Props> = ({ name, defaultValue, required, errMsg }) => {
   const [coverUrl, setCoverUrl] = useState<string>(defaultValue ? defaultValue : "");
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
     <div className="flex items-center gap-4">
       <div>
         <input
-          id="coverInput"
+          id="coverPicker"
           className="hidden"
           name={name}
           type="file"
@@ -41,7 +41,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
               ? "border-2 border-dashed border-zinc-400 text-zinc-700 bg-slate-300/30 hover:bg-slate-400/20 duration-200"
               : ""
           } rounded-lg cursor-pointer`}
-          htmlFor="coverInput"
+          htmlFor="coverPicker"
         >
           {coverUrl ? (
             <img className="w-[160px] h-[90px] rounded-lg h-[90px]" src={coverUrl} alt="cover" />
@@ -55,7 +55,7 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
       </div>
 
       <div>
-        <label htmlFor="coverInput" className="text-violet-700 hover:text-violet-600 duration-200 cursor-pointer">
+        <label htmlFor="coverPicker" className="text-violet-700 hover:text-violet-600 duration-200 cursor-pointer">
           Select your cover image {required && <span className="text-red-600">*</span>}
         </label>
         {errMsg && <p className="text-small-regular text-red-600 mt-1">{errMsg}</p>}
@@ -64,4 +64,4 @@ const CoverInput: React.FC<Props> = ({ name, defaultValue, required, errMsg }) =
   );
 };
 
-export default CoverInput;
+export default CoverPicker;

@@ -12,7 +12,7 @@ import { createCreationValidation } from "@/validations/creation.validation";
 import AppInput from "../ui/AppInput";
 import AppButton from "../ui/AppButton";
 import AppTextarea from "../ui/AppTextarea";
-import AvatarInput from "../ui/AvatarInput";
+import AvatarPicker from "../ui/AvatarPicker";
 import TxToast from "../ui/TxToast";
 
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
@@ -116,7 +116,7 @@ export default function CreateCreation({ address }: { address: `0x${string}` }) 
 
   return (
     <form action={createAction} className="flex flex-col justify-start gap-8">
-      <AvatarInput name="avatar" label="Select your creation image" type="square" required={true} errMsg={avatarErr} />
+      <AvatarPicker name="avatar" label="Select your creation image" type="square" required={true} errMsg={avatarErr} />
       <AppInput
         name="title"
         label="Creation name"

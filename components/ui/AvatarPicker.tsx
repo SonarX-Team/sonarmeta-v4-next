@@ -13,7 +13,7 @@ type Props = {
   errMsg?: string;
 };
 
-const AvatarInput: React.FC<Props> = ({ name, label, type, defaultValue, required, errMsg }) => {
+const AvatarPicker: React.FC<Props> = ({ name, label, type, defaultValue, required, errMsg }) => {
   const [avatarUrl, setAvatarUrl] = useState<string>(defaultValue ? defaultValue : "");
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const AvatarInput: React.FC<Props> = ({ name, label, type, defaultValue, require
     <div className="flex items-center gap-4">
       <div>
         <input
-          id="avatarInput"
+          id="avatarPicker"
           className="hidden"
           name={name}
           type="file"
@@ -43,7 +43,7 @@ const AvatarInput: React.FC<Props> = ({ name, label, type, defaultValue, require
               ? "border-2 border-dashed border-zinc-400 text-zinc-700 bg-slate-300/30 hover:bg-slate-400/20"
               : "bg-violet-300 hover:bg-violet-200"
           } duration-200 ${type === "circle" ? "rounded-full" : "rounded-xl"} cursor-pointer`}
-          htmlFor="avatarInput"
+          htmlFor="avatarPicker"
         >
           {avatarUrl ? (
             <img
@@ -61,7 +61,7 @@ const AvatarInput: React.FC<Props> = ({ name, label, type, defaultValue, require
       </div>
 
       <div>
-        <label htmlFor="avatarInput" className="text-violet-700 hover:text-violet-600 duration-200 cursor-pointer">
+        <label htmlFor="avatarPicker" className="text-violet-700 hover:text-violet-600 duration-200 cursor-pointer">
           {label} {required && <span className="text-red-600">*</span>}
         </label>
         {errMsg && <p className="text-small-regular text-red-600 mt-1">{errMsg}</p>}
@@ -70,4 +70,4 @@ const AvatarInput: React.FC<Props> = ({ name, label, type, defaultValue, require
   );
 };
 
-export default AvatarInput;
+export default AvatarPicker;

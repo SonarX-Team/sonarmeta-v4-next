@@ -12,8 +12,8 @@ import { ipDaoValidation } from "@/validations/ipdao.validation";
 import AppInput from "../ui/AppInput";
 import AppButton from "../ui/AppButton";
 import AppTextarea from "../ui/AppTextarea";
-import AvatarInput from "../ui/AvatarInput";
-import CoverInput from "../ui/CoverInput";
+import AvatarPicker from "../ui/AvatarPicker";
+import CoverPicker from "../ui/CoverPicker";
 import ImagesInput from "../ui/ImagesInput";
 import TxToast from "../ui/TxToast";
 
@@ -140,7 +140,7 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
     <form action={createAction} className="flex flex-col justify-start gap-8">
       <div className="sm:flex justify-between items-center">
         <div className="sm:basis-1/2 sm:mb-0 mb-8">
-          <AvatarInput
+          <AvatarPicker
             name="avatar"
             label="Select your avatar image"
             type="circle"
@@ -149,7 +149,7 @@ export default function CreateIpDao({ address }: { address: `0x${string}` }) {
           />
         </div>
         <div className="sm:basis-1/2">
-          <CoverInput name="cover" required={true} errMsg={coverErr} />
+          <CoverPicker name="cover" required={true} errMsg={coverErr} />
         </div>
       </div>
 
