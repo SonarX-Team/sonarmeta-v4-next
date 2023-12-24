@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
 
+import { victionTestnet } from "@/lib/viction";
+
 export default function TxToast({ title, hash }: { title: string; hash?: `0x${string}` }) {
   const [url, setUrl] = useState("");
 
   const { chain } = useNetwork();
 
   useEffect(() => {
-    if (chain?.name === "Polygon Mumbai") setUrl(`https://mumbai.polygonscan.com/tx/${hash}`);
+    if (chain?.name === victionTestnet.name) setUrl(`${victionTestnet.blockExplorers.default.url}/tx/${hash}`);
   }, [chain?.name, hash]);
 
   return (

@@ -1,5 +1,4 @@
 import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
 
 import { getCurrentUser } from "@/actions/user.action";
 import { fetchCreations } from "@/actions/creation.action";
@@ -10,6 +9,7 @@ import SadPlaceholder from "@/components/shared/SadPlaceholder";
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { creationsType } from "@/types/creation.type";
+import { victionTestnet } from "@/lib/viction";
 
 export default async function page() {
   const { user } = await getCurrentUser();
@@ -22,7 +22,7 @@ export default async function page() {
     );
 
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
+    chain: victionTestnet,
     transport: http(),
   });
 

@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, linea, polygon, polygonMumbai, lineaTestnet, goerli } from "wagmi/chains";
+import { mainnet, linea, lineaTestnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { infuraProvider } from "wagmi/providers/infura";
 
+import { viction, victionTestnet } from "@/lib/viction";
+
 const { chains, publicClient } = configureChains(
-  [mainnet, goerli, polygon, polygonMumbai, linea, lineaTestnet],
+  [mainnet, linea, lineaTestnet, viction, victionTestnet],
   [infuraProvider({ apiKey: "2b7300b9852a435d86a5dc856e462c0e" }), publicProvider()]
 );
 

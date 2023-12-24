@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
-import { polygonMumbai } from "viem/chains";
 import toast from "react-hot-toast";
 
 import { authorize } from "@/actions/creation.action";
@@ -15,6 +14,7 @@ import TxToast from "../ui/TxToast";
 
 import { CREATION_CONTRACT, MAIN_CONTRACT } from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
+import { victionTestnet } from "@/lib/viction";
 
 export default function Authorize({
   issuerTokenId,
@@ -56,13 +56,13 @@ export default function Authorize({
     async function mounted() {
       const walletClient: WalletClient = createWalletClient({
         account: userAddr,
-        chain: polygonMumbai,
+        chain: victionTestnet,
         // @ts-ignore
         transport: window.ethereum ? custom(window.ethereum) : http(),
       });
 
       // @ts-ignore
-      const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
+      const tokenboundClient = new TokenboundClient({ walletClient, chain: victionTestnet });
 
       const inclined = tokenboundClient.getAccount({
         tokenContract: CREATION_CONTRACT,

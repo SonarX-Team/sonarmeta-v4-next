@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
-import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
@@ -20,6 +19,7 @@ import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 
 import { formatDateString, hiddenAddress } from "@/lib/utils";
 import { creationsType } from "@/types/creation.type";
+import { victionTestnet } from "@/lib/viction";
 
 export default function GiveReward({
   tokenId,
@@ -68,13 +68,13 @@ export default function GiveReward({
 
     const walletClient: WalletClient = createWalletClient({
       account: address,
-      chain: polygonMumbai,
+      chain: victionTestnet,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
     // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chain: polygonMumbai });
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: victionTestnet });
 
     const issuerTba = tokenboundClient.getAccount({
       tokenContract: CREATION_CONTRACT,

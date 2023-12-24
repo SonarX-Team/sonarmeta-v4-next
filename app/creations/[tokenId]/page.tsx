@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { createPublicClient, http } from "viem";
-import { polygonMumbai } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,13 +8,13 @@ import { getCurrentUser } from "@/actions/user.action";
 
 import TitleCard from "@/components/cards/TitleCard";
 import TBACard from "@/components/cards/TBACard";
-import ServerButton from "@/components/ui/ServerButton";
 import ApplyAuthorization from "@/components/forms/ApplyAuthorization";
 import SadPlaceholder from "@/components/shared/SadPlaceholder";
 
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { hiddenAddress } from "@/lib/utils";
+import { victionTestnet } from "@/lib/viction";
 
 export default async function page({ params }: { params: { tokenId: number } }) {
   const { user } = await getCurrentUser();
@@ -23,7 +22,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
   const { res } = await fetchCreation({ tokenId: params.tokenId });
 
   const publicClient = createPublicClient({
-    chain: polygonMumbai,
+    chain: victionTestnet,
     transport: http(),
   });
 
@@ -40,7 +39,7 @@ export default async function page({ params }: { params: { tokenId: number } }) 
     { info: hiddenAddress(CREATION_CONTRACT), title: "Contract address" },
     { info: `#${params.tokenId}`, title: "Token ID" },
     { info: "ERC-721", title: "Token standard" },
-    { info: "Polygon Mumbai", title: "Chain" },
+    { info: "Viction Testnet", title: "Chain" },
   ];
   const detailCard: JSX.Element[] = detailInfo.map((info, index) => (
     <div key={index} className="flex flex-col gap-2">

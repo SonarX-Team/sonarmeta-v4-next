@@ -2,34 +2,51 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { TokenboundClient } from "@tokenbound/sdk";
+import { TBVersion, TokenboundClient } from "@tokenbound/sdk";
 import { useNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractRead } from "wagmi";
 import { http, createWalletClient, WalletClient, custom } from "viem";
-import { polygonMumbai } from "viem/chains";
 import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
 import TxToast from "../ui/TxToast";
 import TitleCard from "../cards/TitleCard";
 
-import { AUTHORIZATION_CONTRACT, CREATION_CONTRACT, MAIN_CONTRACT, NODE_MAX_SUPPLY } from "@/constants";
+import { makeNode } from "@/actions/creation.action";
+import {
+  AUTHORIZATION_CONTRACT,
+  CREATION_CONTRACT,
+  MAIN_CONTRACT,
+  NODE_MAX_SUPPLY,
+  REGISTRY_CONTRACT,
+  TOKENBOUND_CONTRACT,
+} from "@/constants";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
+import registryContractAbi from "@/contracts/tokenbound/ERC6551Registry.json";
 import { hiddenAddress } from "@/lib/utils";
-import { makeNode } from "@/actions/creation.action";
+import { victionTestnet } from "@/lib/viction";
 
 export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${string}`; tokenId: number }) {
   const router = useRouter();
 
   const [tba, setTba] = useState<`0x${string}`>("0x");
   const [tbaDeployed, setTbaDeployed] = useState<boolean>(false);
-  const [deployTxHash, setDeployTxHash] = useState<`0x${string}`>();
   const [walletClient, setWalletClient] = useState<WalletClient>();
 
   const { chain } = useNetwork();
 
-  // @ts-ignore
-  const tokenboundClient = useMemo(() => new TokenboundClient({ walletClient, chain: polygonMumbai }), [walletClient]);
+  const tokenboundClient = useMemo(
+    () =>
+      new TokenboundClient({
+        // @ts-ignore
+        walletClient,
+        chain: victionTestnet,
+        implementationAddress: TOKENBOUND_CONTRACT,
+        registryAddress: REGISTRY_CONTRACT,
+        version: TBVersion.V2,
+      }),
+    [walletClient]
+  );
 
   const { data: isNodeSigned } = useContractRead({
     address: MAIN_CONTRACT,
@@ -48,6 +65,17 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
     // @ts-ignore
     args: [tokenId],
   });
+
+  const { config: deployConfig } = usePrepareContractWrite({
+    address: REGISTRY_CONTRACT,
+    abi: registryContractAbi,
+    functionName: "createAccount",
+    chainId: chain?.id,
+    // @ts-ignore
+    args: [TOKENBOUND_CONTRACT, chain?.id, CREATION_CONTRACT, tokenId, 0n],
+  });
+
+  const { data: deployTx, write: deployWrite } = useContractWrite(deployConfig);
 
   const { config: signConfig } = usePrepareContractWrite({
     address: MAIN_CONTRACT,
@@ -77,7 +105,7 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
     isLoading: isDeployLoading,
     isError: isDeployError,
   } = useWaitForTransaction({
-    hash: deployTxHash,
+    hash: deployTx?.hash,
   });
 
   const {
@@ -104,7 +132,7 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
 
     const wc: WalletClient = createWalletClient({
       account: userAddr,
-      chain: polygonMumbai,
+      chain: victionTestnet,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
@@ -137,13 +165,13 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
       if (isDeploySuccess) {
         await makeNode({ tokenId, tbaAddr: tba });
 
-        toast.custom(<TxToast title="Token-bound account deployed successfully!" hash={deployTxHash} />);
+        toast.custom(<TxToast title="Token-bound account deployed successfully!" hash={deployTx?.hash} />);
         router.refresh();
       } else if (isDeployError) toast.error(`Failed with error: ${deployError?.message}`);
     }
 
     watchTba();
-  }, [isDeploySuccess, isDeployError, deployError?.message, deployTxHash, router]);
+  }, [isDeploySuccess, isDeployError, deployError?.message, deployTx?.hash, router]);
 
   // Sign node tx receipt watcher
   useEffect(() => {
@@ -167,13 +195,7 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
     try {
-      const { account, txHash: deployTxHash } = await tokenboundClient.createAccount({
-        tokenContract: CREATION_CONTRACT,
-        tokenId: tokenId.toString(),
-      });
-
-      setDeployTxHash(deployTxHash);
-      setTba(account);
+      deployWrite?.();
     } catch (error) {
       toast.error("You denied transaction signature.");
     }
@@ -184,7 +206,11 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
 
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
-    signWrite?.();
+    try {
+      signWrite?.();
+    } catch (error) {
+      toast.error("You denied transaction signature.");
+    }
   }
 
   async function activateAction() {
@@ -192,7 +218,11 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
 
     toast("You will be prompted to confirm the tx, please check your wallet.", { icon: "✍️" });
 
-    activateWrite?.();
+    try {
+      activateWrite?.();
+    } catch (error) {
+      toast.error("You denied transaction signature.");
+    }
   }
 
   const nodeInfo = [
@@ -203,8 +233,8 @@ export default function NodeFactory({ userAddr, tokenId }: { userAddr: `0x${stri
   ];
   const nodeCard: JSX.Element[] = nodeInfo.map((info, index) => (
     <div key={index} className="flex flex-col gap-2">
-      <div className="text-small-medium text-zinc-500">{info.title}</div>
-      <div className="text-small-medium line-clamp-1">{info.info}</div>
+      <div className="text-small-regular text-zinc-500">{info.title}</div>
+      <div className="text-small-regular line-clamp-1">{info.info}</div>
     </div>
   ));
 

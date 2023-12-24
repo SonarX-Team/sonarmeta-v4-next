@@ -13,6 +13,7 @@ import AppToaster from "../ui/AppToaster";
 import { navLinks } from "@/constants";
 import { requestMessage, signOutUser, verifySignature } from "@/actions/user.action";
 import { hiddenAddress } from "@/lib/utils";
+import { victionTestnet } from "@/lib/viction";
 
 export default function Topbar({
   address,
@@ -79,15 +80,14 @@ export default function Topbar({
   useEffect(() => {
     // Wrong network watcher
     setWrongNetworkFlag(false);
-    if (isConnected && chain?.name !== "Polygon Mumbai") setWrongNetworkFlag(true);
+    if (isConnected && chain?.name !== victionTestnet.name) setWrongNetworkFlag(true);
   }, [chain?.name, isConnected]);
 
   return (
     <nav className="fixed top-0 z-30 w-full h-[60px] bg-light-1 shadow-sm">
       {wrongNetworkFlag && (
         <div className="fixed top-[60px] w-full text-center bg-violet-400 text-light-1 top-[100%] py-2">
-          You are viewing data from the Polygon Mumbai network, but your wallet is connected to an other network.
-          Currently we use Polygon Mumbai to build DEMO.
+          You are viewing data from the Viction Testnet, but your wallet is connected to an other network.
         </div>
       )}
 
