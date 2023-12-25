@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createPublicClient, http } from "viem";
+import { lineaTestnet } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -12,7 +13,6 @@ import CategoryTab from "@/components/shared/CategoryTab";
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 import { hiddenAddress } from "@/lib/utils";
-import { victionTestnet } from "@/lib/viction";
 
 export default async function layout({ params, children }: { params: { tokenId: number }; children: React.ReactNode }) {
   const { user } = await getCurrentUser();
@@ -22,7 +22,7 @@ export default async function layout({ params, children }: { params: { tokenId: 
   if (!user || status === 404 || !res) notFound();
 
   const publicClient = createPublicClient({
-    chain: victionTestnet,
+    chain: lineaTestnet,
     transport: http(),
   });
 
@@ -42,7 +42,7 @@ export default async function layout({ params, children }: { params: { tokenId: 
     { info: hiddenAddress(CREATION_CONTRACT), title: "Contract address" },
     { info: `#${params.tokenId}`, title: "Token ID" },
     { info: "ERC-721", title: "Token standard" },
-    { info: "Viction Testnet", title: "Chain" },
+    { info: "Linea Testnet", title: "Chain" },
   ];
   const detailCard: JSX.Element[] = detailInfo.map((info, index) => (
     <div key={index} className="flex flex-col gap-2">

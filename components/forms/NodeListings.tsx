@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
 import { WalletClient, createWalletClient, encodeFunctionData, custom } from "viem";
+import { lineaTestnet } from "viem/chains";
 import toast from "react-hot-toast";
 
 import AppButton from "../ui/AppButton";
@@ -16,7 +17,6 @@ import { fetchCreations } from "@/actions/creation.action";
 import { AUTHORIZATION_CONTRACT, MARKETPLACE_CONTRACT } from "@/constants";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 import { creationsType } from "@/types/creation.type";
-import { victionTestnet } from "@/lib/viction";
 
 export default function NodeListings({ userAddr, tbaAddr }: { userAddr: `0x${string}`; tbaAddr: `0x${string}` }) {
   const router = useRouter();
@@ -49,7 +49,7 @@ export default function NodeListings({ userAddr, tbaAddr }: { userAddr: `0x${str
 
     const wc: WalletClient = createWalletClient({
       account: userAddr,
-      chain: victionTestnet,
+      chain: lineaTestnet,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
@@ -76,13 +76,13 @@ export default function NodeListings({ userAddr, tbaAddr }: { userAddr: `0x${str
   async function approveAction() {
     const walletClient: WalletClient = createWalletClient({
       account: userAddr,
-      chain: victionTestnet,
+      chain: lineaTestnet,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
     // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chain: victionTestnet });
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: lineaTestnet });
 
     const isValidSigner = await tokenboundClient.isValidSigner({
       account: tbaAddr,

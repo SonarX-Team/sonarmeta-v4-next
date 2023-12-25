@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
 import { createWalletClient, custom, http, WalletClient, encodeFunctionData } from "viem";
+import { lineaTestnet } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 import toast from "react-hot-toast";
@@ -16,7 +17,6 @@ import { acceptApplication, getNodeTba } from "@/actions/creation.action";
 import mainContractAbi from "@/contracts/sonarmeta/SonarMeta.json";
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 import { AUTHORIZATION_CONTRACT, INTERNSHIP_LOCKING_AMOUNT, LOCKING_VAULT, MAIN_CONTRACT } from "@/constants";
-import { victionTestnet } from "@/lib/viction";
 
 export default function NodeAcceptance({
   issuerTokenId,
@@ -55,13 +55,13 @@ export default function NodeAcceptance({
 
     const walletClient: WalletClient = createWalletClient({
       account: userAddr,
-      chain: victionTestnet,
+      chain: lineaTestnet,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
     // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chain: victionTestnet });
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: lineaTestnet });
 
     const isValidSigner = await tokenboundClient.isValidSigner({
       account: issuerAddr,

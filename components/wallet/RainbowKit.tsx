@@ -8,10 +8,8 @@ import { mainnet, linea, lineaTestnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { infuraProvider } from "wagmi/providers/infura";
 
-import { viction, victionTestnet } from "@/lib/viction";
-
 const { chains, publicClient } = configureChains(
-  [mainnet, linea, lineaTestnet, viction, victionTestnet],
+  [mainnet, linea, lineaTestnet],
   [infuraProvider({ apiKey: "2b7300b9852a435d86a5dc856e462c0e" }), publicProvider()]
 );
 

@@ -88,14 +88,12 @@ export const COOKIE_NAME = "sonarmetaAuthToken";
 // AliOSS常量
 export const aliRoot = "https://sonarmeta.oss-cn-shenzhen.aliyuncs.com/";
 
-// Viction Testnet合约地址
-export const MAIN_CONTRACT = "0x746ff97588f3e0d8df2e09333d68368f509db35a";
-export const CREATION_CONTRACT = "0x74f41df41b8a200a884a249574e27b2ee69ac5a1";
-export const AUTHORIZATION_CONTRACT = "0x863e23f54300acc6ab271eb40f46a699d69668be";
-export const LOCKING_VAULT = "0x9087e0b89fc1b30e004bc4c371add9990da7f1ba";
-export const MARKETPLACE_CONTRACT = "0x61a3f47f7d7a55565a82807ead6b3ffd951d19bf";
-export const REGISTRY_CONTRACT = "0xadeb40195e7abe1d1e5bd36d07960fc6835e3801";
-export const TOKENBOUND_CONTRACT = "0xf92d5475190cde3f44df2f9d2bdc932f48e71fd4";
+// Linea Goerli Testnet合约地址
+export const MAIN_CONTRACT = "0x9fc7a62846cd8c4b6159f7c7da50a8af35cbdfde";
+export const CREATION_CONTRACT = "0x241054802d75820de80842915dd47da274df45b9";
+export const AUTHORIZATION_CONTRACT = "0x0848cce0741782029c399b347c5bf9152d34b5c4";
+export const LOCKING_VAULT = "0xd57f5ff918a8985b8b4eddfadd1505dce3be04b8";
+export const MARKETPLACE_CONTRACT = "0x64638227f2638300ca884df2e8dacda4bb2a9db5";
 
 // Tokenomics常量
 export const NODE_MAX_SUPPLY = 10000000;

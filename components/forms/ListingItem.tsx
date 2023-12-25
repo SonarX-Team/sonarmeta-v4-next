@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { TokenboundClient } from "@tokenbound/sdk";
 import { useContractRead, useNetwork } from "wagmi";
 import { parseEther, WalletClient, createWalletClient, encodeFunctionData, custom, formatEther } from "viem";
+import { lineaTestnet } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
 import toast from "react-hot-toast";
@@ -18,7 +19,6 @@ import { AUTHORIZATION_CONTRACT, MAIN_CONTRACT, MARKETPLACE_CONTRACT } from "@/c
 import authorizationContractAbi from "@/contracts/sonarmeta/Authorization.json";
 import marketplaceContractAbi from "@/contracts/sonarmeta/Marketplace.json";
 import { creationsType } from "@/types/creation.type";
-import { victionTestnet } from "@/lib/viction";
 
 export default function ListingItem({
   tokenId,
@@ -69,13 +69,13 @@ export default function ListingItem({
 
     const walletClient: WalletClient = createWalletClient({
       account: userAddr,
-      chain: victionTestnet,
+      chain: lineaTestnet,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
     // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chain: victionTestnet });
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: lineaTestnet });
 
     const isValidSigner = await tokenboundClient.isValidSigner({
       account: tbaAddr,

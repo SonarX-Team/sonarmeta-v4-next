@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { lineaTestnet } from "viem/chains";
 import { useNetwork } from "wagmi";
-
-import { victionTestnet } from "@/lib/viction";
 
 export default function TxToast({ title, hash }: { title: string; hash?: `0x${string}` }) {
   const [url, setUrl] = useState("");
@@ -12,7 +11,7 @@ export default function TxToast({ title, hash }: { title: string; hash?: `0x${st
   const { chain } = useNetwork();
 
   useEffect(() => {
-    if (chain?.name === victionTestnet.name) setUrl(`${victionTestnet.blockExplorers.default.url}/tx/${hash}`);
+    if (chain?.name === lineaTestnet.name) setUrl(`${lineaTestnet.blockExplorers.default.url}/tx/${hash}`);
   }, [chain?.name, hash]);
 
   return (

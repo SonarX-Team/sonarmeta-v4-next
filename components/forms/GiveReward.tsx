@@ -19,7 +19,7 @@ import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 
 import { formatDateString, hiddenAddress } from "@/lib/utils";
 import { creationsType } from "@/types/creation.type";
-import { victionTestnet } from "@/lib/viction";
+import { lineaTestnet } from "viem/chains";
 
 export default function GiveReward({
   tokenId,
@@ -68,13 +68,13 @@ export default function GiveReward({
 
     const walletClient: WalletClient = createWalletClient({
       account: address,
-      chain: victionTestnet,
+      chain: lineaTestnet,
       // @ts-ignore
       transport: window.ethereum ? custom(window.ethereum) : http(),
     });
 
     // @ts-ignore
-    const tokenboundClient = new TokenboundClient({ walletClient, chain: victionTestnet });
+    const tokenboundClient = new TokenboundClient({ walletClient, chain: lineaTestnet });
 
     const issuerTba = tokenboundClient.getAccount({
       tokenContract: CREATION_CONTRACT,

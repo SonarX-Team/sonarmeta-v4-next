@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useContractRead, useNetwork } from "wagmi";
 import { http, createPublicClient } from "viem";
+import { lineaTestnet } from "viem/chains";
 import toast from "react-hot-toast";
 
 import AppSelect from "../ui/AppSelect";
@@ -15,7 +16,6 @@ import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
 
 import { applyAuthorization, fetchCreations, getNodeTba } from "@/actions/creation.action";
 import { creationsType } from "@/types/creation.type";
-import { victionTestnet } from "@/lib/viction";
 
 export default function ApplyAuthorization({
   issuerTokenId,
@@ -78,7 +78,7 @@ export default function ApplyAuthorization({
 
     // Check node signed or not
     const publicClient = createPublicClient({
-      chain: victionTestnet,
+      chain: lineaTestnet,
       transport: http(),
     });
     // @ts-ignore

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createPublicClient, http } from "viem";
+import { lineaTestnet } from "viem/chains";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDove } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,7 +17,6 @@ import { inclinedIpDaosType } from "@/types/ipdao.type";
 
 import { CREATION_CONTRACT } from "@/constants";
 import creationContractAbi from "@/contracts/sonarmeta/Creation.json";
-import { victionTestnet } from "@/lib/viction";
 
 export default async function page() {
   const { user } = await getCurrentUser();
@@ -31,7 +31,7 @@ export default async function page() {
   // 授权的审核列表
   // Todo: 之后把本人持有的ipDAO持有的creation也要加进来
   const publicClient = createPublicClient({
-    chain: victionTestnet,
+    chain: lineaTestnet,
     transport: http(),
   });
 
